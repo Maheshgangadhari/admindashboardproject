@@ -1,0 +1,1936 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+
+
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+                {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <div class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card m-b-30">
+                                        <div class="card-body">
+
+
+                                            <ul class="nav nav-tabs border-0">
+                                                <li class="active mr-1"><a data-toggle="tab" href="#user-edit" class="btn btn-primary">User</a></li>
+                                                <li><a data-toggle="tab" href="#add-transaction" class="btn btn-primary">Add Transaction</a></li>
+                                            </ul>
+
+                                            <br>
+
+                                            <div class="tab-content">
+                                                <div id="user-edit" class="tab-pane active">
+
+                                                    <link rel="stylesheet" type="text/css" href="https://demo.affiliatepro.org/assets/plugins/datetimepicker/jquery.datetimepicker.min.css' %}" />
+                                                    <script src="{% static 'dashboard/assets/plugins/datetimepicker/jquery.datetimepicker.full.min.js' %}" type="text/javascript"></script>
+                                                    <form action="" method="POST" role="form" class="reg_form p-4" novalidate="" autocomple="off" enctype='multipart/form-data'>
+                                                        <input type="hidden" name="is_vendor" value="0">
+
+                                                        <script type="text/javascript">
+                                                            var tel_input = false;
+                                                            var grecaptcha = undefined;
+                                                        </script>
+
+
+                                                        <div class="form-group">
+                                                            <input type="text" name="firstname" id="firstname" class="form-control custom_input" placeholder="First Name" value="rouf1232">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" name="lastname" id="lastname" class="form-control custom_input" placeholder="Last Name" value="rouf1232">
+                                                        </div>
+                                                        <link rel="stylesheet" href="https://demo.affiliatepro.org/assets/plugins/tel/css/intlTelInput.css?v=6.2">
+                                                        <script src="{% static 'dashboard/assets/plugins/tel/js/intlTelInput.js' %}"></script>
+                                                        <input type="hidden" name='custom_text-1621558660926' id="phonenumber-input" value="" class="form-control" placeholder="Enter your number" required="required" maxlength=''>
+                                                        <div class="form-group">
+                                                            <div>
+                                                                <input id="phone" class="form-control custom_input" type="text" value="">
+                                                            </div>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            var tel_input = intlTelInput(document.querySelector("#phone"), {
+                                                                initialCountry: "auto",
+                                                                utilsScript: "https://demo.affiliatepro.org/assets/plugins/tel/js/utils.js?1562189064761",
+                                                                separateDialCode: true,
+                                                                geoIpLookup: function(success, failure) {
+                                                                    $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+                                                                        var countryCode = (resp && resp.country) ? resp.country : "";
+                                                                        success(countryCode);
+                                                                    });
+                                                                },
+                                                            });
+                                                        </script>
+                                                        <div class="form-group">
+                                                            <input type="email" id="email" name="email" placeholder="Email" class="form-control custom_input" value="roufahmad120222@gmail.com">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>User Membership Plan</label>
+                                                            <input readonly type="text" class="form-control custom_input" value="Not available">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Vendor Status</label>
+                                                            <select name="is_vendor" class="form-control custom_input">
+					<option selected disabled>Vendor Status</option>  
+					<option  value="1">Enable</option>
+					<option selected value="0">Disable</option>
+				</select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" name="username" id="username" class="form-control custom_input" placeholder="Username" value="rouf1232">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="password" name="password" id="password" placeholder="Password" class="form-control custom_input">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="password" name="cpassword" id="cpassword" placeholder="Repeat Password" class="form-control custom_input">
+                                                        </div>
+                                                        <div class="form-group store_fields" style="display: none;">
+                                                            <input type="text" id="store_name" name="store_name" placeholder="Your store name" class="form-control custom_input" value="">
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Under Affiliate</label>
+                                                            <select class="form-control custom_input" name="refid">
+				<option value="0"> -- None -- </option>
+									<option  value="2">user1</option>
+									<option  value="3">user2</option>
+									<option  value="4">user3</option>
+									<option  value="5">user4</option>
+									<option  value="6">user5</option>
+									<option  value="489">hleih</option>
+									<option  value="490">raza ahmed</option>
+									<option  value="491">Debade</option>
+									<option  value="492">mirna23</option>
+									<option  value="493">husnififi</option>
+									<option  value="494">alikrauss593661</option>
+									<option  value="495">ronydiu1</option>
+									<option  value="498">Uehherbrc</option>
+									<option  value="499">Rudra</option>
+									<option  value="500">AdminZaxHH34</option>
+									<option  value="501">comaf1</option>
+									<option  value="502">rohit07</option>
+									<option  value="503">tst</option>
+									<option  value="504">Moh</option>
+									<option  value="505">nano</option>
+									<option  value="506">michlagl</option>
+									<option  value="508">ven2</option>
+									<option  value="509">amraa</option>
+									<option  value="510">adnenmoney</option>
+									<option  value="511">test</option>
+									<option  value="513">madieaudet06266</option>
+									<option  value="515">kudanil</option>
+									<option  value="516">kntl</option>
+									<option  value="517">ABDELSALAM</option>
+									<option  value="518">wwccww</option>
+									<option  value="519">Frankmuty</option>
+									<option  value="522">palimall</option>
+									<option  value="523">dssathach</option>
+									<option  value="524">ericbuzin</option>
+									<option  value="525">dhananjayachar</option>
+									<option  value="526">Muthu</option>
+									<option  value="527">demobr</option>
+									<option  value="528">passionfutbolera</option>
+									<option  value="529">oslion</option>
+									<option  value="530">tcguan</option>
+									<option  value="532">aloaax</option>
+									<option  value="533">Chibuike</option>
+									<option  value="534">halive3832</option>
+									<option  value="535">ziltelirka</option>
+									<option  value="536">opiyoarnold</option>
+									<option  value="537">sup1</option>
+									<option  value="538">Ohapaa</option>
+									<option  value="539">Bolt</option>
+									<option  value="540">Oopa</option>
+									<option  value="544">testgh</option>
+									<option  value="545">unknown123</option>
+									<option  value="546">ephrem</option>
+									<option  value="547">feven</option>
+									<option  value="548">Gagankatni</option>
+									<option  value="549">Globalexperts</option>
+									<option  value="550">Sohag</option>
+									<option  value="551">sucisuci13</option>
+									<option  value="552">mixi</option>
+									<option  value="553">Arixan</option>
+									<option  value="554">Ke</option>
+									<option  value="555">testno1</option>
+									<option  value="556">Paulo</option>
+									<option  value="558">amirul123</option>
+									<option  value="559">amy</option>
+									<option  value="560">eddie123</option>
+									<option  value="561">diclar</option>
+									<option  value="562">Maxadul4x4</option>
+									<option  value="565">ami123</option>
+									<option  value="567">bucogoris</option>
+									<option  value="568">amraa@ve.com</option>
+									<option  value="569">tayhiggs2017</option>
+									<option  value="570">123456</option>
+									<option  value="571">Liya</option>
+									<option  value="572">FKBL</option>
+									<option  value="574">Khawar</option>
+									<option  value="575">iamdinker</option>
+									<option  value="577">Olatech</option>
+									<option  value="578">123123qwe</option>
+									<option  value="579">janilightner8</option>
+									<option  value="580">misssamah</option>
+									<option  value="581">Mrwasiu</option>
+									<option  value="583">GIUSEPPE</option>
+									<option  value="584">grgr</option>
+									<option  value="585">user1122</option>
+									<option  value="591">Tubsyd</option>
+									<option  value="592">test10</option>
+									<option  value="593">malar</option>
+									<option  value="594">bjoernpuls.com</option>
+									<option  value="596">prueba</option>
+									<option  value="597">Ify30</option>
+									<option  value="600">Rxmail</option>
+									<option  value="602">ChespierMoran</option>
+									<option  value="604">mbf110</option>
+									<option  value="605">raceburm</option>
+									<option  value="606">hantabn</option>
+									<option  value="607">giliily</option>
+									<option  value="608">poerana</option>
+									<option  value="609">Omotizi</option>
+									<option  value="610">k1</option>
+									<option  value="611">a1</option>
+									<option  value="612">Limaohaibe</option>
+									<option  value="613">Happycheese77</option>
+									<option  value="614">Oniel.Weathers</option>
+									<option  value="615">Txhjfbnhv</option>
+									<option  value="616">Difficult</option>
+									<option  value="617">Djduduri</option>
+									<option  value="618">brayon</option>
+									<option  value="620">Keneth255</option>
+									<option  value="622">Me</option>
+									<option  value="625">kieu123</option>
+									<option  value="626">wengyee</option>
+									<option  value="627">viptapis</option>
+									<option  value="630">stuartcsx232195</option>
+									<option  value="631">user23</option>
+									<option  value="632">mayrablosseville</option>
+									<option  value="633">jaredpriest8382</option>
+									<option  value="635">Seun44</option>
+									<option  value="637">MauryWilliam654</option>
+									<option  value="638">Lookin</option>
+									<option  value="641">Adminrsd</option>
+									<option  value="642">hapa</option>
+									<option  value="643">kapa</option>
+									<option  value="644">testasdasd123</option>
+									<option  value="645">huhhj</option>
+									<option  value="646">ramirorenard2</option>
+									<option  value="647">xamemo2317</option>
+									<option  value="648">justoagency</option>
+									<option  value="649">abc</option>
+									<option  value="651">creativedesignsjaenterprise</option>
+									<option  value="652">Bernard</option>
+									<option  value="655">chbilal100</option>
+									<option  value="656">admin234</option>
+									<option  value="657">tester</option>
+									<option  value="658">ericimpton</option>
+									<option  value="659">johnimpton</option>
+									<option  value="660">chbilal200</option>
+									<option  value="661">chbilal300</option>
+									<option  value="662">chbilal250</option>
+									<option  value="663">chbilal251</option>
+									<option  value="664">zain</option>
+									<option  value="665">zain1</option>
+									<option  value="667">mgainer</option>
+									<option  value="669">teresemckeon175</option>
+									<option  value="670">sakkhar</option>
+									<option  value="672">Mazadul4x4</option>
+									<option  value="673">marcochitwood4</option>
+									<option  value="674">Kigali</option>
+									<option  value="675">Tk770233@gmail.com</option>
+									<option  value="676">chbilal61</option>
+									<option  value="677">chbilal62</option>
+									<option  value="679">brenthinz3</option>
+									<option  value="680">hello</option>
+									<option  value="683">rouf22</option>
+									<option  value="684">imrozarouf1@gmail.com</option>
+									<option  value="685">rouf123</option>
+									<option  value="687">roufahmadqq222</option>
+									<option  value="688">roufasqwhmad102</option>
+									<option  value="689">myname</option>
+									<option  value="690">jamidarboleda</option>
+									<option  value="691">mitienda</option>
+									<option  value="692">arabcode</option>
+									<option  value="695">prof</option>
+									<option  value="696">roufahmwad102@gmail.com</option>
+									<option  value="697">didier</option>
+									<option  value="698">kahdi</option>
+									<option  value="699">majid</option>
+									<option  value="701">brendanvillaseno</option>
+									<option  value="702">nusrat2011</option>
+									<option  value="703">jahan2011</option>
+									<option  value="704">eltin91</option>
+									<option  value="706">admin@2</option>
+									<option  value="707">admin@g</option>
+									<option  value="708">admin@23</option>
+									<option  value="711">remy@g</option>
+									<option  value="713">Ahmed_elbahgi</option>
+									<option  value="716">staciehurst1</option>
+									<option  value="717">Chillboss1</option>
+									<option  value="718">supernova9537</option>
+									<option  value="720">KsCraft</option>
+							</select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">User level</label>
+                                                            <select class="form-control custom_input" name="level_id">
+						<option value=""> -- None -- </option>
+						<option selected value="0">Default</option>
+													<option  value="3">Level 3</option>
+													<option  value="2">Level 2</option>
+													<option  value="1">Level 1</option>
+											</select>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Country</label>
+                                                            <select class="form-control custom_input" name="country_id">
+				<option value="0"> -- None -- </option>
+									<option  value="1">Afghanistan</option>
+									<option  value="2">Albania</option>
+									<option  value="3">Algeria</option>
+									<option  value="4">American Samoa</option>
+									<option  value="5">Andorra</option>
+									<option  value="6">Angola</option>
+									<option  value="7">Anguilla</option>
+									<option  value="8">Antarctica</option>
+									<option  value="9">Antigua And Barbuda</option>
+									<option  value="10">Argentina</option>
+									<option  value="11">Armenia</option>
+									<option  value="12">Aruba</option>
+									<option  value="13">Australia</option>
+									<option  value="14">Austria</option>
+									<option  value="15">Azerbaijan</option>
+									<option  value="16">Bahamas The</option>
+									<option  value="17">Bahrain</option>
+									<option  value="18">Bangladesh</option>
+									<option  value="19">Barbados</option>
+									<option  value="20">Belarus</option>
+									<option  value="21">Belgium</option>
+									<option  value="22">Belize</option>
+									<option  value="23">Benin</option>
+									<option  value="24">Bermuda</option>
+									<option  value="25">Bhutan</option>
+									<option  value="26">Bolivia</option>
+									<option  value="27">Bosnia and Herzegovina</option>
+									<option  value="28">Botswana</option>
+									<option  value="29">Bouvet Island</option>
+									<option  value="30">Brazil</option>
+									<option  value="31">British Indian Ocean Territory</option>
+									<option  value="32">Brunei</option>
+									<option  value="33">Bulgaria</option>
+									<option  value="34">Burkina Faso</option>
+									<option  value="35">Burundi</option>
+									<option  value="36">Cambodia</option>
+									<option  value="37">Cameroon</option>
+									<option  value="38">Canada</option>
+									<option  value="39">Cape Verde</option>
+									<option  value="40">Cayman Islands</option>
+									<option  value="41">Central African Republic</option>
+									<option  value="42">Chad</option>
+									<option  value="43">Chile</option>
+									<option  value="44">China</option>
+									<option  value="45">Christmas Island</option>
+									<option  value="46">Cocos (Keeling) Islands</option>
+									<option  value="47">Colombia</option>
+									<option  value="48">Comoros</option>
+									<option  value="49">Republic Of The Congo</option>
+									<option  value="50">Democratic Republic Of The Congo</option>
+									<option  value="51">Cook Islands</option>
+									<option  value="52">Costa Rica</option>
+									<option  value="53">Cote D'Ivoire (Ivory Coast)</option>
+									<option  value="54">Croatia (Hrvatska)</option>
+									<option  value="55">Cuba</option>
+									<option  value="56">Cyprus</option>
+									<option  value="57">Czech Republic</option>
+									<option  value="58">Denmark</option>
+									<option  value="59">Djibouti</option>
+									<option  value="60">Dominica</option>
+									<option  value="61">Dominican Republic</option>
+									<option  value="62">East Timor</option>
+									<option  value="63">Ecuador</option>
+									<option  value="64">Egypt</option>
+									<option  value="65">El Salvador</option>
+									<option  value="66">Equatorial Guinea</option>
+									<option  value="67">Eritrea</option>
+									<option  value="68">Estonia</option>
+									<option  value="69">Ethiopia</option>
+									<option  value="70">External Territories of Australia</option>
+									<option  value="71">Falkland Islands</option>
+									<option  value="72">Faroe Islands</option>
+									<option  value="73">Fiji Islands</option>
+									<option  value="74">Finland</option>
+									<option  value="75">France</option>
+									<option  value="76">French Guiana</option>
+									<option  value="77">French Polynesia</option>
+									<option  value="78">French Southern Territories</option>
+									<option  value="79">Gabon</option>
+									<option  value="80">Gambia The</option>
+									<option  value="81">Georgia</option>
+									<option  value="82">Germany</option>
+									<option  value="83">Ghana</option>
+									<option  value="84">Gibraltar</option>
+									<option  value="85">Greece</option>
+									<option  value="86">Greenland</option>
+									<option  value="87">Grenada</option>
+									<option  value="88">Guadeloupe</option>
+									<option  value="89">Guam</option>
+									<option  value="90">Guatemala</option>
+									<option  value="91">Guernsey and Alderney</option>
+									<option  value="92">Guinea</option>
+									<option  value="93">Guinea-Bissau</option>
+									<option  value="94">Guyana</option>
+									<option  value="95">Haiti</option>
+									<option  value="96">Heard and McDonald Islands</option>
+									<option  value="97">Honduras</option>
+									<option  value="98">Hong Kong S.A.R.</option>
+									<option  value="99">Hungary</option>
+									<option  value="100">Iceland</option>
+									<option  value="101">India</option>
+									<option  value="102">Indonesia</option>
+									<option  value="103">Iran</option>
+									<option  value="104">Iraq</option>
+									<option  value="105">Ireland</option>
+									<option  value="106">Israel</option>
+									<option  value="107">Italy</option>
+									<option  value="108">Jamaica</option>
+									<option  value="109">Japan</option>
+									<option  value="110">Jersey</option>
+									<option  value="111">Jordan</option>
+									<option  value="112">Kazakhstan</option>
+									<option  value="113">Kenya</option>
+									<option  value="114">Kiribati</option>
+									<option  value="115">Korea North</option>
+									<option  value="116">Korea South</option>
+									<option  value="117">Kuwait</option>
+									<option  value="118">Kyrgyzstan</option>
+									<option  value="119">Laos</option>
+									<option  value="120">Latvia</option>
+									<option  value="121">Lebanon</option>
+									<option  value="122">Lesotho</option>
+									<option  value="123">Liberia</option>
+									<option  value="124">Libya</option>
+									<option  value="125">Liechtenstein</option>
+									<option  value="126">Lithuania</option>
+									<option  value="127">Luxembourg</option>
+									<option  value="128">Macau S.A.R.</option>
+									<option  value="129">Macedonia</option>
+									<option  value="130">Madagascar</option>
+									<option  value="131">Malawi</option>
+									<option  value="132">Malaysia</option>
+									<option  value="133">Maldives</option>
+									<option  value="134">Mali</option>
+									<option  value="135">Malta</option>
+									<option  value="136">Man (Isle of)</option>
+									<option  value="137">Marshall Islands</option>
+									<option  value="138">Martinique</option>
+									<option  value="139">Mauritania</option>
+									<option  value="140">Mauritius</option>
+									<option  value="141">Mayotte</option>
+									<option  value="142">Mexico</option>
+									<option  value="143">Micronesia</option>
+									<option  value="144">Moldova</option>
+									<option  value="145">Monaco</option>
+									<option  value="146">Mongolia</option>
+									<option  value="147">Montserrat</option>
+									<option  value="148">Morocco</option>
+									<option  value="149">Mozambique</option>
+									<option  value="150">Myanmar</option>
+									<option  value="151">Namibia</option>
+									<option  value="152">Nauru</option>
+									<option  value="153">Nepal</option>
+									<option  value="154">Netherlands Antilles</option>
+									<option  value="155">Netherlands</option>
+									<option  value="156">New Caledonia</option>
+									<option  value="157">New Zealand</option>
+									<option  value="158">Nicaragua</option>
+									<option  value="159">Niger</option>
+									<option  value="160">Nigeria</option>
+									<option  value="161">Niue</option>
+									<option  value="162">Norfolk Island</option>
+									<option  value="163">Northern Mariana Islands</option>
+									<option  value="164">Norway</option>
+									<option  value="165">Oman</option>
+									<option  value="166">Pakistan</option>
+									<option  value="167">Palau</option>
+									<option  value="168">Palestinian Territory Occupied</option>
+									<option  value="169">Panama</option>
+									<option  value="170">Papua new Guinea</option>
+									<option  value="171">Paraguay</option>
+									<option  value="172">Peru</option>
+									<option  value="173">Philippines</option>
+									<option  value="174">Pitcairn Island</option>
+									<option  value="175">Poland</option>
+									<option  value="176">Portugal</option>
+									<option  value="177">Puerto Rico</option>
+									<option  value="178">Qatar</option>
+									<option  value="179">Reunion</option>
+									<option  value="180">Romania</option>
+									<option  value="181">Russia</option>
+									<option  value="182">Rwanda</option>
+									<option  value="183">Saint Helena</option>
+									<option  value="184">Saint Kitts And Nevis</option>
+									<option  value="185">Saint Lucia</option>
+									<option  value="186">Saint Pierre and Miquelon</option>
+									<option  value="187">Saint Vincent And The Grenadines</option>
+									<option  value="188">Samoa</option>
+									<option  value="189">San Marino</option>
+									<option  value="190">Sao Tome and Principe</option>
+									<option  value="191">Saudi Arabia</option>
+									<option  value="192">Senegal</option>
+									<option  value="193">Serbia</option>
+									<option  value="194">Seychelles</option>
+									<option  value="195">Sierra Leone</option>
+									<option  value="196">Singapore</option>
+									<option  value="197">Slovakia</option>
+									<option  value="198">Slovenia</option>
+									<option  value="199">Smaller Territories of the UK</option>
+									<option  value="200">Solomon Islands</option>
+									<option  value="201">Somalia</option>
+									<option  value="202">South Africa</option>
+									<option  value="203">South Georgia</option>
+									<option  value="204">South Sudan</option>
+									<option  value="205">Spain</option>
+									<option  value="206">Sri Lanka</option>
+									<option  value="207">Sudan</option>
+									<option  value="208">Suriname</option>
+									<option  value="209">Svalbard And Jan Mayen Islands</option>
+									<option  value="210">Swaziland</option>
+									<option  value="211">Sweden</option>
+									<option  value="212">Switzerland</option>
+									<option  value="213">Syria</option>
+									<option  value="214">Taiwan</option>
+									<option  value="215">Tajikistan</option>
+									<option  value="216">Tanzania</option>
+									<option  value="217">Thailand</option>
+									<option  value="218">Togo</option>
+									<option  value="219">Tokelau</option>
+									<option  value="220">Tonga</option>
+									<option  value="221">Trinidad And Tobago</option>
+									<option  value="222">Tunisia</option>
+									<option  value="223">Turkey</option>
+									<option  value="224">Turkmenistan</option>
+									<option  value="225">Turks And Caicos Islands</option>
+									<option  value="226">Tuvalu</option>
+									<option  value="227">Uganda</option>
+									<option  value="228">Ukraine</option>
+									<option selected value="229">United Arab Emirates</option>
+									<option  value="230">United Kingdom</option>
+									<option  value="231">United States</option>
+									<option  value="232">United States Minor Outlying Islands</option>
+									<option  value="233">Uruguay</option>
+									<option  value="234">Uzbekistan</option>
+									<option  value="235">Vanuatu</option>
+									<option  value="236">Vatican City State (Holy See)</option>
+									<option  value="237">Venezuela</option>
+									<option  value="238">Vietnam</option>
+									<option  value="239">Virgin Islands (British)</option>
+									<option  value="240">Virgin Islands (US)</option>
+									<option  value="241">Wallis And Futuna Islands</option>
+									<option  value="242">Western Sahara</option>
+									<option  value="243">Yemen</option>
+									<option  value="244">Yugoslavia</option>
+									<option  value="245">Zambia</option>
+									<option  value="246">Zimbabwe</option>
+							</select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="control-label">Groups</label>
+                                                            <select class="form-control select2" name="groups[]" multiple="multiple">
+											<option  value="15">陳莉庭</option>
+											<option  value="14">hello kitty</option>
+											<option  value="13">Alkebu Society Club</option>
+											<option  value="12">Real Estate</option>
+											<option  value="11">Tbzgrp</option>
+											<option  value="10">Ddd</option>
+											<option  value="9">ttt</option>
+											<option  value="8">Deneme</option>
+									</select>
+                                                        </div>
+
+
+                                                    </form>
+
+
+                                                    <script type="text/javascript">
+                                                        jQuery('.datetimepicker').datetimepicker({
+                                                            timepicker: false,
+                                                            format: 'd.m.Y'
+                                                        });
+                                                        jQuery('.select2').select2({
+                                                            placeholder: 'Assign User Groups'
+                                                        });
+
+                                                        $(".reg_form").submit(function(e) {
+                                                            e.preventDefault();
+                                                            $this = $(this);
+                                                            var is_valid = true;
+                                                            if (tel_input) {
+                                                                var errorMap = ['Invalid number', 'Invalid country code', 'Too short', 'Too long', 'Invalid number'];
+                                                                is_valid = false;
+                                                                var errorInnerHTML = '';
+                                                                if ($("#phone").val().trim()) {
+                                                                    if (tel_input.isValidNumber()) {
+                                                                        is_valid = true;
+                                                                        $("#phonenumber-input").val("+" + tel_input.selectedCountryData.dialCode + $("#phone").val().trim())
+                                                                    } else {
+                                                                        var errorCode = tel_input.getValidationError();
+                                                                        errorInnerHTML = errorMap[errorCode];
+                                                                    }
+                                                                } else {
+                                                                    errorInnerHTML = 'The Mobile Number field is required.';
+                                                                }
+
+                                                                $("#phone").parents(".form-group").removeClass("has-error");
+                                                                $(".reg_form .text-danger").remove();
+                                                                if (!is_valid) {
+                                                                    $("#phone").parents(".form-group").addClass("has-error");
+                                                                    $("#phone").parents(".form-group").find('> div').after("<span class='text-danger'>" + errorInnerHTML + "</span>");
+                                                                }
+                                                            }
+                                                            if (is_valid) {
+                                                                var check_captch = true;
+                                                                if (grecaptcha === undefined) {
+                                                                    check_captch = false;
+                                                                }
+                                                                $("#captch_response").val('')
+                                                                if (check_captch) {
+                                                                    captch_response = grecaptcha.getResponse();
+                                                                    $("#captch_response").val(captch_response)
+                                                                }
+
+                                                                var data = new FormData(this);
+
+                                                                $.ajax({
+                                                                    url: 'https://demo.affiliatepro.org/pagebuilder/register',
+                                                                    type: 'POST',
+                                                                    dataType: 'json',
+                                                                    cache: false,
+                                                                    contentType: false,
+                                                                    processData: false,
+                                                                    data: data,
+                                                                    beforeSend: function() {
+                                                                        $this.find(".btn-submit").attr("disabled", true);
+                                                                    },
+                                                                    complete: function() {
+                                                                        $this.find(".btn-submit").removeAttr("disabled");
+                                                                    },
+                                                                    success: function(json) {
+                                                                        if (json['redirect']) {
+                                                                            window.location.replace(json['redirect']);
+                                                                        }
+                                                                        if (json['warning']) {
+                                                                            alert(json['warning'])
+                                                                        }
+
+                                                                        $this.find(".is-invalid").removeClass("is-invalid");
+                                                                        $this.find("span.invalid-feedback").remove();
+
+                                                                        if (json['errors']) {
+                                                                            $.each(json['errors'], function(i, j) {
+                                                                                if (i == 'captch_response' && grecaptcha) {
+                                                                                    grecaptcha.reset();
+                                                                                }
+                                                                                if (i == 'terms') {
+                                                                                    $(".reg-agree-label").after("<span class='invalid-feedback'>" + j + "</span>");
+                                                                                    return true;
+                                                                                }
+
+                                                                                $ele = $this.find('#' + i);
+                                                                                if ($ele) {
+                                                                                    $formGroup = $ele.parents(".form-group");
+                                                                                    $ele.addClass("is-invalid");
+                                                                                    if ($formGroup.find(".input-group").length) {
+                                                                                        $formGroup.find(".input-group").after("<span class='invalid-feedback'>" + j + "</span>");
+                                                                                    } else if ($ele.hasClass('form-group')) {
+                                                                                        $ele.addClass("has-error");
+                                                                                        $ele.append("<br><small class='text-danger'>" + j + "</small>");
+                                                                                    } else {
+                                                                                        $ele.parents(".form-group").addClass("has-error");
+                                                                                        $ele.after("<span class='invalid-feedback'>" + j + "</span>");
+                                                                                    }
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    },
+                                                                })
+                                                            }
+                                                            return false;
+                                                        });
+                                                    </script>
+                                                    <button class="btn btn-block btn-default btn-success" id="update-user"><i class="fa fa-save"></i> Submit</button>
+                                                </div>
+                                                <div id="add-transaction" class="tab-pane fade">
+                                                    <h3>Add Transaction</h3>
+
+                                                    <input type="hidden" name="user_id" class="input-transaction" value="686">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Amount <small>(TOTAL COMMISSION $0.00)</small> </label>
+                                                        <input class="form-control input-transaction" type="number" name="amount" value="">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="control-label">Comment</label>
+                                                        <input class="form-control input-transaction" type="text" name="comment" value="">
+                                                    </div>
+
+                                                    <button class="btn btn-primary add-transaction">Add Transaction</button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            var state_id = '';
+
+                            $("#Country").on('change', function() {
+                                var country = $(this).val();
+                                $.ajax({
+                                    url: 'https://demo.affiliatepro.org/get_state',
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: {
+                                        country_id: country
+                                    },
+                                    success: function(json) {
+                                        if (json) {
+                                            var html = '';
+                                            $.each(json, function(k, v) {
+                                                if (v.id == state_id) {
+                                                    html += '<option value="' + v.id + '" selected="selected">' + v.name + '</option>';
+                                                } else {
+                                                    html += '<option value="' + v.id + '">' + v.name + '</option>';
+                                                }
+                                            });
+                                            $('#states').html(html);
+                                        }
+                                    }
+                                });
+                            });
+                            $("#Country").trigger('change');
+
+                            $("#update-user").on('click', function() {
+                                $this = $(".reg_form");
+                                var is_valid = true;
+
+                                if (tel_input) {
+                                    var errorMap = ['Invalid number', 'Invalid country code', 'Too short', 'Too long', 'Invalid number'];
+                                    is_valid = false;
+                                    var errorInnerHTML = '';
+                                    if ($("#phone").val().trim()) {
+                                        if (tel_input.isValidNumber()) {
+                                            is_valid = true;
+                                            $("#phonenumber-input").val("+" + tel_input.selectedCountryData.dialCode + $("#phone").val().trim())
+                                        } else {
+                                            var errorCode = tel_input.getValidationError();
+                                            errorInnerHTML = errorMap[errorCode];
+                                        }
+                                    } else {
+                                        errorInnerHTML = 'The Mobile Number field is required.'
+                                    }
+                                    $("#phone").parents(".form-group").removeClass("has-error");
+                                    $(".reg_form .text-danger").remove();
+
+                                    if (!is_valid) {
+                                        $("#phone").parents(".form-group").addClass("has-error");
+                                        $("#phone").parents(".form-group").find('> div').after("<span class='text-danger'>" + errorInnerHTML + "</span>");
+                                    }
+                                }
+
+                                if (is_valid) {
+                                    var formData = new FormData($this[0]);
+
+                                    $.ajax({
+                                        url: '',
+                                        type: 'post',
+                                        dataType: 'json',
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
+                                        data: formData,
+                                        beforeSend: function() {
+                                            $(".add-transaction").btn("loading")
+                                        },
+                                        complete: function() {
+                                            $(".add-transaction").btn("reset")
+                                        },
+                                        success: function(json) {
+                                            if (json['location']) {
+                                                window.location = json['location'];
+                                            }
+
+                                            $this.find(".has-error").removeClass("has-error");
+                                            $this.find("span.text-danger").remove();
+                                            if (json['errors']) {
+                                                $.each(json['errors'], function(i, j) {
+                                                    $ele = $this.find('[name="' + i + '"]');
+                                                    if ($ele) {
+                                                        $ele.parents(".form-group").addClass("has-error");
+                                                        $ele.after("<span class='text-danger'>" + j + "</span>");
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    })
+                                }
+                            })
+
+                            $(".add-transaction").on('click', function() {
+                                $this = $("#add-transaction");
+
+                                $.ajax({
+                                    url: 'add_transaction',
+                                    type: 'post',
+                                    dataType: 'json',
+                                    data: $(".input-transaction"),
+                                    beforeSend: function() {
+                                        $(".add-transaction").btn("loading")
+                                    },
+                                    complete: function() {
+                                        $(".add-transaction").btn("reset")
+                                    },
+                                    success: function(json) {
+                                        if (json['location']) {
+                                            window.location = json['location'];
+                                        }
+
+                                        $this.find(".has-error").removeClass("has-error");
+                                        $this.find("span.text-danger").remove();
+
+                                        if (json['errors']) {
+                                            $.each(json['errors'], function(i, j) {
+                                                $ele = $this.find('#' + i);
+                                                if ($ele.hasClass('form-group')) {
+                                                    $ele.addClass("has-error");
+                                                    $ele.append("<br><span class='text-danger'>" + j + "</span>");
+                                                } else {
+                                                    $ele.parents(".form-group").addClass("has-error");
+                                                    $ele.after("<span class='text-danger'>" + j + "</span>");
+                                                }
+                                            })
+                                        }
+                                    }
+                                })
+                            })
+                        </script>
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script>
+                $(".select2-input").select2();
+
+                $(document).delegate(".view-all", 'click', function() {
+                    var data = $(this).find("span").html();
+                    var html = '<table class="table table-hover">';
+
+                    data = JSON.parse(data);
+
+                    html += '<tr>';
+
+                    html += ' <th>' + 'admin.ip' + '</th>';
+
+                    html += ' <th width="30px">' + 'admin.country' + '</th>';
+
+                    html += '</tr>';
+
+                    $.each(data, function(i, j) {
+                        html += '<tr>';
+
+                        html += ' <td>' + j['ip'] + '</td>';
+
+                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';
+
+                        html += '</tr>';
+                    })
+
+                    html += '</table>';
+
+                    $("#ip-flag_model").modal("show");
+
+                    $("#ip-flag_model .modal-body").html(html);
+                })
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                if ($('#morris-area-chart').length > 0) {
+                    var areaData = [
+
+                        {
+                            y: '2011',
+                            a: 10,
+                            b: 15
+                        },
+
+                        {
+                            y: '2012',
+                            a: 30,
+                            b: 35
+                        },
+
+                        {
+                            y: '2013',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2014',
+                            a: 55,
+                            b: 45
+                        },
+
+                        {
+                            y: '2015',
+                            a: 30,
+                            b: 20
+                        },
+
+                        {
+                            y: '2016',
+                            a: 40,
+                            b: 35
+                        },
+
+                        {
+                            y: '2017',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2018',
+                            a: 25,
+                            b: 30
+                        }
+
+                    ];
+
+                    Morris.Area({
+
+                        element: 'morris-area-chart',
+
+                        pointSize: 3,
+
+                        lineWidth: 2,
+
+                        data: areaData,
+
+                        xkey: 'y',
+
+                        ykeys: ['a', 'b'],
+
+                        labels: ['Orders', 'Sales'],
+
+                        resize: true,
+
+                        hideHover: 'auto',
+
+                        gridLineColor: '#eef0f2',
+
+                        lineColors: ['#00c292', '#03a9f3'],
+
+                        lineWidth: 0,
+
+                        fillOpacity: 0.1,
+
+                        xLabelMargin: 10,
+
+                        yLabelMargin: 10,
+
+                        grid: false,
+
+                        axes: false,
+
+                        pointSize: 0
+
+                    });
+                }
+
+                $(document).on('ready', function() {
+
+                    if ($('#morris-donut-chart').length > 0) {
+                        var donutData = [];
+
+                        Morris.Donut({
+
+                            element: 'morris-donut-chart',
+
+                            data: donutData,
+
+                            resize: true,
+
+                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']
+
+                        });
+
+                    }
+
+                    if ($("#boxscroll").length > 0)
+                        $("#boxscroll").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+                    if ($("#boxscroll2").length > 0)
+                        $("#boxscroll2").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+
+                    if ($(".clickable-row").length > 0) {
+                        $(".clickable-row").on('click', function() {
+                            window.location = $(this).data("href");
+                        });
+                    }
+
+                    if ($("#Country").length > 0) {
+                        $('#Country').on('change', function() {
+                            country_id = $(this).val();
+
+                            $.ajax({
+
+                                type: "POST",
+
+                                url: "getstate",
+
+                                data: 'country_id=' + country_id,
+
+                                success: function(data) {
+
+                                    $("#StateProvince").html(data);
+
+                                }
+
+                            });
+
+                        });
+                    }
+
+                });
+
+
+                function shownofication(id, url) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "updatenotify",
+
+                        data: 'id=' + id,
+
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            window.location.href = data['location'];
+
+                        }
+
+                    });
+
+                }
+
+                $(document).on('ready', function() {
+                    $('.summernote-img').each(function() {
+                        sumNote($(this));
+                    });
+
+                });
+
+                function sumNote(element) {
+                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;
+
+                    $(element).summernote({
+
+                        disableDragAndDrop: true,
+
+                        height: height,
+
+
+                        toolbar: [
+
+                            ['style', ['style']],
+
+                            ['font', ['bold', 'underline', 'clear']],
+
+                            ['fontname', ['fontname']],
+
+                            ['color', ['color']],
+
+                            ['para', ['ul', 'ol', 'paragraph']],
+
+                            ['table', ['table']],
+
+                            ['insert', ['link', 'image', 'picture', 'video']],
+
+                            ['view', ['fullscreen', 'codeview', 'help']]
+
+                        ],
+
+                        buttons: {
+
+                            image: function() {
+
+                                var ui = $.summernote.ui;
+
+                                // create button
+
+                                var button = ui.button({
+
+                                    contents: '<i class="fa fa-image" />',
+
+                                    tooltip: false,
+
+                                    click: function() {
+
+                                        $('#modal-image').remove();
+
+
+
+                                        $.ajax({
+
+                                            url: 'https://demo.affiliatepro.org/filemanager',
+
+                                            dataType: 'html',
+
+                                            beforeSend: function() {
+
+                                            },
+                                            complete: function() {
+
+                                            },
+                                            success: function(html) {
+
+                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');
+
+                                                $('#modal-image').modal('show');
+
+                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {
+
+                                                    e.preventDefault();
+
+                                                    $(element).summernote('insertImage', $(this).attr('href'));
+
+                                                    $('#modal-image').modal('hide');
+
+                                                });
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+
+
+
+                                return button.render();
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+</div>
+{% endblock %}
+
+

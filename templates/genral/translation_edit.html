@@ -1,0 +1,4055 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+
+
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+                {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="card m-b-30">
+
+                                    <div class="card-header">
+
+                                        <h4 class="card-title pull-left">Add language</h4>
+
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <form id="language-form" enctype="multipart/form-data" action="update_language" method="POST">
+
+
+
+
+
+                                            <input class="form-control" type="hidden" name="id" value="0">
+
+                                            <div class="form-group">
+                                                <label class="control-label">Language Name</label>
+                                                <select class="form-control" name="name" required>
+										<option value="" disabled selected>Select Language Name</option>
+																					<option value="Abkhazian">Abkhazian</option>
+																					<option value="Afar">Afar</option>
+																					<option value="Afrikaans">Afrikaans</option>
+																					<option value="Akan">Akan</option>
+																					<option value="Albanian">Albanian</option>
+																					<option value="Amharic">Amharic</option>
+																					<option value="Arabic">Arabic</option>
+																					<option value="Aragonese">Aragonese</option>
+																					<option value="Armenian">Armenian</option>
+																					<option value="Assamese">Assamese</option>
+																					<option value="Avaric">Avaric</option>
+																					<option value="Avestan">Avestan</option>
+																					<option value="Aymara">Aymara</option>
+																					<option value="Azerbaijani">Azerbaijani</option>
+																					<option value="Bambara">Bambara</option>
+																					<option value="Bashkir">Bashkir</option>
+																					<option value="Basque">Basque</option>
+																					<option value="Belarusian">Belarusian</option>
+																					<option value="Bengali">Bengali</option>
+																					<option value="Bihari languages">Bihari languages</option>
+																					<option value="Bislama">Bislama</option>
+																					<option value="Bosnian">Bosnian</option>
+																					<option value="Breton">Breton</option>
+																					<option value="Bulgarian">Bulgarian</option>
+																					<option value="Burmese">Burmese</option>
+																					<option value="Catalan, Valencian">Catalan, Valencian</option>
+																					<option value="Central Khmer">Central Khmer</option>
+																					<option value="Chamorro">Chamorro</option>
+																					<option value="Chechen">Chechen</option>
+																					<option value="Chichewa, Chewa, Nyanja">Chichewa, Chewa, Nyanja</option>
+																					<option value="Chinese">Chinese</option>
+																					<option value="Church Slavonic, Old Bulgarian, Old Church Slavonic">Church Slavonic, Old Bulgarian, Old Church Slavonic</option>
+																					<option value="Chuvash">Chuvash</option>
+																					<option value="Cornish">Cornish</option>
+																					<option value="Corsican">Corsican</option>
+																					<option value="Cree">Cree</option>
+																					<option value="Croatian">Croatian</option>
+																					<option value="Czech">Czech</option>
+																					<option value="Danish">Danish</option>
+																					<option value="Divehi, Dhivehi, Maldivian">Divehi, Dhivehi, Maldivian</option>
+																					<option value="Dutch, Flemish">Dutch, Flemish</option>
+																					<option value="Dzongkha">Dzongkha</option>
+																					<option value="English">English</option>
+																					<option value="Esperanto">Esperanto</option>
+																					<option value="Estonian">Estonian</option>
+																					<option value="Ewe">Ewe</option>
+																					<option value="Faroese">Faroese</option>
+																					<option value="Fijian">Fijian</option>
+																					<option value="Finnish">Finnish</option>
+																					<option value="French">French</option>
+																					<option value="Fulah">Fulah</option>
+																					<option value="Gaelic, Scottish Gaelic">Gaelic, Scottish Gaelic</option>
+																					<option value="Galician">Galician</option>
+																					<option value="Ganda">Ganda</option>
+																					<option value="Georgian">Georgian</option>
+																					<option value="German">German</option>
+																					<option value="Gikuyu, Kikuyu">Gikuyu, Kikuyu</option>
+																					<option value="Greek (Modern)">Greek (Modern)</option>
+																					<option value="Greenlandic, Kalaallisut">Greenlandic, Kalaallisut</option>
+																					<option value="Guarani">Guarani</option>
+																					<option value="Gujarati">Gujarati</option>
+																					<option value="Haitian, Haitian Creole">Haitian, Haitian Creole</option>
+																					<option value="Hausa">Hausa</option>
+																					<option value="Hebrew">Hebrew</option>
+																					<option value="Herero">Herero</option>
+																					<option value="Hindi">Hindi</option>
+																					<option value="Hiri Motu">Hiri Motu</option>
+																					<option value="Hungarian">Hungarian</option>
+																					<option value="Icelandic">Icelandic</option>
+																					<option value="Ido">Ido</option>
+																					<option value="Igbo">Igbo</option>
+																					<option value="Indonesian">Indonesian</option>
+																					<option value="Interlingua (International Auxiliary Language Association)">Interlingua (International Auxiliary Language Association)</option>
+																					<option value="Interlingue">Interlingue</option>
+																					<option value="Inuktitut">Inuktitut</option>
+																					<option value="Inupiaq">Inupiaq</option>
+																					<option value="Irish">Irish</option>
+																					<option value="Italian">Italian</option>
+																					<option value="Japanese">Japanese</option>
+																					<option value="Javanese">Javanese</option>
+																					<option value="Kannada">Kannada</option>
+																					<option value="Kanuri">Kanuri</option>
+																					<option value="Kashmiri">Kashmiri</option>
+																					<option value="Kazakh">Kazakh</option>
+																					<option value="Kinyarwanda">Kinyarwanda</option>
+																					<option value="Komi">Komi</option>
+																					<option value="Kongo">Kongo</option>
+																					<option value="Korean">Korean</option>
+																					<option value="Kwanyama, Kuanyama">Kwanyama, Kuanyama</option>
+																					<option value="Kurdish">Kurdish</option>
+																					<option value="Kyrgyz">Kyrgyz</option>
+																					<option value="Lao">Lao</option>
+																					<option value="Latin">Latin</option>
+																					<option value="Latvian">Latvian</option>
+																					<option value="Letzeburgesch, Luxembourgish">Letzeburgesch, Luxembourgish</option>
+																					<option value="Limburgish, Limburgan, Limburger">Limburgish, Limburgan, Limburger</option>
+																					<option value="Lingala">Lingala</option>
+																					<option value="Lithuanian">Lithuanian</option>
+																					<option value="Luba-Katanga">Luba-Katanga</option>
+																					<option value="Macedonian">Macedonian</option>
+																					<option value="Malagasy">Malagasy</option>
+																					<option value="Malay">Malay</option>
+																					<option value="Malayalam">Malayalam</option>
+																					<option value="Maltese">Maltese</option>
+																					<option value="Manx">Manx</option>
+																					<option value="Maori">Maori</option>
+																					<option value="Marathi">Marathi</option>
+																					<option value="Marshallese">Marshallese</option>
+																					<option value="Moldovan, Moldavian, Romanian">Moldovan, Moldavian, Romanian</option>
+																					<option value="Mongolian">Mongolian</option>
+																					<option value="Nauru">Nauru</option>
+																					<option value="Navajo, Navaho">Navajo, Navaho</option>
+																					<option value="Northern Ndebele">Northern Ndebele</option>
+																					<option value="Ndonga">Ndonga</option>
+																					<option value="Nepali">Nepali</option>
+																					<option value="Northern Sami">Northern Sami</option>
+																					<option value="Norwegian">Norwegian</option>
+																					<option value="Norwegian Bokmål">Norwegian Bokmål</option>
+																					<option value="Norwegian Nynorsk">Norwegian Nynorsk</option>
+																					<option value="Nuosu, Sichuan Yi">Nuosu, Sichuan Yi</option>
+																					<option value="Occitan (post 1500)">Occitan (post 1500)</option>
+																					<option value="Ojibwa">Ojibwa</option>
+																					<option value="Oriya">Oriya</option>
+																					<option value="Oromo">Oromo</option>
+																					<option value="Ossetian, Ossetic">Ossetian, Ossetic</option>
+																					<option value="Pali">Pali</option>
+																					<option value="Panjabi, Punjabi">Panjabi, Punjabi</option>
+																					<option value="Pashto, Pushto">Pashto, Pushto</option>
+																					<option value="Persian">Persian</option>
+																					<option value="Polish">Polish</option>
+																					<option value="Portuguese">Portuguese</option>
+																					<option value="Quechua">Quechua</option>
+																					<option value="Romansh">Romansh</option>
+																					<option value="Rundi">Rundi</option>
+																					<option value="Russian">Russian</option>
+																					<option value="Samoan">Samoan</option>
+																					<option value="Sango">Sango</option>
+																					<option value="Sanskrit">Sanskrit</option>
+																					<option value="Sardinian">Sardinian</option>
+																					<option value="Serbian">Serbian</option>
+																					<option value="Shona">Shona</option>
+																					<option value="Sindhi">Sindhi</option>
+																					<option value="Sinhala, Sinhalese">Sinhala, Sinhalese</option>
+																					<option value="Slovak">Slovak</option>
+																					<option value="Slovenian">Slovenian</option>
+																					<option value="Somali">Somali</option>
+																					<option value="Sotho, Southern">Sotho, Southern</option>
+																					<option value="South Ndebele">South Ndebele</option>
+																					<option value="Spanish, Castilian">Spanish, Castilian</option>
+																					<option value="Sundanese">Sundanese</option>
+																					<option value="Swahili">Swahili</option>
+																					<option value="Swati">Swati</option>
+																					<option value="Swedish">Swedish</option>
+																					<option value="Tagalog">Tagalog</option>
+																					<option value="Tahitian">Tahitian</option>
+																					<option value="Tajik">Tajik</option>
+																					<option value="Tamil">Tamil</option>
+																					<option value="Tatar">Tatar</option>
+																					<option value="Telugu">Telugu</option>
+																					<option value="Thai">Thai</option>
+																					<option value="Tibetan">Tibetan</option>
+																					<option value="Tigrinya">Tigrinya</option>
+																					<option value="Tonga (Tonga Islands)">Tonga (Tonga Islands)</option>
+																					<option value="Tsonga">Tsonga</option>
+																					<option value="Tswana">Tswana</option>
+																					<option value="Turkish">Turkish</option>
+																					<option value="Turkmen">Turkmen</option>
+																					<option value="Twi">Twi</option>
+																					<option value="Uighur, Uyghur">Uighur, Uyghur</option>
+																					<option value="Ukrainian">Ukrainian</option>
+																					<option value="Urdu">Urdu</option>
+																					<option value="Uzbek">Uzbek</option>
+																					<option value="Venda">Venda</option>
+																					<option value="Vietnamese">Vietnamese</option>
+																					<option value="Volap_k">Volap_k</option>
+																					<option value="Walloon">Walloon</option>
+																					<option value="Welsh">Welsh</option>
+																					<option value="Western Frisian">Western Frisian</option>
+																					<option value="Wolof">Wolof</option>
+																					<option value="Xhosa">Xhosa</option>
+																					<option value="Yiddish">Yiddish</option>
+																					<option value="Yoruba">Yoruba</option>
+																					<option value="Zhuang, Chuang">Zhuang, Chuang</option>
+																					<option value="Zulu">Zulu</option>
+																				
+									</select>
+                                            </div>
+
+                                            <div class="flag-file-chooser">
+
+                                                <ul>
+
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ad"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ad.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ad.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ae"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ae.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ae.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="af"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/af.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/af.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ag"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ag.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ag.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="al"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/al.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/al.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="am"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/am.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/am.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ao"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ao.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ao.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ar"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ar.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ar.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="at"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/at.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/at.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="au"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/au.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/au.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="az"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/az.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/az.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ba"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ba.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ba.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bb"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bb.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bb.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bd"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bd.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bd.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="be"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/be.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/be.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bf"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bf.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bf.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bh"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bh.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bh.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bi"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bi.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bi.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bj"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bj.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bj.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bo"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bo.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bo.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="br"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/br.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/br.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bs"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bs.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bs.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="by"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/by.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/by.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="bz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/bz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/bz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ca"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ca.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ca.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cd"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cd.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cd.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cf"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cf.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cf.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ch"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ch.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ch.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ci"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ci.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ci.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ck"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ck.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ck.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cl"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cl.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cl.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="co"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/co.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/co.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cv"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cv.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cv.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cy"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cy.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cy.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="cz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/cz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/cz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="de"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/de.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/de.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="dj"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/dj.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/dj.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="dk"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/dk.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/dk.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="dm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/dm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/dm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="do"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/do.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/do.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="dz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/dz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/dz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ec"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ec.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ec.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ee"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ee.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ee.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="eg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/eg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/eg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="eh"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/eh.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/eh.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="er"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/er.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/er.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="es"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/es.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/es.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="et"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/et.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/et.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="fi"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/fi.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/fi.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="fj"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/fj.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/fj.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="fm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/fm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/fm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="fr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/fr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/fr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ga"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ga.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ga.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gb"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gb.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gb.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gd"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gd.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gd.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ge"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ge.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ge.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gh"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gh.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gh.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gq"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gq.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gq.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="gy"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/gy.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/gy.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="hn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/hn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/hn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="hr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/hr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/hr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ht"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ht.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ht.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="hu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/hu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/hu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="id"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/id.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/id.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ie"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ie.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ie.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="il"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/il.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/il.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="in"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/in.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/in.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="iq"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/iq.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/iq.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ir"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ir.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ir.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="is"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/is.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/is.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="it"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/it.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/it.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="jm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/jm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/jm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="jo"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/jo.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/jo.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="jp"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/jp.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/jp.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ke"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ke.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ke.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kh"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kh.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kh.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ki"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ki.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ki.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="km"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/km.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/km.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kp"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kp.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kp.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ks"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ks.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ks.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="kz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/kz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/kz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="la"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/la.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/la.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lb"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lb.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lb.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lc"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lc.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lc.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="li"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/li.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/li.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lk"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lk.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lk.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ls"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ls.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ls.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="lv"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/lv.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/lv.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ly"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ly.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ly.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ma"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ma.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ma.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mc"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mc.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mc.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="md"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/md.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/md.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="me"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/me.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/me.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mh"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mh.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mh.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mk"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mk.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mk.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ml"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ml.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ml.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mv"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mv.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mv.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mx"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mx.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mx.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="my"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/my.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/my.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="mz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/mz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/mz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="na"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/na.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/na.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ne"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ne.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ne.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ng"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ng.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ng.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ni"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ni.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ni.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="nl"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/nl.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/nl.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="no"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/no.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/no.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="np"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/np.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/np.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="nr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/nr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/nr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="nu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/nu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/nu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="nz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/nz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/nz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="om"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/om.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/om.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pa"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pa.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pa.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pe"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pe.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pe.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ph"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ph.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ph.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pk"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pk.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pk.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pl"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pl.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pl.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="pw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/pw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/pw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="py"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/py.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/py.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="qa"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/qa.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/qa.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ro"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ro.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ro.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="rs"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/rs.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/rs.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ru"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ru.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ru.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="rw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/rw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/rw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sa"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sa.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sa.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sb"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sb.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sb.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sc"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sc.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sc.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sd"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sd.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sd.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="se"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/se.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/se.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="si"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/si.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/si.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sk"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sk.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sk.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sl"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sl.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sl.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="so"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/so.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/so.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ss"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ss.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ss.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="st"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/st.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/st.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sv"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sv.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sv.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sy"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sy.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sy.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="sz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/sz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/sz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="td"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/td.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/td.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tg"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tg.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tg.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="th"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/th.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/th.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tj"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tj.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tj.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tl"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tl.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tl.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="to"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/to.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/to.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tr"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tr.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tr.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tt"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tt.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tt.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tv"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tv.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tv.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="tz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/tz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/tz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ua"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ua.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ua.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ug"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ug.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ug.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="us"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/us.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/us.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="uy"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/uy.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/uy.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="uz"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/uz.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/uz.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="va"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/va.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/va.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="vc"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/vc.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/vc.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ve"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ve.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ve.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="vn"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/vn.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/vn.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="vu"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/vu.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/vu.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ws"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ws.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ws.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="ye"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/ye.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/ye.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="za"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/za.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/za.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="zm"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/zm.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/zm.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <label>
+
+												<input data-flag_code="zw"  type="radio" name="flag" value="./assets/vertical/assets/images/flags/zw.png' %}">
+
+												<img src="{% static 'dashboard/./assets/vertical/assets/images/flags/zw.png' %}">
+
+											</label>
+
+                                                    </li>
+
+
+                                                </ul>
+
+                                            </div>
+
+                                            <br>
+
+                                            <div class="row">
+
+                                                <div class="col-sm-2">
+
+                                                    <div class="form-group">
+
+                                                        <label class="control-label">Status </label>
+
+                                                        <div>
+
+                                                            <label class="switch">
+
+											  <input type="checkbox"  name="status" value="1" >
+
+											  <span class="slider"></span>
+
+											</label>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-3">
+
+                                                    <div class="form-group">
+
+                                                        <label class="control-label">Set Default</label>
+
+                                                        <div>
+
+                                                            <label class="switch">
+
+											  <input type="checkbox" value="1" name="is_default"   >
+
+											  <span class="slider"></span>
+
+											</label>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class="col-sm-3">
+
+                                                    <div class="form-group">
+
+                                                        <label class="control-label">Is RTL ?</label>
+
+                                                        <div>
+
+                                                            <label class="switch">
+
+											  <input type="checkbox" value="1" name="is_rtl"   >
+
+											  <span class="slider"></span>
+
+											</label>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary btn-submit">Save changes</button>
+
+                                            <a href="language" class="btn btn-default ">Cancel</a>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <script type="text/javascript">
+                            var languages = null;
+                            var countries_with_languages = null;
+
+                            $.getJSON("https://demo.affiliatepro.org/assets/data/countries_with_languages.json", function(data) {
+                                countries_with_languages = data;
+                            });
+
+                            $.getJSON("https://demo.affiliatepro.org/assets/data/languages.json", function(data) {
+                                languages = data;
+                            });
+
+                            $(document).on('change', 'select[name="name"]', function() {
+                                let langName = $(this).val();
+                                let langCode = Object.keys(languages).find(key => languages[key] === langName);
+
+                                let country = countries_with_languages.filter(function(e) {
+                                    let languages = e.languages.split(",");
+                                    return languages.indexOf(langCode) != -1;
+                                });
+
+                                if (country.length > 0) {
+                                    $('input[name="flag"]').parent().parent().hide();
+                                    for (let index = 0; index < country.length; index++) {
+                                        const iso_code = country[index].iso_code.toLowerCase();
+                                        $('input[name="flag"][data-flag_code="' + iso_code + '"]').parent().parent().show();
+                                        if (index == 0) {
+                                            $('input[name="flag"][data-flag_code="' + iso_code + '"]').trigger('click');
+                                        }
+                                    }
+                                } else {
+                                    $('input[name="flag"]').parent().parent().show();
+                                }
+                            });
+                        </script>
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script>
+                $(".select2-input").select2();
+
+                $(document).delegate(".view-all", 'click', function() {
+                    var data = $(this).find("span").html();
+                    var html = '<table class="table table-hover">';
+
+                    data = JSON.parse(data);
+
+                    html += '<tr>';
+
+                    html += ' <th>' + 'admin.ip' + '</th>';
+
+                    html += ' <th width="30px">' + 'admin.country' + '</th>';
+
+                    html += '</tr>';
+
+                    $.each(data, function(i, j) {
+                        html += '<tr>';
+
+                        html += ' <td>' + j['ip'] + '</td>';
+
+                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';
+
+                        html += '</tr>';
+                    })
+
+                    html += '</table>';
+
+                    $("#ip-flag_model").modal("show");
+
+                    $("#ip-flag_model .modal-body").html(html);
+                })
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                if ($('#morris-area-chart').length > 0) {
+                    var areaData = [
+
+                        {
+                            y: '2011',
+                            a: 10,
+                            b: 15
+                        },
+
+                        {
+                            y: '2012',
+                            a: 30,
+                            b: 35
+                        },
+
+                        {
+                            y: '2013',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2014',
+                            a: 55,
+                            b: 45
+                        },
+
+                        {
+                            y: '2015',
+                            a: 30,
+                            b: 20
+                        },
+
+                        {
+                            y: '2016',
+                            a: 40,
+                            b: 35
+                        },
+
+                        {
+                            y: '2017',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2018',
+                            a: 25,
+                            b: 30
+                        }
+
+                    ];
+
+                    Morris.Area({
+
+                        element: 'morris-area-chart',
+
+                        pointSize: 3,
+
+                        lineWidth: 2,
+
+                        data: areaData,
+
+                        xkey: 'y',
+
+                        ykeys: ['a', 'b'],
+
+                        labels: ['Orders', 'Sales'],
+
+                        resize: true,
+
+                        hideHover: 'auto',
+
+                        gridLineColor: '#eef0f2',
+
+                        lineColors: ['#00c292', '#03a9f3'],
+
+                        lineWidth: 0,
+
+                        fillOpacity: 0.1,
+
+                        xLabelMargin: 10,
+
+                        yLabelMargin: 10,
+
+                        grid: false,
+
+                        axes: false,
+
+                        pointSize: 0
+
+                    });
+                }
+
+                $(document).on('ready', function() {
+
+                    if ($('#morris-donut-chart').length > 0) {
+                        var donutData = [];
+
+                        Morris.Donut({
+
+                            element: 'morris-donut-chart',
+
+                            data: donutData,
+
+                            resize: true,
+
+                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']
+
+                        });
+
+                    }
+
+                    if ($("#boxscroll").length > 0)
+                        $("#boxscroll").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+                    if ($("#boxscroll2").length > 0)
+                        $("#boxscroll2").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+
+                    if ($(".clickable-row").length > 0) {
+                        $(".clickable-row").on('click', function() {
+                            window.location = $(this).data("href");
+                        });
+                    }
+
+                    if ($("#Country").length > 0) {
+                        $('#Country').on('change', function() {
+                            country_id = $(this).val();
+
+                            $.ajax({
+
+                                type: "POST",
+
+                                url: "getstate",
+
+                                data: 'country_id=' + country_id,
+
+                                success: function(data) {
+
+                                    $("#StateProvince").html(data);
+
+                                }
+
+                            });
+
+                        });
+                    }
+
+                });
+
+
+                function shownofication(id, url) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "updatenotify",
+
+                        data: 'id=' + id,
+
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            window.location.href = data['location'];
+
+                        }
+
+                    });
+
+                }
+
+                $(document).on('ready', function() {
+                    $('.summernote-img').each(function() {
+                        sumNote($(this));
+                    });
+
+                });
+
+                function sumNote(element) {
+                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;
+
+                    $(element).summernote({
+
+                        disableDragAndDrop: true,
+
+                        height: height,
+
+
+                        toolbar: [
+
+                            ['style', ['style']],
+
+                            ['font', ['bold', 'underline', 'clear']],
+
+                            ['fontname', ['fontname']],
+
+                            ['color', ['color']],
+
+                            ['para', ['ul', 'ol', 'paragraph']],
+
+                            ['table', ['table']],
+
+                            ['insert', ['link', 'image', 'picture', 'video']],
+
+                            ['view', ['fullscreen', 'codeview', 'help']]
+
+                        ],
+
+                        buttons: {
+
+                            image: function() {
+
+                                var ui = $.summernote.ui;
+
+                                // create button
+
+                                var button = ui.button({
+
+                                    contents: '<i class="fa fa-image" />',
+
+                                    tooltip: false,
+
+                                    click: function() {
+
+                                        $('#modal-image').remove();
+
+
+
+                                        $.ajax({
+
+                                            url: 'https://demo.affiliatepro.org/filemanager',
+
+                                            dataType: 'html',
+
+                                            beforeSend: function() {
+
+                                            },
+                                            complete: function() {
+
+                                            },
+                                            success: function(html) {
+
+                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');
+
+                                                $('#modal-image').modal('show');
+
+                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {
+
+                                                    e.preventDefault();
+
+                                                    $(element).summernote('insertImage', $(this).attr('href'));
+
+                                                    $('#modal-image').modal('hide');
+
+                                                });
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+
+
+
+                                return button.render();
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+</div>
+{% endblock %}
+
+

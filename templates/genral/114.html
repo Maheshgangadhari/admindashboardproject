@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+
+
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+                {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <link rel="stylesheet" type="text/css" href="https://demo.affiliatepro.org/assets/css/wallet.css?v=1647845588">
+                        <link rel="stylesheet" type="text/css" href="https://demo.affiliatepro.org/assets/plugins/flag/css/main.min.css?v=1647845588">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="m-0">Withdraw Requests Details #114</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h6 class="font-14 text-info with-heading">Request Details</h6>
+                                                <table class="details-dtable">
+                                                    <tr>
+                                                        <th>Id</th>
+                                                        <td> 114</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Total</th>
+                                                        <td> $21.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Payment Method</th>
+                                                        <td> bank_transfer</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Payment Status</th>
+                                                        <td> <span style="font-size:15px;" class="badge badge-secondary">Received</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h6 class="font-14 text-info with-heading">Submited Details</h6>
+                                                <table class="details-dtable">
+                                                    <tr>
+                                                        <th class="text-capitalize">bank code</th>
+                                                        <td>Doe</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="text-capitalize">account number</th>
+                                                        <td>34888999</td>
+                                                    </tr>
+
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h6 class="font-14 text-info with-heading">Status History</h6>
+                                                <table class="table table-bordered table-sm table-status-history">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Status</th>
+                                                            <th>Comment</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="history_container"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <br><br>
+
+                                        <h6 class="font-14 text-info with-heading">Transactions</h6>
+
+                                        <div class="table-responsive">
+                                            <table class="table transaction-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>User</th>
+                                                        <th>Order</th>
+                                                        <th width="150px">Commission</th>
+                                                        <th>Type</th>
+                                                        <th>Payment Status</th>
+                                                        <th>COMMISSION STATUS</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr class="transaction-table-tr  wallet-id-2024 " group_id='164762474558'>
+
+
+                                                        <td>
+                                                            <div class="no-wrap">18 March 2022</div>
+                                                            <span class="badge badge-secondary">ID: 2024</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <span class="badge badge-default font-weight-normal">Affiliate Commission</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            CPC
+                                                            <div>
+
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width: 180px !important; vertical-align: middle;">
+                                                            <div class="no-wrap">
+                                                                <div class="dpopver-content d-none">
+                                                                    <div>Commission for 1 click on product </div>
+                                                                </div>
+                                                                <div class="badge badge-secondary py-1 pl-2 font-14" toggle="popover">
+                                                                    $5.00
+                                                                </div>
+                                                                <button toggle="popover" class="wallet-popover btn-wallet-info">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+			</button>
+
+                                                                <ul class="ip-list list-inline float-right mb-0">
+                                                                    <li class="list-inline-item dropdown">
+                                                                        <a href="javascript:void(0)" title="" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-align-justify"></i>
+					</a>
+                                                                        <ul class="dropdown-menu country-dropdown">
+                                                                            <li>
+                                                                                <span class="flag"><i class="flag-sm m-auto d-block flag-sm-UY"></i> </span>
+                                                                                <span class="ip"> UY 179.29.68.11</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="transaction-type">
+                                                                Click Commission </div>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <span style="font-size:15px;" class="badge badge-secondary">Received</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <small style='font-size:15px;' class='badge badge-warning'>REQUEST SENT</small><small></small> </td>
+
+
+                                                        <td class="text-right">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="transaction-table-tr  wallet-id-2006 " group_id='164749898449'>
+
+
+                                                        <td>
+                                                            <div class="no-wrap">17 March 2022</div>
+                                                            <span class="badge badge-secondary">ID: 2006</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <span class="badge badge-default font-weight-normal">Affiliate Commission</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            CPC
+                                                            <div>
+
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width: 180px !important; vertical-align: middle;">
+                                                            <div class="no-wrap">
+                                                                <div class="dpopver-content d-none">
+                                                                    <div>Commission for 1 click on product </div>
+                                                                </div>
+                                                                <div class="badge badge-secondary py-1 pl-2 font-14" toggle="popover">
+                                                                    $5.00
+                                                                </div>
+                                                                <button toggle="popover" class="wallet-popover btn-wallet-info">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+			</button>
+
+                                                                <ul class="ip-list list-inline float-right mb-0">
+                                                                    <li class="list-inline-item dropdown">
+                                                                        <a href="javascript:void(0)" title="" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-align-justify"></i>
+					</a>
+                                                                        <ul class="dropdown-menu country-dropdown">
+                                                                            <li>
+                                                                                <span class="flag"><i class="flag-sm m-auto d-block flag-sm-US"></i> </span>
+                                                                                <span class="ip"> US 77.111.246.40</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="transaction-type">
+                                                                Click Commission </div>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <span style="font-size:15px;" class="badge badge-secondary">Received</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <small style='font-size:15px;' class='badge badge-warning'>REQUEST SENT</small><small></small> </td>
+
+
+                                                        <td class="text-right">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="transaction-table-tr  wallet-id-1999 " group_id='164746177613'>
+
+
+                                                        <td>
+                                                            <div class="no-wrap">16 March 2022</div>
+                                                            <span class="badge badge-secondary">ID: 1999</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <span class="badge badge-default font-weight-normal">Affiliate Commission</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Store Order - <a target="_blank" href="https://demo.affiliatepro.org/store//product/zegabyte-160">zegabyte</a>
+                                                            <div>
+                                                                <small class="badge badge-default payment-method">$10.00</small>
+
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width: 180px !important; vertical-align: middle;">
+                                                            <div class="no-wrap">
+                                                                <div class="dpopver-content d-none">
+                                                                    <div>Commission for order Id #01009 <a target="_blank" href="https://demo.affiliatepro.org/usercontrol/vieworder/1009"> Order detail </a> | Order By : user2 user2 </div>
+                                                                </div>
+                                                                <div class="badge badge-secondary py-1 pl-2 font-14" toggle="popover">
+                                                                    $1.00
+                                                                </div>
+                                                                <button toggle="popover" class="wallet-popover btn-wallet-info">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+			</button>
+
+                                                                <ul class="ip-list list-inline float-right mb-0">
+                                                                    <li class="list-inline-item dropdown">
+                                                                        <a href="javascript:void(0)" title="" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-align-justify"></i>
+					</a>
+                                                                        <ul class="dropdown-menu country-dropdown">
+                                                                            <li>
+                                                                                <span class="flag"><i class="flag-sm m-auto d-block flag-sm-DZ"></i> </span>
+                                                                                <span class="ip"> DZ 41.103.222.46</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="transaction-type">
+                                                                Sale Commission </div>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <span style="font-size:15px;" class="badge badge-secondary">Received</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <small style='font-size:15px;' class='badge badge-warning'>REQUEST SENT</small><small></small> </td>
+
+
+                                                        <td class="text-right">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="transaction-table-tr  wallet-id-1990 " group_id='164739504711'>
+
+
+                                                        <td>
+                                                            <div class="no-wrap">16 March 2022</div>
+                                                            <span class="badge badge-secondary">ID: 1990</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <span class="badge badge-default font-weight-normal">Affiliate Commission</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            Store Order
+                                                            <div>
+
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width: 180px !important; vertical-align: middle;">
+                                                            <div class="no-wrap">
+                                                                <div class="dpopver-content d-none">
+                                                                    <div>Commission for 1 click on #9 <a target="_blank" href="https://demo.affiliatepro.org/usercontrol/form">Form</a> </div>
+                                                                </div>
+                                                                <div class="badge badge-secondary py-1 pl-2 font-14" toggle="popover">
+                                                                    $5.00
+                                                                </div>
+                                                                <button toggle="popover" class="wallet-popover btn-wallet-info">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+			</button>
+
+                                                                <ul class="ip-list list-inline float-right mb-0">
+                                                                    <li class="list-inline-item dropdown">
+                                                                        <a href="javascript:void(0)" title="" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-align-justify"></i>
+					</a>
+                                                                        <ul class="dropdown-menu country-dropdown">
+                                                                            <li>
+                                                                                <span class="flag"><i class="flag-sm m-auto d-block flag-sm-EG"></i> </span>
+                                                                                <span class="ip"> EG 41.187.114.4</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="transaction-type">
+                                                                Form Click Commission </div>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <span style="font-size:15px;" class="badge badge-secondary">Received</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <small style='font-size:15px;' class='badge badge-warning'>REQUEST SENT</small><small></small> </td>
+
+
+                                                        <td class="text-right">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr class="transaction-table-tr  wallet-id-1988 " group_id='164730989133'>
+
+
+                                                        <td>
+                                                            <div class="no-wrap">15 March 2022</div>
+                                                            <span class="badge badge-secondary">ID: 1988</span>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <span class="badge badge-default font-weight-normal">Affiliate Commission</span>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            CPC
+                                                            <div>
+
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="width: 180px !important; vertical-align: middle;">
+                                                            <div class="no-wrap">
+                                                                <div class="dpopver-content d-none">
+                                                                    <div>Commission for 1 click on product </div>
+                                                                </div>
+                                                                <div class="badge badge-secondary py-1 pl-2 font-14" toggle="popover">
+                                                                    $5.00
+                                                                </div>
+                                                                <button toggle="popover" class="wallet-popover btn-wallet-info">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+			</button>
+
+                                                                <ul class="ip-list list-inline float-right mb-0">
+                                                                    <li class="list-inline-item dropdown">
+                                                                        <a href="javascript:void(0)" title="" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-align-justify"></i>
+					</a>
+                                                                        <ul class="dropdown-menu country-dropdown">
+                                                                            <li>
+                                                                                <span class="flag"><i class="flag-sm m-auto d-block flag-sm-KR"></i> </span>
+                                                                                <span class="ip"> KR 121.152.25.46</span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div class="transaction-type">
+                                                                Click Commission </div>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <span style="font-size:15px;" class="badge badge-secondary">Received</span>
+                                                        </td>
+
+                                                        <td>
+                                                            <small style='font-size:15px;' class='badge badge-warning'>REQUEST SENT</small><small></small> </td>
+
+
+                                                        <td class="text-right">
+
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h6 class="font-14 text-info with-heading">Add Custom Status History</h6>
+                                                <div class="well add-history-form">
+                                                    <div class="form-group">
+                                                        <label class="form-control-label">Status</label>
+                                                        <select class="form-control" name="status">
+									<option value="">Select Status</option>
+																			<option value="0">Received</option>
+																			<option value="1">Complete</option>
+																			<option value="2">Total not match</option>
+																			<option value="3">Denied</option>
+																			<option value="4">Expired</option>
+																			<option value="5">Failed</option>
+																			<option value="7">Processed</option>
+																			<option value="8">Refunded</option>
+																			<option value="9">Reversed</option>
+																			<option value="10">Voided</option>
+																			<option value="11">Canceled Reversal</option>
+																			<option value="12">Waiting For Payment</option>
+																			<option value="13">Pending</option>
+																	</select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Comment</label>
+                                                        <textarea name="comment" class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                    <div class="form-group mb-0 text-right">
+                                                        <button class="btn btn-sm btn-add-status btn-primary" data-close="true">
+									Add status and close								</button>
+                                                        <button class="btn btn-sm btn-add-status btn-info">Add Status</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $(".btn-add-status").on("click", function() {
+                                $el = $(this);
+                                $this = $('.add-history-form');
+                                $.ajax({
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: $(".add-history-form :input"),
+                                    beforeSend: function() {
+                                        $el.btn("loading");
+                                    },
+                                    complete: function() {
+                                        $el.btn("reset");
+                                    },
+                                    success: function(json) {
+                                        $container = $this;
+                                        $container.find(".is-invalid").removeClass("is-invalid");
+                                        $container.find("span.invalid-feedback").remove();
+
+                                        if (json['success']) {
+                                            if ($el.data('close')) {
+                                                window.location.href = 'wallet_requests_list';
+                                            } else {
+                                                if ($(".add-history-form select[name=status]").val() == "1") {
+                                                    window.location.reload();
+                                                } else {
+                                                    getHistory()
+                                                }
+                                                $('[name="status"], [name="comment"]').val('')
+                                            }
+                                        }
+
+                                        if (json['errors']) {
+                                            $.each(json['errors'], function(i, j) {
+                                                $ele = $container.find('[name="' + i + '"]');
+                                                if ($ele) {
+                                                    $ele.addClass("is-invalid");
+                                                    if ($ele.parent(".input-group").length) {
+                                                        $ele.parent(".input-group").after("<span class='invalid-feedback'>" + j + "</span>");
+                                                    } else {
+                                                        $ele.after("<span class='invalid-feedback'>" + j + "</span>");
+                                                    }
+                                                }
+                                            })
+                                        }
+                                    },
+                                })
+                            })
+
+                            function getHistory() {
+                                $this = $(this);
+                                $.ajax({
+                                    url: 'get_withdrwal_history/114',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {
+                                        $("#history_container").html("<tr><td colspan='2' class='text-center'>" + 'Loading' + "...</td></tr>");
+                                    },
+                                    success: function(json) {
+                                        $("#history_container").html(json['html']);
+                                    },
+                                })
+                            }
+
+                            getHistory()
+
+                            $(document).delegate('.wallet-popover', 'click', function() {
+                                var html = $(this).parents("tr").find(".dpopver-content").html();
+                                $(this).attr('data-content', html);
+                                if ($('.popover').hasClass('show')) {
+                                    $('.popover').remove()
+                                } else {
+                                    $(this).popover('show');
+                                }
+                            });
+
+                            $('html').on('click', function(e) {
+                                if (typeof $(e.target).data('original-title') == 'undefined' &&
+                                    !$(e.target).parents().is('.popover.in')) {
+                                    $('[data-original-title]').popover('hide');
+                                }
+                            });
+
+                            $(document).ready(function() {
+                                $(".wallet-popover").popover({
+                                    placement: 'right',
+                                    html: true,
+                                });
+                            })
+                        </script>
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script>
+                $(".select2-input").select2();
+
+                $(document).delegate(".view-all", 'click', function() {
+                    var data = $(this).find("span").html();
+                    var html = '<table class="table table-hover">';
+
+                    data = JSON.parse(data);
+
+                    html += '<tr>';
+
+                    html += ' <th>' + 'admin.ip' + '</th>';
+
+                    html += ' <th width="30px">' + 'admin.country' + '</th>';
+
+                    html += '</tr>';
+
+                    $.each(data, function(i, j) {
+                        html += '<tr>';
+
+                        html += ' <td>' + j['ip'] + '</td>';
+
+                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';
+
+                        html += '</tr>';
+                    })
+
+                    html += '</table>';
+
+                    $("#ip-flag_model").modal("show");
+
+                    $("#ip-flag_model .modal-body").html(html);
+                })
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                if ($('#morris-area-chart').length > 0) {
+                    var areaData = [
+
+                        {
+                            y: '2011',
+                            a: 10,
+                            b: 15
+                        },
+
+                        {
+                            y: '2012',
+                            a: 30,
+                            b: 35
+                        },
+
+                        {
+                            y: '2013',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2014',
+                            a: 55,
+                            b: 45
+                        },
+
+                        {
+                            y: '2015',
+                            a: 30,
+                            b: 20
+                        },
+
+                        {
+                            y: '2016',
+                            a: 40,
+                            b: 35
+                        },
+
+                        {
+                            y: '2017',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2018',
+                            a: 25,
+                            b: 30
+                        }
+
+                    ];
+
+                    Morris.Area({
+
+                        element: 'morris-area-chart',
+
+                        pointSize: 3,
+
+                        lineWidth: 2,
+
+                        data: areaData,
+
+                        xkey: 'y',
+
+                        ykeys: ['a', 'b'],
+
+                        labels: ['Orders', 'Sales'],
+
+                        resize: true,
+
+                        hideHover: 'auto',
+
+                        gridLineColor: '#eef0f2',
+
+                        lineColors: ['#00c292', '#03a9f3'],
+
+                        lineWidth: 0,
+
+                        fillOpacity: 0.1,
+
+                        xLabelMargin: 10,
+
+                        yLabelMargin: 10,
+
+                        grid: false,
+
+                        axes: false,
+
+                        pointSize: 0
+
+                    });
+                }
+
+                $(document).on('ready', function() {
+
+                    if ($('#morris-donut-chart').length > 0) {
+                        var donutData = [];
+
+                        Morris.Donut({
+
+                            element: 'morris-donut-chart',
+
+                            data: donutData,
+
+                            resize: true,
+
+                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']
+
+                        });
+
+                    }
+
+                    if ($("#boxscroll").length > 0)
+                        $("#boxscroll").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+                    if ($("#boxscroll2").length > 0)
+                        $("#boxscroll2").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+
+                    if ($(".clickable-row").length > 0) {
+                        $(".clickable-row").on('click', function() {
+                            window.location = $(this).data("href");
+                        });
+                    }
+
+                    if ($("#Country").length > 0) {
+                        $('#Country').on('change', function() {
+                            country_id = $(this).val();
+
+                            $.ajax({
+
+                                type: "POST",
+
+                                url: "getstate",
+
+                                data: 'country_id=' + country_id,
+
+                                success: function(data) {
+
+                                    $("#StateProvince").html(data);
+
+                                }
+
+                            });
+
+                        });
+                    }
+
+                });
+
+
+                function shownofication(id, url) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "updatenotify",
+
+                        data: 'id=' + id,
+
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            window.location.href = data['location'];
+
+                        }
+
+                    });
+
+                }
+
+                $(document).on('ready', function() {
+                    $('.summernote-img').each(function() {
+                        sumNote($(this));
+                    });
+
+                });
+
+                function sumNote(element) {
+                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;
+
+                    $(element).summernote({
+
+                        disableDragAndDrop: true,
+
+                        height: height,
+
+
+                        toolbar: [
+
+                            ['style', ['style']],
+
+                            ['font', ['bold', 'underline', 'clear']],
+
+                            ['fontname', ['fontname']],
+
+                            ['color', ['color']],
+
+                            ['para', ['ul', 'ol', 'paragraph']],
+
+                            ['table', ['table']],
+
+                            ['insert', ['link', 'image', 'picture', 'video']],
+
+                            ['view', ['fullscreen', 'codeview', 'help']]
+
+                        ],
+
+                        buttons: {
+
+                            image: function() {
+
+                                var ui = $.summernote.ui;
+
+                                // create button
+
+                                var button = ui.button({
+
+                                    contents: '<i class="fa fa-image" />',
+
+                                    tooltip: false,
+
+                                    click: function() {
+
+                                        $('#modal-image').remove();
+
+
+
+                                        $.ajax({
+
+                                            url: 'https://demo.affiliatepro.org/filemanager',
+
+                                            dataType: 'html',
+
+                                            beforeSend: function() {
+
+                                            },
+                                            complete: function() {
+
+                                            },
+                                            success: function(html) {
+
+                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');
+
+                                                $('#modal-image').modal('show');
+
+                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {
+
+                                                    e.preventDefault();
+
+                                                    $(element).summernote('insertImage', $(this).attr('href'));
+
+                                                    $('#modal-image').modal('hide');
+
+                                                });
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+
+
+
+                                return button.render();
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+</div>
+{% endblock %}
+
+

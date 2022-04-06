@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<div class="left-menu">
+        <div class="collapse d-block">
+            <ul class="navbar-nav scroll-wrap">
+                <li class="nav-item dropdown">
+                    <a class="nav-link d-flex" href="{% url 'dashboard' %}">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/home-icon.png' %}"
+                                 alt="DASHBOARD"/>DASHBOARD
+                        </div>
+                    </a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/rgb-icon.png' %}"
+                                 alt="USEFUL LINKS"/>USEFUL LINKS
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'addons' %}">Add Ons</a>
+                        <a class="dropdown-item" href="{% url 'award' %}">Award
+                            level</a>
+                        <a class="dropdown-item" href="{% url 'aff' %}">Themes</a>
+                        <a class="dropdown-item"
+                           href="{% url 'language' %}">Language</a>
+                        <a class="dropdown-item" href="{% url 'currency_list' %}">Currency</a>
+                        <a class="dropdown-item" href="{% url 'system_status' %}">Server</a>
+                        <a class="dropdown-item" href="{% url 'paymentsetss' %}">Setting</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/rgb-icon.png' %}"
+                                 alt="PAYMENTS"/>PAYMENTS
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'payment_gateway' %}">Payment
+                            Gateways</a>
+                        <a class="dropdown-item" href="{% url 'all_transactions' %}">All
+                            Transactions</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/rgb-icon.png' %}"
+                                 alt="MARKETING"/>MARKETING
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'campaigns' %}">Campaigns</a>
+                        <a class="dropdown-item"
+                           href="{% url 'programs' %}">Programs</a>
+                        <a class="dropdown-item"
+                           href="{% url 'category' %}">Categories</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/info-icon.png' %}"
+                                 alt="ACTIVITY"/>ACTIVITY
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'system_orders' %}">System
+                            Orders</a>
+                        <a class="dropdown-item" href="{% url 'system_logs' %}">System
+                            Logs</a>
+{#                        <a class="dropdown-item" href="{% url '' %}">System Campaigns</a>#}
+                        <a class="dropdown-item" href="{% url 'user_report' %}">Users Report</a>
+                        <a class="dropdown-item"
+                           href="{% url 'wallet_report' %}">Wallet Report</a>
+                        <a class="dropdown-item"
+                           href="{% url 'Graphs_report' %}">Graphs Report</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/wallet-icon.png' %}"
+                                 alt="WALLET"/>WALLET
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'wallet_all_trans' %}">All
+                            Transactions</a>
+                        <a class="dropdown-item"
+                           href="{% url 'withdraw_requests' %}">Withdraw
+                            Requests</a>
+                        <a class="dropdown-item"
+                           href="{% url 'wallet_payment_gate' %}">Payment
+                            Gateway</a>
+                        <a class="dropdown-item" href="{% url 'setting' %}">Settings</a>
+                    </div>
+                </li>
+                <li id="sidebar_mlm" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/settings-icon-2.png' %}"
+                                 alt="MLM"/>MLM
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'mlm_settings' %}">MLM
+                            Settings</a>
+                        <a class="dropdown-item" href="{% url 'mlm_levels' %}">MLM
+                            Levels</a>
+                    </div>
+                </li>
+
+                <li id="sidebar_saas" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/settings-icon-2.png' %}"
+                                 alt="SAAS"/>SAAS
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'sass_setting' %}">Settings</a>
+                        <a class="dropdown-item" href="{% url 'sass_transactions' %}">Transactions</a>
+                    </div>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/member-icon.png' %}"
+                                 alt="USERS"/>USERS
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'user_list' %}">Users
+                            List</a>
+                        <a class="dropdown-item" href="{% url 'user_groups' %}">Users
+                            Groups</a>
+                        <a class="dropdown-item" href="{% url 'user_referring_tree' %}">Referring
+                            tree</a>
+                        <a class="dropdown-item" href="{% url 'user_mail_sender' %}">Mail
+                            Sender</a>
+                        <a class="dropdown-item" href="{% url 'user_manage_admin' %}">Manage
+                            Admin</a>
+
+                    </div>
+                </li>
+
+                <li id="sidebar_membership" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/membership-icon.png' %}"
+                                 alt="MEMBERSHIP"/>MEMBERSHIP
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'membrership_plans' %}">Membership
+                            Plans</a>
+                        <a class="dropdown-item" href="{% url 'membrership_orders' %}">Membership
+                            Orders</a>
+                        <a class="dropdown-item" href="{% url 'membrership_setting' %}">Membership
+                            Settings</a>
+                    </div>
+                </li>
+
+                <li id="sidebar_store" class="nav-item dropdown">
+                    <a class="nav-link d-flex" href="{% url 'store_dashboard' %}">
+                        <div>
+                            <img src="{% static 'dashboard/assets/template/images/shopping-bag.png' %}"
+                                 alt="LOCAL STORE"/>LOCAL STORE
+                        </div>
+                        <div>
+                            <i class="lni lni-chevron-right"></i>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

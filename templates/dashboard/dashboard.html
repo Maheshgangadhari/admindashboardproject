@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+    <div class="dashboard-wrap">
+        <div class="dashboard-main-right">
+
+    {% include 'rightheader.html' %}
+            <div class="server-errors">
+            </div>
+            <script>
+                function sessionTimeout() {
+                    var dt = new Date();
+                    let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                    let h = Math.floor(distance / 3600);
+                    let m = Math.floor(distance % 3600 / 60);
+                    let s = Math.floor(distance % 3600 % 60);
+
+                    let string = "";
+
+                    string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                    string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                    string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                    $(".dashboard-refresh em").text(string);
+
+                    if (distance <= 0) {
+                        window.location.replace("{% static 'dashboard/admincontrol/logout' %}");
+                        clearInterval(GlobaleCountDownDateInterval);
+                    }
+                }
+
+                var dt = new Date();
+                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                sessionTimeout();
+                var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                $(document).ajaxComplete(function (event, request, settings) {
+                    let parts = settings.url.split("/");
+                    let last_part = parts[parts.length - 1];
+                    if (last_part != "ajax_dashboard") {
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                    }
+                });
+            </script>
+            <div class="content-wrapper">
+                <link rel="stylesheet" type="text/css"
+                      href="{% static 'dashboard/assets/plugins/flag/css/main.min.css' %}">
+                <link rel="stylesheet" type="text/css"
+                      href="{% static 'dashboard/assets/plugins/table/datatables.min.css' %}">
+                <script type="text/javascript"
+                        src="{% static 'dashboard/assets/plugins/table/datatables.min.js' %}"></script>
+                <script type="text/javascript"
+                        src="{% static 'dashboard/assets/plugins/table/dataTables.responsive.min.js' %}"></script>
+
+                <style>
+                    .counter {
+                        font-size: 1.7vw;
+                        font-weight: bold;
+                    }
+
+                    .counter-card {
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .counter-card .card-body {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    @media (max-width: 1200px) {
+                        .counter {
+                            font-size: 1.3rem;
+                        }
+
+                        .profile__value {
+                            font-size: 1rem !important;
+                        }
+                    }
+                </style>
+                <div class="d-flex align-items-center justify-content-between flex-wrap admin-balance-main">
+                    <div class="admin-width admin-area">
+                        <div class="admin-balance ml-0">
+                            <div class="admin-top-img">
+                                <img src="{% static 'dashboard/assets/template/images/admin-1.png' %}"
+                                     alt="Balance">
+                            </div>
+                            <span>Balance                <em class="rad-color">
+                    <span class="ajax-admin_balance">$3,155,603.10</span>
+                                    </em>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="admin-width admin-area">
+                        <div class="admin-balance">
+                            <div class="admin-top-img">
+                                <img src="{% static 'dashboard/assets/template/images/admin-2.png' %}"
+                                     alt="All Actions">
+                            </div>
+                            <span>All Actions                <em>
+                    <span class="ajax-click_action_total">16</span> /
+                                    <span class="ajax-click_action_commission">$6.00</span>
+                                    </em>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="admin-width admin-area">
+                        <div class="admin-balance">
+                            <div class="admin-top-img">
+                                <img src="{% static 'dashboard/assets/template/images/admin-click.png' %}"
+                                     alt="All Clicks">
+                            </div>
+                            <span>All Clicks                <em>
+                    <span class="ajax-all_click_total">  524                    </span> /
+                                    <span class="ajax-all_click_commission">
+                            $1,606.40                    </span>
+                                    </em>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="sales-width admin-area  total-bg">
+                        <div class="total-area admin-balance">
+                            <div>
+                                <h4>Total Sales</h4>
+                                <ul class="d-flex">
+                                    <li class="text-right">Admin Sales <strong class="ajax-sale_total_admin_store">
+                                        $2,715,588.90 </strong>
+                                    </li>
+                                    <li class="border-0">Vendor Sales <strong class="ajax-sale_localstore_vendor_total">
+                                        $608,655.00 </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="online-width admin-area online-bg">
+                        <div class="total-area admin-balance">
+                            <div>
+                                <h4>Total Online</h4>
+                                <ul class="d-flex">
+                                    <li class="text-center">Admin <strong class="ajax-online-admin">1</strong>
+                                    </li>
+                                    <li class="text-center">Affiliate <strong class="ajax-online-affiliate">0</strong>
+                                    </li>
+                                    <li class="text-center border-0">Vendor <strong
+                                            class="ajax-online-vendor">0</strong>
+                                    </li>
+                                    <li class="text-center border-0">Client <strong
+                                            class="ajax-online-client">0</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between dashboard-area">
+                    <div class="dashboard-left">
+                        <div class="dashboard-div commition-row">
+                            <div class="admin-balance">
+                                <div class="user-info">
+                                    <img src="{% static 'dashboard/assets/images/users/WzXaDKxiY80PMIyZdhC53mw2RAojlL6u.png' %}"
+                                         alt="user1 user1">
+                                    <div class="country-flag">
+                                        <img src="{% static 'dashboard/assets/vertical/assets/images/flags/at.png' %}"
+                                             alt="at">
+                                    </div>
+                                    <strong>user1 user1</strong>
+                                </div>
+                                <div class="separate-border">
+                                    <span>Balance <em>$160,178.05</em></span>
+                                </div>
+                                <div class="separate-border pr-0">
+                                    <span>Commission <em>$160,178.05</em></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div">
+                            <div class="link-details">
+                                <div class="user-header d-flex align-items-center border-0 p-0">
+                                    <div>
+                                        <h2>Register New Vendor Link</h2>
+                                    </div>
+                                </div>
+                                <div class="link-area d-flex">
+                                    <input id="unique_re_link" type="text" readonly="readonly"
+                                           value="https://demo.affiliatepro.org/register/vendor">
+                                    <a href="javascript:void(0);"
+                                       copyToClipboard="https://demo.affiliatepro.org/register/vendor">
+                                        <img src="{% static 'dashboard/assets/template/images/copy-icon.png' %}"
+                                             alt="copy">
+                                    </a>
+                                    <a href="javascript:void(0)" data-social-share
+                                       data-share-url="https://demo.affiliatepro.org/register/vendor"
+                                       data-share-title="" data-share-desc="">
+                                        <img src="{% static 'dashboard/assets/template/images/user-share-icon.png' %}"
+                                             alt="Share">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="link-details">
+                                <div class="user-header d-flex align-items-center border-0 p-0">
+                                    <div>
+                                        <h2>Register New Affiliate Account link</h2>
+                                    </div>
+                                </div>
+                                <div class="link-area d-flex">
+                                    <input id="unique_re_link" type="text" readonly="readonly"
+                                           value="https://demo.affiliatepro.org/register/MQ==">
+                                    <a href="javascript:void(0);"
+                                       copyToClipboard="https://demo.affiliatepro.org/register/MQ==">
+                                        <img src="{% static 'dashboard/assets/template/images/copy-icon.png' %}"
+                                             alt="copy">
+                                    </a>
+                                    <a href="javascript:void(0)" data-social-share
+                                       data-share-url="https://demo.affiliatepro.org/register/MQ==" data-share-title=""
+                                       data-share-desc="">
+                                        <img src="{% static 'dashboard/assets/template/images/user-share-icon.png' %}"
+                                             alt="Share">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div">
+                            <div class="dashboard-user-details">
+                                <div class="user-header d-flex align-items-center">
+                                    <div class="header-img">
+                                        <img src="{% static 'dashboard/assets/template/images/click-icon.png' %}"
+                                             alt="All Clicks">
+                                    </div>
+                                    <div>
+                                        <h2>All Clicks</h2>
+                                        <span>Total
+                            <span class="ajax-click_all_total">
+                                524                            </span> /
+                                                <span class="click_all_commission">
+                                $1,606.40                            </span>
+                                                </span>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="d-flex">
+                                        <span>E-Commerce</span>
+                                        <strong>
+                                            <strong class="ajax-click_localstore_total">361</strong> /
+                                            <strong class="ajax-click_localstore_commission">$782.60</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>External</span>
+                                        <strong>
+                                            <strong class="ajax-click_integration_total">36</strong> /
+                                            <strong class="ajax-click_integration_commission">$227.80</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Forms</span>
+                                        <strong>
+                                            <strong class="ajax-click_form_total">127</strong> /
+                                            <strong class="ajax-click_form_commission">$596.00</strong>
+                                        </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div">
+                            <div class="dashboard-user-details">
+                                <div class="user-header d-flex align-items-center">
+                                    <div class="header-img">
+                                        <img src="{% static 'dashboard/assets/template/images/percentage-icon.png' %}"
+                                             alt="Order Commission">
+                                    </div>
+                                    <div>
+                                        <h2>Order Commission</h2>
+                                        <span>Total
+                            <span class="ajax-all_sale_count">
+                                745                            </span> /
+                                                <span class="ajax-all_sale_commission">
+                                $411,623.50                            </span>
+                                                </span>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="d-flex">
+                                        <span>E-Commerce</span>
+                                        <strong>
+                                            <strong class="ajax-sale_localstore_count">553</strong> /
+                                            <strong class="ajax-sale_localstore_commission">$369,966.98</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Vendor</span>
+                                        <strong>
+                                            <strong class="ajax-sale_localstore_vendor_count">191</strong> /
+                                            <strong class="ajax-sale_localstore_vendor_commission">$41,239.52</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>External</span>
+                                        <strong>
+                                            <strong class="ajax-order_external_count">1</strong> /
+                                            <strong class="ajax-order_external_commission">$417.00</strong>
+                                        </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div">
+                            <div class="dashboard-user-details">
+                                <div class="user-header d-flex align-items-center">
+                                    <div class="header-img">
+                                        <img src="{% static 'dashboard/assets/template/images/wallet-icon.png' %}"
+                                             alt="Wallet Statistics">
+                                    </div>
+                                    <div>
+                                        <h2>Wallet Statistics</h2>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="d-flex">
+                                        <span>Hold</span>
+                                        <strong>
+                                            <strong class="ajax-wallet_unpaid_amounton_hold_count">463</strong> /
+                                            <strong class="ajax-wallet_on_hold_amount">$846,888.38</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Unpaid</span>
+                                        <strong>
+                                            <strong class='ajax-wallet_unpaid_count'>625</strong> /
+                                            <strong class='ajax-wallet_unpaid_amount'>$2,764,493.87</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Request</span>
+                                        <strong>
+                                            <strong class="ajax-wallet_request_sent_count">29</strong> /
+                                            <strong class="ajax-wallet_request_sent_amount">$18,921.75</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Paid</span>
+                                        <strong>
+                                            <strong class="ajax-wallet_accept_count">207</strong> /
+                                            <strong class="ajax-wallet_accept_amount">$36,052.25</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Cancel</span>
+                                        <strong>
+                                            <strong class="ajax-wallet_cancel_count">13</strong> /
+                                            <strong class="ajax-wallet_cancel_amount">$188,719.51</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Trash</span>
+                                        <strong>
+                                            <strong class="ajax-wallet_trash_count">18</strong> /
+                                            <strong class="ajax-wallet_trash_amount">$16,966.00</strong>
+                                        </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div">
+                            <div class="dashboard-user-details">
+                                <div class="user-header d-flex align-items-center">
+                                    <div class="header-img">
+                                        <img src="{% static 'dashboard/assets/template/images/vendor-icon.png' %}"
+                                             alt="Vendor Order Statistics">
+                                    </div>
+                                    <div>
+                                        <h2>Vendor Order Statistics</h2>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li class="d-flex">
+                                        <span>Paid</span>
+                                        <strong>
+                                            <strong class="ajax-vendor_wallet_accept_count">45</strong> /
+                                            <strong class="ajax-vendor_wallet_accept_amount">$11,923.50</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Request</span>
+                                        <strong>
+                                            <strong class="ajax-vendor_wallet_request_sent_count">3</strong> /
+                                            <strong class="ajax-vendor_wallet_request_sent_amount">$1,396.50</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <span>Unpaid</span>
+                                        <strong>
+                                            <strong class="ajax-vendor_wallet_unpaid_count">33</strong> /
+                                            <strong class="ajax-vendor_wallet_unpaid_amount">$215,741.50</strong>
+                                        </strong>
+                                    </li>
+                                    <li class="d-flex">
+                                        <strong>Total Orders</strong>
+                                        <strong>
+                                            <strong class="ajax-order_vendor_total">191</strong> /
+                                            <strong class="ajax-order_vendor_total">191</strong>
+                                        </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div p-0">
+                            <div class="dashboard-user-details">
+                                <div class="d-flex align-items-center user-header p-3">
+                                    <div class="affiliate-img">
+                                        <img src="{% static 'dashboard/assets/template/images/affiliate-icon.png' %}"
+                                             alt="10 TOP AFFILIATES">
+                                    </div>
+                                    <div>
+                                        <h2>10 TOP AFFILIATES</h2>
+                                    </div>
+                                </div>
+                                <div class="affiliate-table">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Country</th>
+                                            <th>Balance</th>
+                                            <th>Commission</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/images/users/WzXaDKxiY80PMIyZdhC53mw2RAojlL6u.png' %}"
+                                                     alt="user1 user1"/>user1 user1
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/at.png' %}"
+                                                     alt="AT"></td>
+                                            <td>$160,178.05</td>
+                                            <td>$160,178.05</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt="user2 user2"/>user2 user2
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/at.png' %}"
+                                                     alt="AT"></td>
+                                            <td>$24,006.00</td>
+                                            <td>$24,006.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt="Feven Tesfaye"/>Feven Tesfaye
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/et.png' %}"
+                                                     alt="ET"></td>
+                                            <td>$6,500.00</td>
+                                            <td>$6,500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Ephrem Getachew"/>Ephrem Getachew
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/et.png' %}"
+                                                     alt="ET"></td>
+                                            <td>$6,500.00</td>
+                                            <td>$6,500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" user3 user3"/>user3 user3
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/at.png' %}"
+                                                     alt="AT"></td>
+                                            <td>$5,310.00</td>
+                                            <td>$5,310.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Mi tienda Prueba"/>Mi tienda Prueba
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}"
+                                                     alt="CO"></td>
+                                            <td>$4,500.00</td>
+                                            <td>$4,500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Jamid Arboleda Gómez"/>Jamid Arboleda Gómez
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}"
+                                                     alt="CO"></td>
+                                            <td>$1,800.00</td>
+                                            <td>$1,800.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Difficult Idud"/>Difficult Idud
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/as.png' %}"
+                                                     alt="AS"></td>
+                                            <td>$165.00</td>
+                                            <td>$165.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Tes2 Test2"/>Tes2 Test2
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/tr.png' %}"
+                                                     alt="TR"></td>
+                                            <td>$100.00</td>
+                                            <td>$100.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><img class="top-affiliate-image"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/users/avatar-1.jpg' %}"
+                                                     alt=" Tulu Melo"/>Tulu Melo
+                                            </td>
+                                            <td><img class="top-affiliate-country-flag"
+                                                     src="{% static 'dashboard/assets/vertical/assets/images/flags/tw.png' %}"
+                                                     alt="TW"></td>
+                                            <td>$100.00</td>
+                                            <td>$100.00</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-right">
+                        <div class="dashboard-div p-4">
+                            <div class="graph-header d-flex flex-wrap align-items-center justify-content-between">
+                                <h2>ADMIN OVERVIEW</h2>
+                                <ul class="d-flex flex-wrap">
+                                    <li class="d-flex admin-balance">
+                                        <div class="arrow-div"><span></span></div>
+                                        <div class="earning-text">
+                                                    <span>
+                                Weekly Earning                                <em
+                                                            class="ajax-weekly_balance">$15,360.00</em>
+                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex arrow-red admin-balance">
+                                        <div class="arrow-div"><span></span></div>
+                                        <div class="earning-text">
+                                                    <span>
+                                Monthly Earning                                <em
+                                                            class="rad-color ajax-monthly_balance">$811,352.00</em>
+                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex admin-balance">
+                                        <div class="arrow-div"><span></span></div>
+                                        <div class="earning-text">
+                                                    <span>
+                                Yearly Earning                                <em class="ajax-yearly_balance">$1,182,444.30</em>
+                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="graph-filter">
+                                <select onchange="loadDashboardChart()" class="renderChart chart-input form-control"
+                                        name="group">
+                                    <option value="day">Day</option>
+                                    <option value="week">Week</option>
+                                    <option value="month" selected="">Month</option>
+                                    <option value="year">Year</option>
+                                </select>
+
+                                <select onchange="loadDashboardChart()" class="yearSelection chart-input form-control"
+                                        name='year'>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022" selected='selected'>2022</option>
+                                </select>
+                            </div>
+                            <div class="graph-chart">
+                                <script src="{% static 'dashboard/assets/plugins/chart/chart.min.js' %}"></script>
+                                <canvas id=" dashboard-chart
+                                " class="ct-chart ct-golden-section"></canvas>
+                                <div id="dashboard-chart-empty" class="ct-chart d-none ct-golden-section">
+                                    <img src="{% static 'dashboard/assets/vertical/assets/images/no-data-2.png' %}">
+                                    <h3>No Activity Yet</h3>
+                                </div>
+                                <script type="text/javascript">
+                                    var ctx = document.getElementById('dashboard-chart').getContext('2d');
+                                    var chartData = null;
+
+                                    var months = [
+                                        'January',
+                                        'February',
+                                        'March',
+                                        'April',
+                                        'May',
+                                        'June',
+                                        'July',
+                                        'August',
+                                        'September',
+                                        'October',
+                                        'November',
+                                        'December',
+                                    ];
+
+                                    var chart = new Chart(ctx, {
+                                        type: 'line',
+                                        data: {},
+                                        options: {
+                                            tooltips: {
+                                                mode: 'index',
+                                                intersect: false
+                                            },
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                    labels: {
+                                                        usePointStyle: true,
+                                                    },
+                                                }
+                                            },
+                                            responsive: true,
+                                        }
+                                    });
+
+                                    function renderDashboardChart(chartData) {
+                                        chart.data = {
+                                            labels: months,
+                                            datasets: [{
+                                                label: 'Action Count',
+                                                fill: false,
+                                                borderWidth: 3,
+                                                borderColor: 'rgb(54, 162, 235)',
+                                                backgroundColor: 'rgb(54, 162, 235)',
+                                                data: Object.values(chartData['action_count']),
+                                                pointStyle: 'line'
+                                            },
+                                                {
+
+                                                    label: 'Order Count',
+                                                    fill: false,
+                                                    borderWidth: 3,
+                                                    borderColor: 'rgb(255, 205, 86)',
+                                                    backgroundColor: 'rgb(255, 205, 86)',
+                                                    data: Object.values(chartData['order_count']),
+                                                    pointStyle: 'line'
+                                                },
+                                                {
+                                                    label: 'Order Commission',
+                                                    fill: false,
+                                                    borderWidth: 3,
+                                                    borderColor: 'rgb(29, 201, 183)',
+                                                    backgroundColor: 'rgb(29, 201, 183)',
+                                                    data: Object.values(chartData['order_commission']),
+                                                    pointStyle: 'line'
+                                                },
+                                                {
+                                                    label: 'Action Commission',
+                                                    fill: false,
+                                                    borderWidth: 3,
+                                                    borderColor: 'rgb(75, 192, 192)',
+                                                    backgroundColor: 'rgb(75, 192, 192)',
+                                                    data: Object.values(chartData['action_commission']),
+                                                    pointStyle: 'line'
+                                                },
+
+                                                {
+                                                    label: 'Order Total',
+                                                    fill: false,
+                                                    borderWidth: 3,
+                                                    borderColor: 'rgb(253, 57, 122)',
+                                                    backgroundColor: 'rgb(253, 57, 122)',
+                                                    data: Object.values(chartData['order_total']),
+                                                    pointStyle: 'line'
+                                                },
+                                            ]
+                                        }
+
+                                        chart.update();
+                                    }
+
+                                    function loadDashboardChart() {
+                                        $.ajax({
+                                            {#url: "{% static 'dashboard/admincontrol/dashboard?getChartData=1',#}
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            data: $(".chart-input"),
+                                            beforeSend: function () {
+                                            },
+                                            complete: function () {
+                                            },
+                                            success: function (json) {
+                                                if (json['chart']) {
+                                                    $("#dashboard-chart-empty").addClass('d-none');
+                                                    $("#dashboard-chart").removeClass('d-none');
+
+                                                    renderDashboardChart(json['chart']);
+                                                } else {
+                                                    $("#dashboard-chart-empty").removeClass('d-none');
+                                                    $("#dashboard-chart").addClass('d-none');
+                                                }
+                                            },
+                                        })
+                                    }
+
+                                    loadDashboardChart()
+                                </script>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-div world-map p-4">
+                            <script type="text/javascript"
+                                    src="{% static 'dashboard/assets/plugins/jmap/jquery-jvectormap-2.0.3.min.js' %}"></script>
+                            <script type=" text
+                            /javascript"
+                            src="{% static 'dashboard/assets/plugins/jmap/jquery-jvectormap-world-mill.js' %}"></script>
+                            <link rel="stylesheet" type="text/css"
+                                  href="{% static 'dashboard/assets/plugins/jmap/css.css' %}">
+                                    <div class=" orders-header
+                            ">
+                            <h2>AFFILIATES WORLD MAP</h2>
+                            <div class="world-map-users"></div>
+                        </div>
+                        <script type="text/javascript">
+                            function load_userworldmap(_data) {
+                                $('.world-map-users').html('<div class="map"><div id="world-map-users" class="map-content"></div></div>');
+                                var data = {};
+                                $.each(_data, function (i, j) {
+                                    data[j['code']] = j['total'];
+                                })
+
+                                $('.world-map-users #world-map-users').vectorMap({
+                                    map: 'world_mill',
+                                    zoomButtons: 1,
+                                    zoomOnScroll: false,
+                                    panOnDrag: 1,
+                                    backgroundColor: 'transparent',
+                                    markerStyle: {
+                                        initial: {
+                                            fill: '#ff00ff',
+                                            stroke: '#ffff00',
+                                            "stroke-width": 1,
+                                            r: 5
+                                        },
+                                    },
+                                    onRegionTipShow: function (e, el, code, f) {
+                                        el.html(el.html() + (data[code] ? ': <small>' + data[code] + '</small>' : ''));
+                                    },
+                                    series: {
+                                        regions: [{
+                                            values: data,
+                                            scale: ['#ff846e'],
+                                            normalizeFunction: 'polynomial'
+                                        }]
+                                    },
+                                    regionStyle: {
+                                        initial: {
+                                            fill: '#2e4765'
+                                        },
+                                        hover: {
+                                            "fill-opacity": 0.8
+                                        }
+                                    },
+                                    markers: false,
+                                });
+                            };
+
+                            load_userworldmap([{
+                                "latLng": [-38.41609700000000060526872402988374233245849609375, -63.61667200000000121917764772661030292510986328125],
+                                "code": "AR",
+                                "total": 1,
+                                "name": "Argentina - 1"
+                            }, {
+                                "latLng": [20.593683999999999656438376405276358127593994140625, 78.9628799999999984038367983885109424591064453125],
+                                "code": "IN",
+                                "total": 18,
+                                "name": "India - 18"
+                            }, {
+                                "latLng": [-0.789274999999999948840923025272786617279052734375, 113.9213270000000051140887080691754817962646484375],
+                                "code": "ID",
+                                "total": 5,
+                                "name": "Indonesia - 5"
+                            }, {
+                                "latLng": [32.4279080000000021755113266408443450927734375, 53.6880459999999999354258761741220951080322265625],
+                                "code": "IR",
+                                "total": 1,
+                                "name": "Iran - 1"
+                            }, {
+                                "latLng": [31.04605099999999850979293114505708217620849609375, 34.8516120000000029222064767964184284210205078125],
+                                "code": "IL",
+                                "total": 1,
+                                "name": "Israel - 1"
+                            }, {
+                                "latLng": [-0.0235590000000000000801581023779363022185862064361572265625, 37.906193000000001802618498913943767547607421875],
+                                "code": "KE",
+                                "total": 2,
+                                "name": "Kenya - 2"
+                            }, {
+                                "latLng": [-25.274398000000001474063537898473441600799560546875, 133.775136000000003377863322384655475616455078125],
+                                "code": "AU",
+                                "total": 2,
+                                "name": "Australia - 2"
+                            }, {
+                                "latLng": [47.51623099999999766396285849623382091522216796875, 14.550072000000000116415321826934814453125],
+                                "code": "AT",
+                                "total": 5,
+                                "name": "Austria - 5"
+                            }, {
+                                "latLng": [46.86249600000000015143086784519255161285400390625, 103.84665599999999585634213872253894805908203125],
+                                "code": "MN",
+                                "total": 1,
+                                "name": "Mongolia - 1"
+                            }, {
+                                "latLng": [9.081998999999999711008058511652052402496337890625, 8.6752769999999994610107023618184030055999755859375],
+                                "code": "NG",
+                                "total": 18,
+                                "name": "Nigeria - 18"
+                            }, {
+                                "latLng": [30.3753209999999995716279954649507999420166015625, 69.3451160000000044192347559146583080291748046875],
+                                "code": "PK",
+                                "total": 13,
+                                "name": "Pakistan - 13"
+                            }, {
+                                "latLng": [-23.442502999999998536395651171915233135223388671875, -58.4438320000000004483808879740536212921142578125],
+                                "code": "PY",
+                                "total": 1,
+                                "name": "Paraguay - 1"
+                            }, {
+                                "latLng": [-9.189966999999999330839273170568048954010009765625, -75.01515200000000049840309657156467437744140625],
+                                "code": "PE",
+                                "total": 1,
+                                "name": "Peru - 1"
+                            }, {
+                                "latLng": [23.684993999999999658712113159708678722381591796875, 90.3563309999999972887962940149009227752685546875],
+                                "code": "BD",
+                                "total": 5,
+                                "name": "Bangladesh - 5"
+                            }, {
+                                "latLng": [-1.9402779999999999471782530235941521823406219482421875, 29.87388800000000088630258687771856784820556640625],
+                                "code": "RW",
+                                "total": 1,
+                                "name": "Rwanda - 1"
+                            }, {
+                                "latLng": [1.352082999999999923801397017086856067180633544921875, 103.8198359999999951241989037953317165374755859375],
+                                "code": "SG",
+                                "total": 1,
+                                "name": "Singapore - 1"
+                            }, {
+                                "latLng": [-30.559481999999999146666596061550080776214599609375, 22.9375059999999990623109624721109867095947265625],
+                                "code": "ZA",
+                                "total": 1,
+                                "name": "South Africa - 1"
+                            }, {
+                                "latLng": [23.697810000000000485442797071300446987152099609375, 120.9605150000000008958522812463343143463134765625],
+                                "code": "TW",
+                                "total": 1,
+                                "name": "Taiwan - 1"
+                            }, {
+                                "latLng": [-6.3690280000000001336957211606204509735107421875, 34.88882199999999755846147309057414531707763671875],
+                                "code": "TZ",
+                                "total": 2,
+                                "name": "Tanzania - 2"
+                            }, {
+                                "latLng": [15.8700320000000001385842551826499402523040771484375, 100.9925410000000027821442927233874797821044921875],
+                                "code": "TH",
+                                "total": 1,
+                                "name": "Thailand - 1"
+                            }, {
+                                "latLng": [33.8869169999999968467818689532577991485595703125, 9.537499000000000393129084841348230838775634765625],
+                                "code": "TN",
+                                "total": 1,
+                                "name": "Tunisia - 1"
+                            }, {
+                                "latLng": [38.9637450000000029604052542708814144134521484375, 35.24332199999999915007720119319856166839599609375],
+                                "code": "TR",
+                                "total": 3,
+                                "name": "Turkey - 3"
+                            }, {
+                                "latLng": [48.37943299999999879901224630884826183319091796875, 31.16557999999999850615495233796536922454833984375],
+                                "code": "UA",
+                                "total": 1,
+                                "name": "Ukraine - 1"
+                            }, {
+                                "latLng": [23.4240759999999994533936842344701290130615234375, 53.84781799999999662986738258041441440582275390625],
+                                "code": "AE",
+                                "total": 8,
+                                "name": "United Arab Emirates - 8"
+                            }, {
+                                "latLng": [37.09024000000000143018041853792965412139892578125, -95.7128909999999990532160154543817043304443359375],
+                                "code": "US",
+                                "total": 29,
+                                "name": "United States - 29"
+                            }, {
+                                "latLng": [14.0583240000000007086100595188327133655548095703125, 108.2771989999999959763954393565654754638671875],
+                                "code": "VN",
+                                "total": 2,
+                                "name": "Vietnam - 2"
+                            }, {
+                                "latLng": [15.552727000000000856516635394655168056488037109375, 48.51638799999999918100002105347812175750732421875],
+                                "code": "YE",
+                                "total": 1,
+                                "name": "Yemen - 1"
+                            }, {
+                                "latLng": [-14.235003999999999990677679306827485561370849609375, -51.9252800000000007685230229981243610382080078125],
+                                "code": "BR",
+                                "total": 4,
+                                "name": "Brazil - 4"
+                            }, {
+                                "latLng": [7.36972200000000032815705708344466984272003173828125, 12.3547220000000006479012881754897534847259521484375],
+                                "code": "CM",
+                                "total": 1,
+                                "name": "Cameroon - 1"
+                            }, {
+                                "latLng": [-14.270972000000000434738467447459697723388671875, -170.132216999999997142367647029459476470947265625],
+                                "code": "AS",
+                                "total": 3,
+                                "name": "American Samoa - 3"
+                            }, {
+                                "latLng": [-35.67514700000000260615706793032586574554443359375, -71.542968999999999368810676969587802886962890625],
+                                "code": "CL",
+                                "total": 1,
+                                "name": "Chile - 1"
+                            }, {
+                                "latLng": [35.861660000000000536601874046027660369873046875, 104.1953969999999998208295437507331371307373046875],
+                                "code": "CN",
+                                "total": 2,
+                                "name": "China - 2"
+                            }, {
+                                "latLng": [4.57086799999999993104893292183987796306610107421875, -74.2973329999999947403921396471560001373291015625],
+                                "code": "CO",
+                                "total": 7,
+                                "name": "Colombia - 7"
+                            }, {
+                                "latLng": [26.820553000000000309910319629125297069549560546875, 30.8024979999999999336068867705762386322021484375],
+                                "code": "EG",
+                                "total": 5,
+                                "name": "Egypt - 5"
+                            }, {
+                                "latLng": [9.144999999999999573674358543939888477325439453125, 40.48967300000000335558070219121873378753662109375],
+                                "code": "ET",
+                                "total": 2,
+                                "name": "Ethiopia - 2"
+                            }, {
+                                "latLng": [46.2276379999999988967829267494380474090576171875, 2.21374899999999996680344338528811931610107421875],
+                                "code": "FR",
+                                "total": 1,
+                                "name": "France - 1"
+                            }, {
+                                "latLng": [42.31540700000000043701220420189201831817626953125, 43.3568920000000019854269339703023433685302734375],
+                                "code": "GE",
+                                "total": 3,
+                                "name": "Georgia - 3"
+                            }]);
+                        </script>
+                    </div>
+
+                    <div class="dashboard-div site-order-top">
+                        <div class="dashboard-user-details site-order">
+                            <div class="user-header">
+                                <h2>EXTERNAL SITES ORDERS</h2>
+                                <div class="site-order-wrapp d-flex align-items-center justify-content-between flex-wrap">
+                                    <div>
+                                        <div class="pagination-div bg-area">
+                                            <ul>
+                                                <li class="active">
+                                                    <a href="javascript:void(0);" data-page="1">1</a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="bg-area">
+                                        <select name="filter_integration[year]">
+                                            <option value="All">All</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022" selected="selected">2022</option>
+                                        </select>
+                                        <select name="filter_integration[month]">
+                                            <option value="All">All</option>
+                                            <option value="01">01</option>
+                                            <option value="02">02</option>
+                                            <option value="03">03</option>
+                                            <option value="04">04</option>
+                                            <option value="05">05</option>
+                                            <option value="06">06</option>
+                                            <option value="07">07</option>
+                                            <option value="08">08</option>
+                                            <option value="09">09</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="affiliate-table">
+                                <table id="external-site-order">
+                                    <thead>
+                                    <tr>
+                                        <th>Website</th>
+                                        <th>TOTAL BALANCE</th>
+                                        <th>TOTAL SALES</th>
+                                        <th>Clicks</th>
+                                        <th>Actions</th>
+                                        <th>TOTAL COMMISSION</th>
+                                        <th>TOTAL ORDERS</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content="ALL WEBSITE"
+                                            copyToClipboard="ALL WEBSITE">
+                                            ALL WEBSITE
+                                        </td>
+                                        <td class="no-wrap">$-112.80</td>
+                                        <td class="no-wrap">45 / $0.00</td>
+                                        <td class="no-wrap">0 / $-112.80</td>
+                                        <td class="no-wrap">3 / $0.00</td>
+                                        <td class="no-wrap">$-112.80</td>
+                                        <td class="no-wrap">45</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top"
+                                            data-content="affiliatepro.org/test/admin_order.php"
+                                            copyToClipboard="affiliatepro.org/test/admin_order.php">
+                                            affiliatepro.org/tes...
+                                        </td>
+                                        <td class="no-wrap">$0.00</td>
+                                        <td class="no-wrap">45 / $0.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">$0.00</td>
+                                        <td class="no-wrap">45</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content="apmlogix.com"
+                                            copyToClipboard="apmlogix.com">
+                                            apmlogix.com
+                                        </td>
+                                        <td class="no-wrap">$-2.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">0 / $-2.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">$-2.00</td>
+                                        <td class="no-wrap">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top"
+                                            data-content="reliable-kestrel.w5.gravitydemo.com/yb7z"
+                                            copyToClipboard="reliable-kestrel.w5.gravitydemo.com/yb7z">
+                                            reliable-kestrel.w5....
+                                        </td>
+                                        <td class="no-wrap">$-111.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">0 / $-111.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">$-111.00</td>
+                                        <td class="no-wrap">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content="wholesaleda.com"
+                                            copyToClipboard="wholesaleda.com">
+                                            wholesaleda.com
+                                        </td>
+                                        <td class="no-wrap">$0.20</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">0 / $0.20</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">$0.20</td>
+                                        <td class="no-wrap">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top"
+                                            data-content="affiliateproamazon.com/commission/admin_action.php"
+                                            copyToClipboard="affiliateproamazon.com/commission/admin_action.php">
+                                            affiliateproamazon.c...
+                                        </td>
+                                        <td class="no-wrap">$0.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">0 / $0.00</td>
+                                        <td class="no-wrap">3 / $0.00</td>
+                                        <td class="no-wrap">$0.00</td>
+                                        <td class="no-wrap">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content=""
+                                            copyToClipboard="">
+                                        </td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content=""
+                                            copyToClipboard="">
+                                        </td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content=""
+                                            copyToClipboard="">
+                                        </td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no-wrap" data-container="body" data-toggle="popover"
+                                            data-trigger="hover" data-placement="top" data-content=""
+                                            copyToClipboard="">
+                                        </td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                        <td class="no-wrap"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-div pt-0 pr-0 pb-0 mb-0">
+                        <div class="log-details">
+                            <div class="user-header">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h2>LIVE LOGS</h2>
+                                    <div class="setting-area">
+                                        <a href="javascript:void(0);" class="btn-count-notification" data-key='live_log'
+                                           data-type='admin'>
+                                            <span class="count-notifications">15</span>
+                                            <img src="{% static 'dashboard/assets/template/images/notifications-icon.png' %}"
+                                                 alt="NOTIFICATIONS<">
+                                        </a>
+                                        <a href="javascript:void(0);" class="log-setting btn-setting"
+                                           data-key='live_log' data-type='admin'>
+                                            <i class="lni lni-cog"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="live-wrap">
+                                <div class="live-wrap-empty-data" style="display: none">
+                                    <img src="{% static 'dashboard/assets/vertical/assets/images/no-data-2.png' %}">
+                                    <h3>No Activity Yet</h3>
+                                </div>
+                                <ul class="ajax-live_window" style="display: table;width: 100%">
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Affiliate</strong>"didier" From
+                                            <div class="country-deatil"><img class="log-country-image" title="CO"
+                                                                             alt="CO"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}">
+                                                - CO
+                                            </div>
+                                        </div>
+                                        <em>15-03-2022 23:30 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Affiliate</strong>"roufahmwad102@gmail.com" From
+                                            <div class="country-deatil"><img class="log-country-image" title="AE"
+                                                                             alt="AE"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/ae.png' %}">
+                                                - AE
+                                            </div>
+                                        </div>
+                                        <em>15-03-2022 09:24 AM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Store sale vendor</strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="DE"
+                                                                             alt="DE"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/de.png' %}">
+                                                31.19.26.73 - DE
+                                            </div>
+                                        </div>
+                                        <em>15-03-2022 00:15 AM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Store sale</strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="DE"
+                                                                             alt="DE"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/de.png' %}">
+                                                31.19.26.73 - DE
+                                            </div>
+                                        </div>
+                                        <em>15-03-2022 00:15 AM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Affiliate</strong>"prof" From
+                                            <div class="country-deatil"><img class="log-country-image" title="US"
+                                                                             alt="US"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/us.png' %}">
+                                                - US
+                                            </div>
+                                        </div>
+                                        <em>14-03-2022 15:10 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Store sale vendor</strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="MA"
+                                                                             alt="MA"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/ma.png' %}">
+                                                41.140.147.34 - MA
+                                            </div>
+                                        </div>
+                                        <em>12-03-2022 15:30 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Store sale</strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="PE"
+                                                                             alt="PE"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/pe.png' %}">
+                                                179.6.113.186 - PE
+                                            </div>
+                                        </div>
+                                        <em>12-03-2022 03:21 AM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Affiliate</strong>"arabcode" From
+                                            <div class="country-deatil"><img class="log-country-image" title="YE"
+                                                                             alt="YE"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/ye.png' %}">
+                                                - YE
+                                            </div>
+                                        </div>
+                                        <em>11-03-2022 23:56 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Store sale</strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="CO"
+                                                                             alt="CO"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}">
+                                                179.1.78.170 - CO
+                                            </div>
+                                        </div>
+                                        <em>11-03-2022 19:14 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Affiliate</strong>"mitienda" From
+                                            <div class="country-deatil"><img class="log-country-image" title="CO"
+                                                                             alt="CO"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}">
+                                                - CO
+                                            </div>
+                                        </div>
+                                        <em>11-03-2022 16:54 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Order 79 [133USD] </strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="MX"
+                                                                             alt="MX"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/mx.png' %}">
+                                                187.189.123.236 - MX
+                                            </div>
+                                        </div>
+                                        <em>05-02-2022 14:55 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Order 440 [104USD] </strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="BG"
+                                                                             alt="BG"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/bg.png' %}">
+                                                217.145.82.148 - BG
+                                            </div>
+                                        </div>
+                                        <em>04-02-2022 18:14 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Order 496 [137USD] </strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="TT"
+                                                                             alt="TT"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/tt.png' %}">
+                                                181.188.38.24 - TT
+                                            </div>
+                                        </div>
+                                        <em>04-02-2022 15:27 PM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Order 39 [125USD] </strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="VN"
+                                                                             alt="VN"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/vn.png' %}">
+                                                42.117.161.196 - VN
+                                            </div>
+                                        </div>
+                                        <em>04-02-2022 04:50 AM</em>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex flex-wrap">
+                                            <strong>New Order 808 [112USD] </strong> done From
+                                            <div class="country-deatil"><img class="log-country-image" title="VN"
+                                                                             alt="VN"
+                                                                             src="{% static 'dashboard/assets/vertical/assets/images/flags/vn.png' %}">
+                                                42.117.161.196 - VN
+                                            </div>
+                                        </div>
+                                        <em>04-02-2022 04:49 AM</em>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <link rel="stylesheet" type="text/css"
+                  href="{% static 'dashboard/assets/plugins/social-share/social-share.css' %}">
+                        <div id=" social-share-modal
+            " class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Share on Social Network</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).on("click", "[data-social-share]", function () {
+
+                let url = encodeURIComponent($(this).data("share-url"));
+                let title = $(this).data("share-title") ? encodeURIComponent($(this).data("share-title")) : url;
+                let desc = $(this).data("share-desc") ? encodeURIComponent($(this).data("share-desc")) : "";
+
+                $('#social-share-modal .modal-body').html(`
+                        <!-- Sharingbutton Facebook -->
+                        <a class="resp-sharing-button__link" href="https://facebook.com/sharer/sharer.php?u=` + url + `&description=" target="_blank" rel="noopener" aria-label="Facebook">
+                        <div class="resp-sharing-button resp-sharing-button--facebook resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fab fa-facebook-square"></i>&nbsp;</div>Facebook</div></a>
+
+                        <!-- Sharingbutton Twitter -->
+                        <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=` + title + `%20` + desc + `&amp;url=` + url + `" target="_blank" rel="noopener" aria-label="Twitter"><div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fab fa-twitter" aria-hidden="true"></i>&nbsp;</div>Twitter</div></a>
+
+                        <!-- Sharingbutton Tumblr -->
+                        <a class="resp-sharing-button__link" href="https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=` + title + `&amp;caption=` + title + `&amp;content=` + desc + `&amp;canonicalUrl=` + url + `&amp;shareSource=tumblr_share_button" target="_blank" rel="noopener" aria-label="Tumblr"><div class="resp-sharing-button resp-sharing-button--tumblr resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fab fa-tumblr-square" aria-hidden="true"></i>&nbsp;</div>Tumblr</div></a>
+
+                        <!-- Sharingbutton E-Mail -->
+                        <a class="resp-sharing-button__link" href="mailto:?subject=` + title + `&amp;body=` + title + `%20` + url + `%20` + desc + `" target="_self" rel="noopener" aria-label="E-Mail"><div class="resp-sharing-button resp-sharing-button--email resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp;</div>E-Mail</div></a>
+
+                        <!-- Sharingbutton LinkedIn -->
+                        <a class="resp-sharing-button__link" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=` + url + `&amp;title=` + title + `&amp;summary=` + desc + `&amp;source=` + url + `" target="_blank" rel="noopener" aria-label="LinkedIn"><div class="resp-sharing-button resp-sharing-button--linkedin resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fab fa-linkedin" aria-hidden="true"></i>&nbsp;</div>LinkedIn</div></a>
+
+                        <!-- Sharingbutton WhatsApp -->
+                        <a class="resp-sharing-button__link" href="https://api.whatsapp.com://send?text=` + url + `" target="_blank" rel="noopener" aria-label="WhatsApp"><div class="resp-sharing-button resp-sharing-button--whatsapp resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fab fa-whatsapp" aria-hidden="true"></i>&nbsp;</div>WhatsApp</div></a>
+
+                        <!-- Sharingbutton Telegram -->
+                        <a class="resp-sharing-button__link" href="https://telegram.me/share/url?text=` + title + `&amp;url=` + url + `" target="_blank" rel="noopener" aria-label="Telegram"><div class="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--medium"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solidcircle"><i class="fa fa-telegram" aria-hidden="true"></i>&nbsp;</div>Telegram</div></a>
+
+                        <!-- Sharingbutton Pinterest -->
+                        <a class="resp-sharing-button__link" href="https://pinterest.com/pin/create/button/?url=` + url + `&amp;media=` + url + `&amp;description=` + title + `." target="_blank" rel="noopener" aria-label="Share on Pinterest"><div class="resp-sharing-button resp-sharing-button--pinterest resp-sharing-button--large"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid"><i class="fab fa-pinterest" aria-hidden="true"></i>&nbsp;</div>Share on Pinterest</div></a>
+
+                        <!-- Sharingbutton Reddit -->
+                        <a class="resp-sharing-button__link" href="https://reddit.com/submit/?url=` + url + `&amp;resubmit=true&amp;title=` + title + `." target="_blank" rel="noopener" aria-label="Share on Reddit"><div class="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--large"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid"><i class="fab fa-pinterest" aria-hidden="true"></i>&nbsp;</div>Share on Reddit</div></a>
+
+                        <!-- Sharingbutton XING -->
+                        <a class="resp-sharing-button__link" href="https://www.xing.com/app/user?op=share;url=` + url + `;title=` + title + `." target="_blank" rel="noopener" aria-label="Share on XING"><div class="resp-sharing-button resp-sharing-button--xing resp-sharing-button--large"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid"><i class="fab fa-xing" aria-hidden="true"></i>&nbsp;</div>Share on XING</div></a>
+
+                        <!-- Sharingbutton Hacker News -->
+                        <a class="resp-sharing-button__link" href="https://news.ycombinator.com/submitlink?u=` + url + `&amp;t=` + title + `." target="_blank" rel="noopener" aria-label="Share on Hacker News"><div class="resp-sharing-button resp-sharing-button--hackernews resp-sharing-button--large"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid"><i class="fab fa-hacker-news"></i>&nbsp;</div>Share on Hacker News</div></a>
+
+                        <!-- Sharingbutton VK -->
+                        <a class="resp-sharing-button__link" href="http://vk.com/share.php?title=` + title + `.&amp;url=` + url + `" target="_blank" rel="noopener" aria-label="Share on VK"><div class="resp-sharing-button resp-sharing-button--vk resp-sharing-button--large"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid"><i class="fab fa-vk" aria-hidden="true"></i>&nbsp;</div>Share on VK</div></a>
+                    `);
+
+                $('#social-share-modal').modal('show');
+            });
+        </script>
+        <script type="text/javascript">
+            var ajax_interval = 2000;
+            ajax_interval = 10000;
+
+            var dashboard_xhr;
+            var last_id_integration_logs = 588;
+            var last_id_integration_orders = 122;
+            var last_id_newuser = 697;
+            var last_id_notifications = 6979;
+            var total_commision_filter_year = '2022';
+            var total_commision_filter_month = '03';
+            var settings_clear = false;
+            var homepage_integration_data = JSON.parse('[{"website":"ALL WEBSITE","balance":"$-112.80","total_count_sale":"45 \/ $0.00","click_count_amount":"0 \/ $-112.80","action_count_amount":"3 \/ $0.00","total_commission":"$-112.80","total_orders":45},{"website":"affiliatepro.org\/test\/admin_order.php","balance":"$0.00","total_count_sale":"45 \/ $0.00","click_count_amount":"0 \/ $0.00","action_count_amount":"0 \/ $0.00","total_commission":"$0.00","total_orders":45},{"website":"apmlogix.com","balance":"$-2.00","total_count_sale":"0 \/ $0.00","click_count_amount":"0 \/ $-2.00","action_count_amount":"0 \/ $0.00","total_commission":"$-2.00","total_orders":0},{"website":"reliable-kestrel.w5.gravitydemo.com\/yb7z","balance":"$-111.00","total_count_sale":"0 \/ $0.00","click_count_amount":"0 \/ $-111.00","action_count_amount":"0 \/ $0.00","total_commission":"$-111.00","total_orders":0},{"website":"wholesaleda.com","balance":"$0.20","total_count_sale":"0 \/ $0.00","click_count_amount":"0 \/ $0.20","action_count_amount":"0 \/ $0.00","total_commission":"$0.20","total_orders":0},{"website":"affiliateproamazon.com\/commission\/admin_action.php","balance":"$0.00","total_count_sale":"0 \/ $0.00","click_count_amount":"0 \/ $0.00","action_count_amount":"3 \/ $0.00","total_commission":"$0.00","total_orders":0}]');
+            var integration_data_per_page = 10;
+
+            function playSound() {
+                $("body").append('<iframe id="noti-sound-iframe" src="
+                {% static 'dashboard/assets/notify/notification.mp3"></iframe>')
+                $("#noti-sound-iframe").on('load', function () {
+                    setTimeout(function () {
+                        $("#noti-sound-iframe").remove();
+                    }, 1000)
+                });
+            }
+
+            function setTimeout2(callnexttime, show_popup) {
+                $("<div />").css("height", "0px").animate({
+                    height: '100px'
+                }, {
+                    duration: ajax_interval,
+                    step: function (now) {
+                        $("#dashboard-progress").css('width', now + "%");
+                    },
+                    complete: function () {
+                        getDashboard(callnexttime, show_popup);
+                    }
+                });
+            }
+
+            var checkdata = {
+                '.ajax-admin_balance': 'admin_balance',
+                '.ajax-sale_total_admin_store': 'sale_total_admin_store',
+                '.ajax-sale_localstore_vendor_total': 'sale_localstore_vendor_total',
+                '.ajax-click_action_total': 'click_action_total',
+                '.ajax-click_action_commission': 'click_action_commission',
+                '.ajax-all_click_total': 'all_click_total',
+                '.ajax-all_click_commission': 'all_click_commission',
+                '.ajax-click_localstore_total': 'click_localstore_total',
+                '.ajax-click_localstore_commission': 'click_localstore_commission',
+                '.ajax-click_integration_total': 'click_integration_total',
+                '.ajax-click_integration_commission': 'click_integration_commission',
+                '.ajax-click_form_total': 'click_form_total',
+                '.ajax-click_form_commission': 'click_form_commission',
+                '.ajax-click_all_total': 'click_all_total',
+                '.ajax-click_all_commission': 'click_all_commission',
+                '.ajax-sale_localstore_count': 'sale_localstore_count',
+                '.ajax-sale_localstore_commission': 'sale_localstore_commission',
+                '.ajax-sale_localstore_vendor_count': 'sale_localstore_vendor_count',
+                '.ajax-sale_localstore_vendor_commission': 'sale_localstore_vendor_commission',
+                '.ajax-order_external_count': 'order_external_count',
+                '.ajax-order_external_commission': 'order_external_commission',
+                '.ajax-all_sale_count': 'all_sale_count',
+                '.ajax-all_sale_commission': 'all_sale_commission',
+                '.ajax-wallet_unpaid_amounton_hold_count': 'wallet_unpaid_amounton_hold_count',
+                '.ajax-wallet_on_hold_amount': 'wallet_on_hold_amount',
+                '.ajax-wallet_unpaid_count': 'wallet_unpaid_count',
+                '.ajax-wallet_unpaid_amount': 'wallet_unpaid_amount',
+                '.ajax-wallet_request_sent_count': 'wallet_request_sent_count',
+                '.ajax-wallet_request_sent_amount': 'wallet_request_sent_amount',
+                '.ajax-wallet_accept_count': 'wallet_accept_count',
+                '.ajax-wallet_accept_amount': 'wallet_accept_amount',
+                '.ajax-wallet_cancel_count': 'wallet_cancel_count',
+                '.ajax-wallet_cancel_amount': 'wallet_cancel_amount',
+                '.ajax-wallet_trash_count': 'wallet_trash_count',
+                '.ajax-wallet_trash_amount': 'wallet_trash_amount',
+                '.ajax-vendor_wallet_accept_count': 'vendor_wallet_accept_count',
+                '.ajax-vendor_wallet_accept_amount': 'vendor_wallet_accept_amount',
+                '.ajax-vendor_wallet_request_sent_count': 'vendor_wallet_request_sent_count',
+                '.ajax-vendor_wallet_request_sent_amount': 'vendor_wallet_request_sent_amount',
+                '.ajax-vendor_wallet_unpaid_count': 'vendor_wallet_unpaid_count',
+                '.ajax-vendor_wallet_unpaid_amount': 'vendor_wallet_unpaid_amount',
+                '.ajax-order_vendor_total': 'order_vendor_total',
+            }
+
+            function setColors() {
+                $.each(checkdata, function (ele, Key) {
+                    if ($(ele).length) {
+                        var val = parseInt($(ele).html().toString().replace(/[^0-9-.]/g, '') || 0);
+
+                        $(ele).removeClass("text-primary")
+                        $(ele).removeClass("text-danger")
+                        if (val >= 0) {
+                            $(ele).addClass("text-primary");
+                        } else {
+                            $(ele).addClass("text-danger");
+                        }
+                    }
+                })
+            }
+
+            //setColors();
+
+            function getDashboard(callnexttime, show_popup, actions) {
+                if (dashboard_xhr && dashboard_xhr.readyState != 4) dashboard_xhr.abort();
+
+                if (actions == 'clearlog') {
+                    settings_clear = true;
+                    last_id_integration_logs = 0;
+                    last_id_integration_orders = 0;
+                    last_id_newuser = 0;
+                    last_id_notifications = 0;
+                }
+
+                dashboard_xhr = $.ajax({
+                    url: "{% static 'dashboard/admincontrol/ajax_dashboard',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        renderChart: $(".renderChart").val(),
+                        selectedyear: $('.yearSelection').val(),
+                        last_id_integration_logs: last_id_integration_logs,
+                        last_id_integration_orders: last_id_integration_orders,
+                        last_id_newuser: last_id_newuser,
+                        last_id_notifications: last_id_notifications,
+                        last_id_top_notifications: $("#last_id_notifications").val(),
+                        total_commision_filter_year: $('select[name="filter_commission[year]"]').val(),
+                        total_commision_filter_month: $('select[name="filter_commission[month]"]').val(),
+                        integration_data_year: $('select[name="filter_integration[year]"]').val(),
+                        integration_data_month: $('select[name="filter_integration[month]"]').val(),
+                        integration_data_selected: $("#integration-chart-type").val(),
+                    },
+                    beforeSend: function () {
+                    },
+                    complete: function () {
+                        if (callnexttime) {
+                            setTimeout2(true, true);
+                        }
+                    },
+                    success: function (json) {
+                        setTimeout(function () {
+                            $('.ajax-live_window .fa-bell').removeClass('blink-icon');
+                            $(".mini-stat-icon i").removeClass("blink-icon");
+                        }, 5000);
+
+                        var play_sound = false;
+
+                        $(".server-last-update em").text(json['time']);
+                        sessionTimeout(json['timeout']);
+
+                        $.each(checkdata, function (ele, Key) {
+                            if ($.trim($(ele).html()) != json['admin_totals'][Key]) {
+                                play_sound = true;
+                                $(ele).html(json['admin_totals'][Key]);
+                            }
+                        })
+
+                        //setColors();
+
+                        if (json['online_count']) {
+                            if (typeof json['online_count']['admin'] == 'object' && json['online_count']['admin']['online']) {
+                                $(".ajax-online-admin").html(json['online_count']['admin']['online']);
+                            }
+                            if (typeof json['online_count']['user'] == 'object' && json['online_count']['user']['online']) {
+                                $(".ajax-online-affiliate").html(json['online_count']['user']['online']);
+                            }
+                            if (typeof json['online_count']['vendor'] == 'object' && json['online_count']['vendor']['online']) {
+                                $(".ajax-online-vendor").html(json['online_count']['vendor']['online']);
+                            }
+                            if (typeof json['online_count']['client'] == 'object' && json['online_count']['client']['online']) {
+                                $(".ajax-online-client").html(json['online_count']['client']['online']);
+                            }
+                        }
+
+                        $(".ajax-weekly_balance").html(json['admin_totals_week']);
+                        $(".ajax-monthly_balance").html(json['admin_totals_month']);
+                        $(".ajax-yearly_balance").html(json['admin_totals_year']);
+
+                        if (json['chart']) {
+                            $("#dashboard-chart-empty").addClass('d-none');
+                            $("#dashboard-chart").removeClass('d-none');
+
+                            renderDashboardChart(json['chart']);
+                        } else {
+                            $("#dashboard-chart-empty").removeClass('d-none');
+                            $("#dashboard-chart").addClass('d-none');
+                        }
+
+                        load_userworldmap(json['userworldmap']);
+
+                        homepage_integration_data = json['integration_data']['array'];
+
+                        let homepage_integration_pagination_template = createIntegrationPaginationTemplate(1);
+                        $(".dashboard-div .pagination-div ul").html(homepage_integration_pagination_template);
+
+                        let homepage_integration_data_template = createIntegrationDataTemplate(1);
+                        $(".dashboard-div #external-site-order tbody").html(homepage_integration_data_template);
+
+                        $('.popover.bs-popover-top').remove();
+                        $('[data-toggle="popover"]').popover();
+
+                        if ($.trim($(".ajax-notifications_count").html()) != json['notifications_count']) {
+                            play_sound = true;
+                        }
+                        $(".ajax-notifications_count").html(json['notifications_count']);
+
+                        if (json['newuser']) {
+                            $.each(json['newuser'], function (i, j) {
+                                last_id_newuser = last_id_newuser <= parseInt(j['id']) ? parseInt(j['id']) : last_id_newuser;
+                                if (show_popup && json['live_dashboard']['admin_affiliate_register_status']) {
+                                    show_tost("success", 'New Affiliate Register', 'New Affiliate' + " " + j['firstname'] + " " + j['lastname'] + 'Register Just Now');
+                                }
+                            })
+                        }
+
+                        var count = 0;
+                        if (json['live_window']) {
+                            var notifications = '';
+                            $.each(json['live_window'], function (i, j) {
+                                play_sound = true;
+                                count++;
+                                notifications += j['title'];
+                            })
+                            if (notifications) {
+                                $('.btn-count-notification .count-notifications').text(count);
+                                $(".ajax-live_window").html(notifications);
+
+                                $(".live-wrap-empty-data").css('display', 'none');
+                                $(".ajax-live_window").css('display', 'table');
+                            }
+                        }
+
+                        if (json['integration_logs']) {
+                            $.each(json['integration_logs'], function (i, j) {
+                                last_id_integration_logs = last_id_integration_logs <= parseInt(j['id']) ? parseInt(j['id']) : last_id_integration_logs;
+                                if (j['click_type'] == 'Action') {
+                                    if (show_popup && json['live_dashboard']['admin_action_status']) {
+                                        show_tost("success", 'New Action', 'New Action Click Done Just Now');
+                                    }
+                                }
+                            })
+                        }
+
+                        if (json['integration_orders']) {
+                            $.each(json['integration_orders'], function (i, j) {
+                                last_id_integration_orders = last_id_integration_orders <= parseInt(j['id']) ? parseInt(j['id']) : last_id_integration_orders;
+                                if (show_popup && json['live_dashboard']['admin_integration_order_status']) {
+                                    show_tost("success", 'New Integration Order', 'New Integration Order Place Just Now');
+                                }
+                            })
+                        }
+
+                        var top_notifications = '';
+                        if (json['notifications']) {
+                            $.each(json['notifications'], function (i, j) {
+                                top_notifications += '<a class="dropdown-item" href="javascript:void(0)" onclick="shownofication(' + j['notification_id'] + ',\"
+                                {% static 'dashboard/admincontrol' + j['notification_url'] + '\')">\
+                                ' + j['
+                                notification_title
+                                '] + ' < em > ' + j['
+                                notification_description
+                                '] + ' < /em></
+                                a > ';
+                            })
+                        }
+
+                        if (json['last_id_notifications']) {
+                            $.each(json['last_id_notifications'], function (i, j) {
+                                if (j['notification_type'] == 'order') {
+                                    if (show_popup && json['live_dashboard']['admin_local_store_order_status']) {
+                                        show_tost("success", 'New Local Store Order', j['notification_title'] + 'Just Now');
+                                    }
+                                }
+                                last_id_notifications = last_id_notifications <= parseInt(j['notification_id']) ? parseInt(j['notification_id']) : last_id_notifications;
+                            })
+                        }
+
+                        $("#last_id_top_notifications").val(last_id_notifications);
+                        $(".ajax-top_notifications_count").html(json['notifications'].length);
+                        $('#allnotification').html(top_notifications);
+
+                        if (play_sound && json['sound_status'] == "1" && show_popup) {
+                            playSound();
+                        }
+                    },
+                })
+            }
+
+            $(function () {
+                $(".progress").on('each', function () {
+                    var value = $(this).attr('data-value');
+                    var left = $(this).find('.progress-left .progress-bar');
+                    var right = $(this).find('.progress-right .progress-bar');
+                    if (value > 0) {
+                        if (value <= 50) {
+                            right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                        } else {
+                            right.css('transform', 'rotate(180deg)')
+                            left.css('transform', 'rotate(180deg)')
+                        }
+                    }
+                })
+
+                function percentageToDegrees(percentage) {
+                    return percentage / 100 * 360
+                }
+            });
+
+            setTimeout2(true, true);
+
+            $(document).on('click', '.dashboard-div .pagination-div ul li a', function (e) {
+                e.preventDefault();
+
+                let page = $(this).data('page');
+                $('.dashboard-div .pagination-div ul li.prev a').attr('data-page', page - 1);
+                $('.dashboard-div .pagination-div ul li.next a').attr('data-page', page + 1);
+
+                let homepage_integration_pagination_template = createIntegrationPaginationTemplate(page);
+                $(".dashboard-div .pagination-div ul").html(homepage_integration_pagination_template);
+
+                let homepage_integration_data_template = createIntegrationDataTemplate(page);
+                $(".dashboard-div #external-site-order tbody").html(homepage_integration_data_template);
+
+                $('.popover.bs-popover-top').remove();
+                $('[data-toggle="popover"]').popover();
+            })
+
+            function createIntegrationPaginationTemplate(page) {
+                let template = '';
+                let count = homepage_integration_data.length;
+                let page_count = Math.ceil(count / integration_data_per_page);
+
+                let diff = page_count - page;
+                let i = 1;
+
+                if (diff < 3)
+                    i = page + diff - 3;
+                else
+                    i = page;
+
+                if (page > 2 && ((page + 2) < page_count))
+                    i--;
+
+                if (i < 1)
+                    i = 1;
+
+                if (page != 1)
+                    template += '<li class="prev"><a href="javascript:void(0)" data-page="' + (page - 1) + '"><i class="lni lni-chevron-left"></i></a></li>';
+
+                let counter = 1;
+                for (i; i < page_count + 1; i++) {
+                    if (counter < 5) {
+                        let activeClass = (i == page) ? 'class="active"' : '';
+                        template += '<li ' + activeClass + '><a href="javascript:void(0)" data-page="' + i + '">' + i + '</a></li>';
+                    }
+                    counter++;
+                }
+
+                if (page != page_count && diff > 2)
+                    template += '<li class="next"><a href="javascript:void(0)" data-page="' + (page + 1) + '"><i class="lni lni-chevron-right"></i></a></li>';
+
+                return template;
+            }
+
+            function createIntegrationDataTemplate(page) {
+                let template = '';
+                let offset = (page - 1) * integration_data_per_page;
+                for (let i = offset; i < (integration_data_per_page + offset); i++) {
+                    if (homepage_integration_data[i]) {
+                        template += '<tr>';
+                        template += '<td class="no-wrap" data-container="body" data-toggle="popover" data-trigger="hover"data-placement="top" data-content="' + homepage_integration_data[i].website + '" copyToClipboard="' + homepage_integration_data[i].website + '">' + stringLimiter(homepage_integration_data[i].website, 20) + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].balance + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].total_count_sale + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].click_count_amount + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].action_count_amount + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].total_commission + '</td>';
+                        template += '<td class="no-wrap">' + homepage_integration_data[i].total_orders + '</td>';
+                        template += '</tr>';
+                    }
+                }
+
+                return template;
+            }
+
+            function stringLimiter(text, length) {
+                if (text.length <= length) {
+                    return text;
+                } else {
+                    text = text.substr(text, length) + '...';
+                    return text;
+                }
+            }
+        </script>
+        <script type="text/javascript">
+            function resetNotify() {
+                $.ajax({
+                    url: "{% static 'dashboard/admincontrol/resetnotify',
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function () {
+                    },
+                    success: function (response) {
+                        if (response.status == 1)
+                            $(".ajax-notifications_count").text(0);
+                    },
+                })
+            }
+        </script>
+
+
+    </div>
+
+    <div class="modal modal-style" id="setting-widzard"></div>
+    <div class="modal modal-style" id="log-widzard"></div>
+
+    <div class="modal" id="model-ajaxError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                    <div class="-body"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js"></script>
+    <script type=" text
+    /javascript">
+    var serverErrorCode = {
+    100: 'Continue',
+    101: 'Switching Protocols',
+    102: 'Processing',
+    200: 'OK',
+    201: 'Created',
+    202: 'Accepted',
+    203: 'Non-Authoritative Information',
+    204: 'No Content',
+    205: 'Reset Content',
+    206: 'Partial Content',
+    207: 'Multi-Status',
+    208: 'Already Reported',
+    226: 'IM Used',
+    300: 'Multiple Choices',
+    301: 'Moved Permanently',
+    302: 'Found',
+    303: 'See Other',
+    304: 'Not Modified',
+    305: 'Use Proxy',
+    306: 'Switch Proxy',
+    307: 'Temporary Redirect',
+    308: 'Permanent Redirect',
+    400: 'Bad Request',
+    401: 'Unauthorized',
+    402: 'Payment Required',
+    403: 'Forbidden',
+    404: 'Not Found',
+    405: 'Method Not Allowed',
+    406: 'Not Acceptable',
+    407: 'Proxy Authentication Required',
+    408: 'Request Timeout',
+    409: 'Conflict',
+    410: 'Gone',
+    411: 'Length Required',
+    412: 'Precondition Failed',
+    413: 'Request Entity Too Large',
+    414: 'Request-URI Too Long',
+    415: 'Unsupported Media Type',
+    416: 'Requested Range Not Satisfiable',
+    417: 'Expectation Failed',
+    418: 'I am a teapot',
+    419: 'Authentication Timeout',
+    420: 'Enhance Your Calm',
+    420: 'Method Failure',
+    422: 'Unprocessable Entity',
+    423: 'Locked',
+    424: 'Failed Dependency',
+    424: 'Method Failure',
+    425: 'Unordered Collection',
+    426: 'Upgrade Required',
+    428: 'Precondition Required',
+    429: 'Too Many Requests',
+    431: 'Request Header Fields Too Large',
+    444: 'No Response',
+    449: 'Retry With',
+    450: 'Blocked by Windows Parental Controls',
+    451: 'Redirect',
+    451: 'Unavailable For Legal Reasons',
+    494: 'Request Header Too Large',
+    495: 'Cert Error',
+    496: 'No Cert',
+    497: 'HTTP to HTTPS',
+    499: 'Client Closed Request',
+    500: 'Internal Server Error',
+    501: 'Not Implemented',
+    502: 'Bad Gateway',
+    503: 'Service Unavailable',
+    504: 'Gateway Timeout',
+    505: 'HTTP Version Not Supported',
+    506: 'Variant Also Negotiates',
+    507: 'Insufficient Storage',
+    508: 'Loop Detected',
+    509: 'Bandwidth Limit Exceeded',
+    510: 'Not Extended',
+    511: 'Network Authentication Required',
+    598: 'Network read timeout error',
+    599: 'Network connect timeout error',
+    }
+
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "20000",
+    "timeOut": "20000",
+    "extendedTimeOut": "20000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+    }
+
+    function show_tost(type, title, message) {
+    toastr[type](message, title)
+    }
+
+    $(".btn-setting").on('click', function () {
+    $this = $(this);
+    $("#setting-widzard").modal({
+    backdrop: 'static',
+    keyboard: false
+    });
+
+    $("#setting-widzard").html('Loading');
+
+    $.ajax({
+{#    url: "{% static 'dashboard/setting/getModal',#}
+    type: 'POST',
+    dataType: 'json',
+    data: {
+    'key': $this.attr('data-key'),
+    'type': $this.attr('data-type'),
+    },
+    // beforeSend:function(){ $this.btn("loading"); },
+    // complete:function(){ $this.btn("reset"); },
+    success: function (json) {
+    if (json['html']) {
+    $("#setting-widzard").html(json['html']);
+    }
+    },
+    })
+    })
+
+
+    $(document).delegate('.allow-number', 'keypress keyup blur', function (event) {
+    $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+    event.preventDefault();
+    }
+    });
+
+    $(document).delegate("[data-log]", 'click', function () {
+    $this = $(this);
+
+    var data = {};
+    var search = $this.attr('data-extra');
+    if (search) {
+    data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+    }
+
+    data['type'] = $this.attr("data-log");
+    $.ajax({
+    url: "{% static 'dashboard/admincontrol/logs',
+    type: 'POST',
+    dataType: 'json',
+    data: data,
+    beforeSend: function () {
+    $this.btn("loading");
+    },
+    complete: function () {
+    $this.btn("reset");
+    },
+    success: function (json) {
+    if (json['html']) {
+    $("#log-widzard").modal({
+    backdrop: 'static',
+    keyboard: false
+    });
+    $("#log-widzard").html(json['html']);
+    }
+    },
+    })
+    })
+
+    $(".password-group .input-group-prepend button").on('click', function () {
+    $input = $(this).parents(".password-group").find("input");
+    $i = $(this).parents(".password-group").find("i");
+    if ($i.hasClass("fa-eye")) {
+    $i.addClass("fa-eye-slash");
+    $i.removeClass("fa-eye");
+    $input.attr('type', 'text');
+    } else {
+    $i.addClass("fa-eye");
+    $i.removeClass("fa-eye-slash");
+    $input.attr('type', 'password');
+    }
+    })
+
+    $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+    var statusCode = xhr.status;
+
+
+    if (statusCode != 200 && ajaxOptions.type == 'POST') {
+    var title = '';
+    var body = '';
+
+    title = 'Internal Server Error';
+    body += '<h3>Sorry, an error has occured.</h3>';
+
+    if (serverErrorCode[statusCode]) {
+    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+    body += "<p>Error Code : " + statusCode + "</p>";
+
+    $("#model-ajaxError .modal-title").html(title);
+    $("#model-ajaxError .modal-body .-body").html(body);
+    $("#model-ajaxError").modal("show");
+    } else {
+    body += '<p>Error Message : Uknown Error </p>';
+    }
+
+    $(".btn-loading").removeClass('btn-loading');
+    }
+    });
+    </script>
+</div>
+<div class="dashboard-footer">
+    <div class="d-flex align-items-center justify-content-between flex-wrap">
+        <div class="footer-rights">
+            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+            <p>Affiliate Script Footer</p>
+        </div>
+        <a href="{% static 'dashboard/admincontrol/script_details">
+                            <div class=" text-right script-right">
+        <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+        <span>SCRIPT VERSION</span>
+        <span>6.0.0.1</span>
+    </div>
+    </a>
+</div>
+</div>
+</div>
+
+   {%endblock%}
+<div class="modal" id="payment-detail_modal">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <h4 class="modal-title mt-0">Bank Details</h4>
+
+                <div class="table-rep-plugin">
+
+                    <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                        <table id="tech-companies-1" class="table  table-striped">
+
+                            <thead>
+
+                            <tr>
+
+                                <th class="txt-cntr">Bank Name</th>
+
+                                <th class="txt-cntr">Account Number</th>
+
+                                <th class="txt-cntr">Account Name</th>
+
+                                <th class="txt-cntr">IFSC Code</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody class="bank-details"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                <div class="table-rep-plugin">
+
+                    <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                        <table id="tech-companies-1" class="table  table-striped">
+
+                            <thead>
+
+                            <tr>
+                                <th class="txt-cntr"></th>
+
+                                <th class="txt-cntr">Email</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody class="paypal-details"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <h4 class="modal-title mt-0">User Details</h4>
+
+                <div class="table-rep-plugin">
+
+                    <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                        <table id="tech-companies-1" class="table  table-striped">
+
+                            <tbody class="user-details"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).delegate(".only-number-allow", "keypress", function (e) {
+        if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+            return false;
+    });
+
+    $(document).on('ready', function () {
+        if (getCookie('hide_welcome') != 'true')
+            $("#welcome-modal").modal("show");
+    })
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function readURLAndSetValue(input, name, placeholder) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $("input[name='" + name + "']").val('image.jpg');
+                $(placeholder).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function readURL(input, placeholder) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(placeholder).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function getCookie(cname) {
+
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+
+            if (c.indexOf(name) == 0)
+                return c.substring(name.length, c.length);
+        }
+
+        return "";
+    }
+
+    $('.hide-welcome').on('click', function () {
+
+        setCookie("hide_welcome", "true", 365)
+
+        $("#welcome-modal").modal("hide");
+
+    })
+</script>
+
+
+<div class="modal" id="model-shorturl"></div>
+
+<div class="modal fade" id="ip-flag_model">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">All IPs Details</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+
+            <div class="modal-body"></div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{#<script>#}
+{#    $(".select2-input").select2();#}
+{##}
+{#    $(document).delegate(".view-all", 'click', function () {#}
+{#        var data = $(this).find("span").html();#}
+{#        var html = '<table class="table table-hover">';#}
+{##}
+{#        data = JSON.parse(data);#}
+{##}
+{#        html += '<tr>';#}
+{##}
+{#        html += ' <th>' + 'admin.ip' + '</th>';#}
+{##}
+{#        html += ' <th width="30px">' + 'admin.country' + '</th>';#}
+{##}
+{#        html += '</tr>';#}
+{##}
+{#        $.each(data, function (i, j) {#}
+{#            html += '<tr>';#}
+{##}
+{#            html += ' <td>' + j['ip'] + '</td>';#}
+{##}
+{#html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' %}" + j['country_code'].toLowerCase() + '.png' %}" ></td>';#}
+{##}
+{#            html += '</tr>';#}
+{#        })#}
+{##}
+{#        html += '</table>';#}
+{##}
+{#        $("#ip-flag_model").modal("show");#}
+{##}
+{#        $("#ip-flag_model .modal-body").html(html);#}
+{#    })#}
+{##}
+{#    $('[data-toggle="tooltip"]').tooltip();#}
+{##}
+{#    if ($('#morris-area-chart').length > 0) {#}
+{#        var areaData = [#}
+{##}
+{#            {#}
+{#                y: '2011',#}
+{#                a: 10,#}
+{#                b: 15#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2012',#}
+{#                a: 30,#}
+{#                b: 35#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2013',#}
+{#                a: 10,#}
+{#                b: 25#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2014',#}
+{#                a: 55,#}
+{#                b: 45#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2015',#}
+{#                a: 30,#}
+{#                b: 20#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2016',#}
+{#                a: 40,#}
+{#                b: 35#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2017',#}
+{#                a: 10,#}
+{#                b: 25#}
+{#            },#}
+{##}
+{#            {#}
+{#                y: '2018',#}
+{#                a: 25,#}
+{#                b: 30#}
+{#            }#}
+{##}
+{#        ];#}
+{##}
+{#        Morris.Area({#}
+{##}
+{#            element: 'morris-area-chart',#}
+{##}
+{#            pointSize: 3,#}
+{##}
+{#            lineWidth: 2,#}
+{##}
+{#            data: areaData,#}
+{##}
+{#            xkey: 'y',#}
+{##}
+{#            ykeys: ['a', 'b'],#}
+{##}
+{#            labels: ['Orders', 'Sales'],#}
+{##}
+{#            resize: true,#}
+{##}
+{#            hideHover: 'auto',#}
+{##}
+{#            gridLineColor: '#eef0f2',#}
+{##}
+{#            lineColors: ['#00c292', '#03a9f3'],#}
+{##}
+{#            lineWidth: 0,#}
+{##}
+{#            fillOpacity: 0.1,#}
+{##}
+{#            xLabelMargin: 10,#}
+{##}
+{#            yLabelMargin: 10,#}
+{##}
+{#            grid: false,#}
+{##}
+{#            axes: false,#}
+{##}
+{#            pointSize: 0#}
+{##}
+{#        });#}
+{#    }#}
+{##}
+{#    $(document).on('ready', function () {#}
+{##}
+{#        if ($('#morris-donut-chart').length > 0) {#}
+{#            var donutData = [];#}
+{##}
+{#            Morris.Donut({#}
+{##}
+{#                element: 'morris-donut-chart',#}
+{##}
+{#                data: donutData,#}
+{##}
+{#                resize: true,#}
+{##}
+{#                colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']#}
+{##}
+{#            });#}
+{##}
+{#        }#}
+{##}
+{#        if ($("#boxscroll").length > 0)#}
+{#            $("#boxscroll").niceScroll({#}
+{#                cursorborder: "",#}
+{#                cursorcolor: "#cecece",#}
+{#                boxzoom: true#}
+{#            });#}
+{##}
+{#        if ($("#boxscroll2").length > 0)#}
+{#            $("#boxscroll2").niceScroll({#}
+{#                cursorborder: "",#}
+{#                cursorcolor: "#cecece",#}
+{#                boxzoom: true#}
+{#            });#}
+{##}
+{##}
+{#        if ($(".clickable-row").length > 0) {#}
+{#            $(".clickable-row").on('click', function () {#}
+{#                window.location = $(this).data("href");#}
+{#            });#}
+{#        }#}
+{##}
+{#        if ($("#Country").length > 0) {#}
+{#            $('#Country').on('change', function () {#}
+{#                country_id = $(this).val();#}
+{##}
+{#                $.ajax({#}
+{##}
+{#                    type: "POST",#}
+{##}
+{#                    url: "admincontrol/getstate",#}
+{##}
+{#                    data: 'country_id=' + country_id,#}
+{##}
+{#                    success: function (data) {#}
+{##}
+{#                        $("#StateProvince").html(data);#}
+{##}
+{#                    }#}
+{##}
+{#                });#}
+{##}
+{#            });#}
+{#        }#}
+{##}
+{#    });#}
+{##}
+{##}
+{#    function shownofication(id, url) {#}
+{##}
+{#        $.ajax({#}
+{##}
+{#            type: "POST",#}
+{##}
+{# post data#}
+{#            url: "admincontrol/updatenotify",#}
+{##}
+{#            data: 'id=' + id,#}
+{##}
+{#            dataType: 'json',#}
+{##}
+{#            success: function (data) {#}
+{##}
+{#                window.location.href = data['location'];#}
+{##}
+{#            }#}
+{##}
+{#        });#}
+{##}
+{#    }#}
+{##}
+{#    $(document).on('ready', function () {#}
+{#        $('.summernote-img').each(function () {#}
+{#            sumNote($(this));#}
+{#        });#}
+{##}
+{#    });#}
+{##}
+{#    function sumNote(element) {#}
+{#        var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;#}
+{##}
+{#        $(element).summernote({#}
+{##}
+{#            disableDragAndDrop: true,#}
+{##}
+{#            height: height,#}
+{##}
+{##}
+{#            toolbar: [#}
+{##}
+{#                ['style', ['style']],#}
+{##}
+{#                ['font', ['bold', 'underline', 'clear']],#}
+{##}
+{#                ['fontname', ['fontname']],#}
+{##}
+{#                ['color', ['color']],#}
+{##}
+{#                ['para', ['ul', 'ol', 'paragraph']],#}
+{##}
+{#                ['table', ['table']],#}
+{##}
+{#                ['insert', ['link', 'image', 'picture', 'video']],#}
+{##}
+{#                ['view', ['fullscreen', 'codeview', 'help']]#}
+{##}
+{#            ],#}
+{##}
+{#            buttons: {#}
+{##}
+{#                image: function () {#}
+{##}
+{#                    var ui = $.summernote.ui;#}
+{##}
+{#                    // create button#}
+{##}
+{#                    var button = ui.button({#}
+{##}
+{#                        contents: '<i class="fa fa-image" />',#}
+{##}
+{#                        tooltip: false,#}
+{##}
+{#                        click: function () {#}
+{##}
+{#                            $('#modal-image').remove();#}
+{##}
+{##}
+{#                            $.ajax({#}
+{##}
+{#                                url: "{% static 'dashboard/filemanager',#}
+{##}
+{#                                dataType: 'html',#}
+{##}
+{#                                beforeSend: function () {#}
+{##}
+{#                                },#}
+{#                                complete: function () {#}
+{##}
+{#                                },#}
+{#                                success: function (html) {#}
+{##}
+{#                                    $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');#}
+{##}
+{#                                    $('#modal-image').modal('show');#}
+{##}
+{#                                    $('#modal-image').delegate('.image-box .thumbnail', 'click', function (e) {#}
+{##}
+{#                                        e.preventDefault();#}
+{##}
+{#                                        $(element).summernote('insertImage', $(this).attr('href'));#}
+{##}
+{#                                        $('#modal-image').modal('hide');#}
+{##}
+{#                                    });#}
+{##}
+{#                                }#}
+{##}
+{#                            });#}
+{##}
+{#                        }#}
+{##}
+{#                    });#}
+{##}
+{##}
+{#                    return button.render();#}
+{##}
+{#                }#}
+{##}
+{#            }#}
+{##}
+{#        });#}
+{##}
+{#    }#}
+{#</script>#}

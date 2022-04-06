@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+                {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <link href="https://demo.affiliatepro.org/assets/css/datepicker.css' %}" rel="stylesheet" type="text/css" />
+                        <script src="{% static 'dashboard/assets/js/bootstrap-datepicker.js' %}"></script>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card all-transaction">
+                                    <div class="card-header">
+                                        <form action="all_transaction" method="get">
+                                            <div class="form-group">
+                                                <select class="form-control" name="module">
+							<option value="">Module</option>
+															<option value="store">Store</option>
+															<option value="deposit">Deposit</option>
+															<option value="membership">MEMBERSHIP</option>
+													</select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="user">
+							<option value="">User</option>
+															<option value="7">client1</option>
+															<option value="697">didier</option>
+															<option value="3">user2</option>
+															<option value="2">user1</option>
+															<option value="693">ankit5</option>
+															<option value="692">arabcode</option>
+															<option value="602">ChespierMoran</option>
+															<option value="691">mitienda</option>
+															<option value="690">jamidarboleda</option>
+															<option value="689">myname</option>
+															<option value="679">brenthinz3</option>
+															<option value="682">Ttyy</option>
+															<option value="676">chbilal61</option>
+															<option value="680">hello</option>
+															<option value="604">mbf110</option>
+															<option value="675">Tk770233@gmail.com</option>
+															<option value="641">Adminrsd</option>
+															<option value="669">teresemckeon175</option>
+															<option value="574">Khawar</option>
+															<option value="668">Admon</option>
+															<option value="658">ericimpton</option>
+															<option value="667">mgainer</option>
+															<option value="666">osama002</option>
+															<option value="659">johnimpton</option>
+															<option value="665">zain1</option>
+															<option value="664">zain</option>
+															<option value="663">chbilal251</option>
+															<option value="662">chbilal250</option>
+															<option value="660">chbilal200</option>
+															<option value="653">denome</option>
+															<option value="640">fghfghfgh</option>
+															<option value="629">sushma</option>
+															<option value="628">qwewqe</option>
+															<option value="610">k1</option>
+															<option value="599">33334TG5R5R4FREFGV</option>
+															<option value="598">Rohit2359</option>
+															<option value="595">sam</option>
+															<option value="591">Tubsyd</option>
+															<option value="589">nareyo1364</option>
+															<option value="588">testzd</option>
+															<option value="586">uyyuiit</option>
+															<option value="568">amraa@ve.com</option>
+															<option value="509">amraa</option>
+															<option value="535">ziltelirka</option>
+															<option value="532">aloaax</option>
+															<option value="528">passionfutbolera</option>
+															<option value="491">Debade</option>
+															<option value="413">ramazanco</option>
+															<option value="357">ayush</option>
+															<option value="335">milyarder</option>
+															<option value="332">mo7amedtech2020</option>
+															<option value="329">adminm</option>
+															<option value="325">asdasdasd</option>
+															<option value="317">test2</option>
+															<option value="295">ggghghg</option>
+															<option value="291">sassdsdsd</option>
+															<option value="290">anish</option>
+															<option value="281">Kenkene</option>
+															<option value="277">gbrlsantana</option>
+															<option value="271">samsmith</option>
+															<option value="267">Ghh</option>
+															<option value="264">debene22313</option>
+															<option value="257">huong</option>
+															<option value="246">sovelyb</option>
+															<option value="233">Hillarykings</option>
+															<option value="222">sohelbd</option>
+															<option value="209">ROOD</option>
+															<option value="208">testing</option>
+															<option value="205">demo3</option>
+															<option value="203">alejandro@chillon.com.mx</option>
+															<option value="188">ahmed2020</option>
+															<option value="80">bigsmart</option>
+															<option value="178">raziadik</option>
+															<option value="177">madhawty</option>
+															<option value="175">kaykay</option>
+															<option value="171">1234567</option>
+															<option value="165">obeta</option>
+															<option value="163">thewink100</option>
+															<option value="164">etbegodage</option>
+															<option value="149">thewink</option>
+															<option value="160">RAJESH22</option>
+															<option value="159">rominho</option>
+															<option value="158">33333</option>
+															<option value="157">SEC</option>
+															<option value="148">meltan</option>
+															<option value="144">customer test</option>
+															<option value="139">sibambo</option>
+															<option value="134">demo-test</option>
+															<option value="133">userx2</option>
+															<option value="132">user2x</option>
+															<option value="131">jj</option>
+															<option value="127">rahjul211233</option>
+															<option value="124">admin1</option>
+															<option value="123">123123</option>
+															<option value="122">123</option>
+															<option value="120">sadsadas</option>
+															<option value="119">dsadasd</option>
+															<option value="109">tjcustom</option>
+															<option value="108">toms</option>
+															<option value="103">Wuehehs1244</option>
+															<option value="98">mikku</option>
+															<option value="95">tree</option>
+															<option value="94">yoyo</option>
+															<option value="93">asdasd</option>
+															<option value="92">asd</option>
+															<option value="90">ghjk</option>
+															<option value="84">daxgps</option>
+															<option value="82">xyz</option>
+															<option value="79">migel</option>
+															<option value="71">Ahmettpilot</option>
+															<option value="67">ahmed7457</option>
+															<option value="56">khaled elfishawy</option>
+															<option value="49">rafiq5823</option>
+															<option value="44">shuja.admin</option>
+															<option value="40">weeam</option>
+															<option value="36">Rain89</option>
+															<option value="32">njsoft</option>
+															<option value="29">Qwertyuiop</option>
+															<option value="25">vikeseq</option>
+															<option value="23">jk</option>
+															<option value="21">asd234456</option>
+															<option value="20">hmgrowbd</option>
+															<option value="18">aaaaaa111111</option>
+															<option value="12">john123</option>
+															<option value="15">fredy111</option>
+															<option value="187">shoaib4683</option>
+															<option value="186">dhiraj1456</option>
+															<option value="129">remka</option>
+															<option value="115">testing4</option>
+															<option value="86">koushikg1987</option>
+															<option value="64">User12</option>
+															<option value="52">storetest@gmail.com</option>
+															<option value="5">user4</option>
+													</select>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control datepicker" name="date" placeholder="Date">
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="payment_gateway">
+							<option value="">Payment Gateway</option>
+															<option value="cash_on_delivery">Cash On Delivery</option>
+															<option value="free_by_admin">Free by admin</option>
+															<option value="bank_transfer">Bank Transfer</option>
+															<option value="التحويل_المصرفي">admin.التحويل_المصرفي</option>
+															<option value="paystack">paystack</option>
+															<option value="paypal">Paypal</option>
+															<option value="flutterwave">Flutterwave</option>
+															<option value="stripe">Stripe</option>
+															<option value="yandex">admin.yandex</option>
+															<option value="stripes">admin.stripes</option>
+															<option value="skrill">Skrill</option>
+															<option value="xendit">Xendit</option>
+															<option value="razorpay">Razorpay</option>
+															<option value="paytm">Paytm</option>
+															<option value="paypal_standard">admin.paypal_standard</option>
+															<option value="opay">OPay</option>
+															<option value="paypalstandard">Paypal Standard</option>
+													</select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="status">
+							<option value="">Status</option>
+															<option value="store_7">Processed (Store)</option>
+															<option value="membership_1">Active (MEMBERSHIP)</option>
+															<option value="deposit_7">Processed (Deposit)</option>
+															<option value="store_6">Pending (Store)</option>
+															<option value="store_1">Complete (Store)</option>
+															<option value="deposit_1">PAID (Deposit)</option>
+															<option value="deposit_8">Refunded (Deposit)</option>
+															<option value="membership_0">Pending (MEMBERSHIP)</option>
+															<option value="store_12">Waiting For Payment (Store)</option>
+															<option value="deposit_3">Denied (Deposit)</option>
+															<option value="deposit_13">Pending (Deposit)</option>
+															<option value="store_0">Waiting For Payment (Store)</option>
+															<option value="deposit_5">Failed (Deposit)</option>
+															<option value="store_3">Denied (Store)</option>
+															<option value="deposit_2">Total not match (Deposit)</option>
+															<option value="store_2">Total not match (Store)</option>
+															<option value="store_11">Canceled Reversal (Store)</option>
+															<option value="store_8">Refunded (Store)</option>
+													</select>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="transaction" placeholder="Transaction">
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <a href="all_transaction_export_to_excel" class="btn btn-primary export-excel">
+							Export to Excel						</a>
+                                            </div>
+                                            <div class="form-group text-right">
+                                                <a href="all_transaction_export_to_pdf" class="btn btn-primary export-pdf">
+							Export to Pdf						</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table transaction-table table-striped ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Module</th>
+                                                            <th>Id</th>
+                                                            <th>User</th>
+                                                            <th>Price</th>
+                                                            <th>Payment Gateway</th>
+                                                            <th>Transaction Id</th>
+                                                            <th>Status</th>
+                                                            <th>Date</th>
+                                                            <th>#</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>1003</td>
+                                                            <td>client1</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Cash On Delivery</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>16 March 2022 03:10</td>
+                                                            <td>
+                                                                <a href="vieworder/1003" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>MEMBERSHIP</td>
+                                                            <td>40</td>
+                                                            <td>didier</td>
+                                                            <td>$5,000.00</td>
+                                                            <td>Free by Admin</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-success">Active</span></td>
+                                                            <td>15 March 2022 23:33</td>
+                                                            <td>
+                                                                <a href="https://demo.affiliatepro.org/membership/membership_purchase_edit/40" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>1002</td>
+                                                            <td>client1</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Cash On Delivery</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>15 March 2022 22:40</td>
+                                                            <td>
+                                                                <a href="vieworder/1002" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>1001</td>
+                                                            <td>user2</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Bank Transfer</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>15 March 2022 10:12</td>
+                                                            <td>
+                                                                <a href="vieworder/1001" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>1000</td>
+                                                            <td>user1</td>
+                                                            <td>$3,360.00</td>
+                                                            <td>Bank Transfer</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>15 March 2022 00:15</td>
+                                                            <td>
+                                                                <a href="vieworder/1000" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Deposit</td>
+                                                            <td>156</td>
+                                                            <td>user1</td>
+                                                            <td>$111.00</td>
+                                                            <td>Bank Transfer</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>14 March 2022 14:18</td>
+                                                            <td>
+                                                                <a href="vendor_deposit_details/156" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>999</td>
+                                                            <td>user2</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Cash On Delivery</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>14 March 2022 07:38</td>
+                                                            <td>
+                                                                <a href="vieworder/999" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>998</td>
+                                                            <td>client1</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Bank Transfer</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>13 March 2022 19:36</td>
+                                                            <td>
+                                                                <a href="vieworder/998" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>997</td>
+                                                            <td>ankit5</td>
+                                                            <td>$6,000.00</td>
+                                                            <td>Bank Transfer</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>13 March 2022 18:01</td>
+                                                            <td>
+                                                                <a href="vieworder/997" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Store</td>
+                                                            <td>996</td>
+                                                            <td>client1</td>
+                                                            <td>$3,000.00</td>
+                                                            <td>Cash On Delivery</td>
+                                                            <td></td>
+                                                            <td><span style="font-size:15px;" class="badge badge-danger">Processed</span></td>
+                                                            <td>13 March 2022 02:37</td>
+                                                            <td>
+                                                                <a href="vieworder/996" class="btn btn-primary btn-sm" target="_blank">
+								Details							</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <ul class="pagination justify-content-end">
+                                                <strong>1</strong><a href="all_transaction?page=2" data-ci-pagination-page="2">2</a><a href="all_transaction?page=3"
+                                                    data-ci-pagination-page="3">3</a><a href="all_transaction?page=2" data-ci-pagination-page="2" rel="next">&gt;</a><a href="all_transaction?page=104"
+                                                    data-ci-pagination-page="104">Last &rsaquo;</a> </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $('.datepicker').datepicker({
+                                autoclose: true,
+                                todayHighlight: true,
+                                format: "dd-mm-yyyy"
+                            })
+
+                            $('.datepicker').each(function() {
+                                var d = $(this).val().split("-");
+                                if (d[0]) {
+                                    var date = d[1] + "-" + d[2] + "-" + d[0];
+                                    $(this).datepicker('update', new Date(date))
+                                } else {
+                                    $(this).val('');
+                                }
+                            })
+
+                            $("select[name='module'],select[name='user'],select[name='payment_gateway'],select[name='status']").on('change', function() {
+                                callAjaxForFilter();
+                            })
+
+                            $('.datepicker').datepicker().on('changeDate', function(ev) {
+                                callAjaxForFilter();
+                            });
+
+                            $("input[name='date']").on('keyup', function() {
+                                if ($(this).val().length == 0)
+                                    callAjaxForFilter();
+                            })
+
+                            $("input[name='transaction']").on('keyup', function() {
+                                if ($(this).val().length == 0 || $(this).val().length > 3)
+                                    callAjaxForFilter();
+                            })
+
+                            $(document).on('click', '.pagination a', function(e) {
+                                e.preventDefault();
+
+                                let page = $(this).data('ci-pagination-page');
+                                callAjaxForFilter(page);
+                            })
+
+                            function callAjaxForFilter(page = 0) {
+                                $.ajax({
+                                    url: $('.all-transaction form').attr('action'),
+                                    type: 'post',
+                                    dataType: 'html',
+                                    data: {
+                                        module: $("select[name='module']").val(),
+                                        user: $("select[name='user']").val(),
+                                        date: $("input[name='date']").val(),
+                                        payment_gateway: $("select[name='payment_gateway']").val(),
+                                        status: $("select[name='status']").val(),
+                                        transaction: $("input[name='transaction']").val(),
+                                        page: page
+                                    },
+                                    success: function(html) {
+                                        $(".all-transaction .card-content").html(html);
+                                    },
+                                })
+                            }
+
+                            $('.all-transaction .export-excel').on('click', function(e) {
+                                e.preventDefault();
+
+                                let data = {
+                                    module: $("select[name='module']").val(),
+                                    user: $("select[name='user']").val(),
+                                    date: $("input[name='date']").val(),
+                                    payment_gateway: $("select[name='payment_gateway']").val(),
+                                    status: $("select[name='status']").val(),
+                                    transaction: $("input[name='transaction']").val()
+                                };
+
+                                let queryData = encodeQueryData(data);
+
+                                let url = $(this).attr('href') + '?' + queryData;
+                                window.open(url, '_target');
+                            })
+
+                            $('.all-transaction .export-pdf').on('click', function(e) {
+                                e.preventDefault();
+
+                                let data = {
+                                    module: $("select[name='module']").val(),
+                                    user: $("select[name='user']").val(),
+                                    date: $("input[name='date']").val(),
+                                    payment_gateway: $("select[name='payment_gateway']").val(),
+                                    status: $("select[name='status']").val(),
+                                    transaction: $("input[name='transaction']").val()
+                                };
+
+                                let queryData = encodeQueryData(data);
+
+                                let url = $(this).attr('href') + '?' + queryData;
+                                window.open(url, '_target');
+                            })
+
+                            function encodeQueryData(data) {
+                                const ret = [];
+                                for (let d in data)
+                                    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+                                return ret.join('&');
+                            }
+                        </script>
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+{##}
+{#            <script>#}
+{#                $(".select2-input").select2();#}
+{##}
+{#                $(document).delegate(".view-all", 'click', function() {#}
+{#                    var data = $(this).find("span").html();#}
+{#                    var html = '<table class="table table-hover">';#}
+{##}
+{#                    data = JSON.parse(data);#}
+{##}
+{#                    html += '<tr>';#}
+{##}
+{#                    html += ' <th>' + 'admin.ip' + '</th>';#}
+{##}
+{#                    html += ' <th width="30px">' + 'admin.country' + '</th>';#}
+{##}
+{#                    html += '</tr>';#}
+{##}
+{#                    $.each(data, function(i, j) {#}
+{#                        html += '<tr>';#}
+{##}
+{#                        html += ' <td>' + j['ip'] + '</td>';#}
+{##}
+{#                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';#}
+{##}
+{#                        html += '</tr>';#}
+{#                    })#}
+{##}
+{#                    html += '</table>';#}
+{##}
+{#                    $("#ip-flag_model").modal("show");#}
+{##}
+{#                    $("#ip-flag_model .modal-body").html(html);#}
+{#                })#}
+{##}
+{#                $('[data-toggle="tooltip"]').tooltip();#}
+{##}
+{#                if ($('#morris-area-chart').length > 0) {#}
+{#                    var areaData = [#}
+{##}
+{#                        {#}
+{#                            y: '2011',#}
+{#                            a: 10,#}
+{#                            b: 15#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2012',#}
+{#                            a: 30,#}
+{#                            b: 35#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2013',#}
+{#                            a: 10,#}
+{#                            b: 25#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2014',#}
+{#                            a: 55,#}
+{#                            b: 45#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2015',#}
+{#                            a: 30,#}
+{#                            b: 20#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2016',#}
+{#                            a: 40,#}
+{#                            b: 35#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2017',#}
+{#                            a: 10,#}
+{#                            b: 25#}
+{#                        },#}
+{##}
+{#                        {#}
+{#                            y: '2018',#}
+{#                            a: 25,#}
+{#                            b: 30#}
+{#                        }#}
+{##}
+{#                    ];#}
+{##}
+{#                    Morris.Area({#}
+{##}
+{#                        element: 'morris-area-chart',#}
+{##}
+{#                        pointSize: 3,#}
+{##}
+{#                        lineWidth: 2,#}
+{##}
+{#                        data: areaData,#}
+{##}
+{#                        xkey: 'y',#}
+{##}
+{#                        ykeys: ['a', 'b'],#}
+{##}
+{#                        labels: ['Orders', 'Sales'],#}
+{##}
+{#                        resize: true,#}
+{##}
+{#                        hideHover: 'auto',#}
+{##}
+{#                        gridLineColor: '#eef0f2',#}
+{##}
+{#                        lineColors: ['#00c292', '#03a9f3'],#}
+{##}
+{#                        lineWidth: 0,#}
+{##}
+{#                        fillOpacity: 0.1,#}
+{##}
+{#                        xLabelMargin: 10,#}
+{##}
+{#                        yLabelMargin: 10,#}
+{##}
+{#                        grid: false,#}
+{##}
+{#                        axes: false,#}
+{##}
+{#                        pointSize: 0#}
+{##}
+{#                    });#}
+{#                }#}
+{##}
+{#                $(document).on('ready', function() {#}
+{##}
+{#                    if ($('#morris-donut-chart').length > 0) {#}
+{#                        var donutData = [];#}
+{##}
+{#                        Morris.Donut({#}
+{##}
+{#                            element: 'morris-donut-chart',#}
+{##}
+{#                            data: donutData,#}
+{##}
+{#                            resize: true,#}
+{##}
+{#                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']#}
+{##}
+{#                        });#}
+{##}
+{#                    }#}
+{##}
+{#                    if ($("#boxscroll").length > 0)#}
+{#                        $("#boxscroll").niceScroll({#}
+{#                            cursorborder: "",#}
+{#                            cursorcolor: "#cecece",#}
+{#                            boxzoom: true#}
+{#                        });#}
+{##}
+{#                    if ($("#boxscroll2").length > 0)#}
+{#                        $("#boxscroll2").niceScroll({#}
+{#                            cursorborder: "",#}
+{#                            cursorcolor: "#cecece",#}
+{#                            boxzoom: true#}
+{#                        });#}
+{##}
+{##}
+{#                    if ($(".clickable-row").length > 0) {#}
+{#                        $(".clickable-row").on('click', function() {#}
+{#                            window.location = $(this).data("href");#}
+{#                        });#}
+{#                    }#}
+{##}
+{#                    if ($("#Country").length > 0) {#}
+{#                        $('#Country').on('change', function() {#}
+{#                            country_id = $(this).val();#}
+{##}
+{#                            $.ajax({#}
+{##}
+{#                                type: "POST",#}
+{##}
+{#                                url: "getstate",#}
+{##}
+{#                                data: 'country_id=' + country_id,#}
+{##}
+{#                                success: function(data) {#}
+{##}
+{#                                    $("#StateProvince").html(data);#}
+{##}
+{#                                }#}
+{##}
+{#                            });#}
+{##}
+{#                        });#}
+{#                    }#}
+{##}
+{#                });#}
+{##}
+{##}
+{#                function shownofication(id, url) {#}
+{##}
+{#                    $.ajax({#}
+{##}
+{#                        type: "POST",#}
+{##}
+{#                        url: "updatenotify",#}
+{##}
+{#                        data: 'id=' + id,#}
+{##}
+{#                        dataType: 'json',#}
+{##}
+{#                        success: function(data) {#}
+{##}
+{#                            window.location.href = data['location'];#}
+{##}
+{#                        }#}
+{##}
+{#                    });#}
+{##}
+{#                }#}
+{##}
+{#                $(document).on('ready', function() {#}
+{#                    $('.summernote-img').each(function() {#}
+{#                        sumNote($(this));#}
+{#                    });#}
+{##}
+{#                });#}
+{##}
+{#                function sumNote(element) {#}
+{#                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;#}
+{##}
+{#                    $(element).summernote({#}
+{##}
+{#                        disableDragAndDrop: true,#}
+{##}
+{#                        height: height,#}
+{##}
+{##}
+{#                        toolbar: [#}
+{##}
+{#                            ['style', ['style']],#}
+{##}
+{#                            ['font', ['bold', 'underline', 'clear']],#}
+{##}
+{#                            ['fontname', ['fontname']],#}
+{##}
+{#                            ['color', ['color']],#}
+{##}
+{#                            ['para', ['ul', 'ol', 'paragraph']],#}
+{##}
+{#                            ['table', ['table']],#}
+{##}
+{#                            ['insert', ['link', 'image', 'picture', 'video']],#}
+{##}
+{#                            ['view', ['fullscreen', 'codeview', 'help']]#}
+{##}
+{#                        ],#}
+{##}
+{#                        buttons: {#}
+{##}
+{#                            image: function() {#}
+{##}
+{#                                var ui = $.summernote.ui;#}
+{##}
+{#                                // create button#}
+{##}
+{#                                var button = ui.button({#}
+{##}
+{#                                    contents: '<i class="fa fa-image" />',#}
+{##}
+{#                                    tooltip: false,#}
+{##}
+{#                                    click: function() {#}
+{##}
+{#                                        $('#modal-image').remove();#}
+{##}
+{##}
+{##}
+{#                                        $.ajax({#}
+{##}
+{#                                            url: 'https://demo.affiliatepro.org/filemanager',#}
+{##}
+{#                                            dataType: 'html',#}
+{##}
+{#                                            beforeSend: function() {#}
+{##}
+{#                                            },#}
+{#                                            complete: function() {#}
+{##}
+{#                                            },#}
+{#                                            success: function(html) {#}
+{##}
+{#                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');#}
+{##}
+{#                                                $('#modal-image').modal('show');#}
+{##}
+{#                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {#}
+{##}
+{#                                                    e.preventDefault();#}
+{##}
+{#                                                    $(element).summernote('insertImage', $(this).attr('href'));#}
+{##}
+{#                                                    $('#modal-image').modal('hide');#}
+{##}
+{#                                                });#}
+{##}
+{#                                            }#}
+{##}
+{#                                        });#}
+{##}
+{#                                    }#}
+{##}
+{#                                });#}
+{##}
+{##}
+{##}
+{#                                return button.render();#}
+{##}
+{#                            }#}
+{##}
+{#                        }#}
+{##}
+{#                    });#}
+{##}
+{#                }#}
+{#            </script>#}
+
+    </div>
+    {% endblock %}

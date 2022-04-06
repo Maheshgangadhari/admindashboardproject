@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+<div class="dashboard-navbar">
+    <div class="header-top d-flex justify-content-end align-items-center">
+        <div class="logo">
+            <a href="#">
+                <img src="{% static 'dashboard/assets/template/images/logo.png' %}" alt="Logo:"/>
+            </a>
+        </div>
+
+        <div class=" header-right">
+            <ul class="d-flex align-items-center justify-content-between">
+                <li id="admin-currency-top-menu" class="nav-item dropdown border-0"><a
+                        class="nav-link dropdown-toggle" href="#" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{% static 'dashboard/assets/template/images/dollar-icon.png' %}" alt="US Dollar"/>
+                    <span>$ US Dollar </span>
+                    <i class=" lni lni-chevron-down"></i>
+                </a>
+                    <div id="currency-dropdown"
+                         class="dropdown-menu dropdown-menu-right shadow user-setting currency-wrap">
+                        <i class="arrow"></i><a class="dropdown-item"
+                                                href="change_currency/EUR">
+                        â‚¬ Euro </a><a class="dropdown-item"
+                                        href="change_currency/INR">
+                        ₹ Indian Rupee </a><a class="dropdown-item"
+                                              href="change_currency/ZAR">
+                        R South African Rand </a><a class="dropdown-item"
+                                                    href="change_currency/BRL">
+                        R$ Brazilian Real </a><a class="dropdown-item"
+                                                 href="change_currency/PHP">
+                        ₱ Philippine Peso </a><a class="dropdown-item"
+                                                 href="change_currency/MYR">
+                        RM Malaysian Ringgit </a><a class="dropdown-item"
+                                                    href="change_currency/JPY">
+                        ¥ Japanese Yen </a><a class="dropdown-item"
+                                              href="change_currency/XOF">
+                        CFA CFA Franc BCEAO F</a><a class="dropdown-item"
+                                                    href="change_currency/INR">
+                        ₹ Indian Rupee ₹</a><a class="dropdown-item"
+                                               href="change_currency/BDT">
+                        Tk Bangladeshi Taka </a><a class="dropdown-item"
+                                                   href="change_currency/PLN">
+                        zł Polish Zloty </a><a class="dropdown-item"
+                                               href="change_currency/INR">
+                        Rs Indian Rupee </a><a class="dropdown-item"
+                                               href="change_currency/UAH">
+                        ₴ Ukrainian Hryvnia </a><a class="dropdown-item"
+                                                   href="change_currency/RUB">
+                        RUB Russian Ruble руб.</a><a class="dropdown-item"
+                                                     href="change_currency/EGP">
+                        EGP Egyptian Pound $</a><a class="dropdown-item"
+                                                   href="change_currency/PEN">
+                        S/. Peruvian Nuevo Sol </a><a class="dropdown-item"
+                                                      href="change_currency/GHS">
+                        GH₵ Ghanaian Cedi ¢</a><a class="dropdown-item"
+                                                  href="change_currency/VND">
+                        Vietnamese Dong ₫</a><a class="dropdown-item"
+                                                href="change_currency/HRK">
+                        Croatian Kuna KN</a><a class="dropdown-item"
+                                               href="change_currency/CNY">
+                        CN¥ Chinese Yuan </a><a class="dropdown-item"
+                                                href="change_currency/PKR">
+                        PKRs Pakistani Rupee ₨</a><a class="dropdown-item"
+                                                     href="change_currency/AUD">
+                        AU$ Australian Dollar </a><a class="dropdown-item"
+                                                     href="change_currency/NPR">
+                        NPRs Nepalese Rupee NPR</a><a class="dropdown-item"
+                                                      href="change_currency/PYG">
+                        ₲ Paraguayan Guarani Gs</a><a class="dropdown-item"
+                                                      href="change_currency/THB">
+                        ฿ Thai Baht </a><a class="dropdown-item"
+                                           href="change_currency/TRY">
+                        Turkish Lira TL</a><a class="dropdown-item"
+                                              href="change_currency/SAR">
+                        SR Saudi Riyal </a><a class="dropdown-item"
+                                              href="change_currency/NGN">
+                        ₦ Nigerian Naira </a><a class="dropdown-item"
+                                                href="change_currency/KRW">
+                        ₩ South Korean Won </a><a class="dropdown-item"
+                                                  href="change_currency/IDR">
+                        Rp Indonesian Rupiah </a><a class="dropdown-item"
+                                                    href="change_currency/KZT">
+                        KZT Kazakhstani Tenge Тенге</a></div>
+                </li>
+
+                <li class="nav-item dropdown arrow-position"><a class="nav-link dropdown-toggle"
+                                                                href="#" role="button"
+                                                                data-toggle="dropdown"
+                                                                aria-haspopup="true"
+                                                                aria-expanded="false"><img
+                        class="selected-language"
+                        src="{% static 'dashboard/assets/vertical/assets/images/flags/lr.png' %}" alt="English"/><span>English</span><i
+                        class="lni lni-chevron-down"></i>
+                </a>
+                    <div id=" language-dropdown" class="dropdown-menu dropdown-menu-right shadow
+                                        user-setting country-wrap"><i class="arrow"></i><a class="dropdown-item"
+                                                                                           href="change_language/29"><img
+                            src="{% static 'dashboard/assets/vertical/assets/images/flags/br.png' %}" alt="Portuguese"/>Portuguese</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/30"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/ru.png' %}"
+                                alt="Russian"/>Russian</a><a class="dropdown-item"
+                                                             href="change_language/36"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/co.png' %}"
+                                alt="Spanish, Castilian"/>Spanish, Castilian</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/47"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/tr.png' %}"
+                                alt="Turkish"/>Turkish</a><a class="dropdown-item"
+                                                             href="change_language/48"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/fr.png' %}" alt="French"/>French</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/58"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/it.png' %}"
+                                alt="Italian"/>Italian</a><a class="dropdown-item"
+                                                             href="change_language/63"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/jp.png' %}"
+                                alt="Japanese"/>Japanese</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/66"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/ye.png' %}" alt="Arabic"/>Arabic</a><a
+                                class="dropdown-item"
+                                href="change_language/72"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/vn.png' %}"
+                                alt="Vietnamese"/>Vietnamese</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/76"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/ye.png' %}" alt="Arabic"/>Arabic</a><a
+                                class="dropdown-item"
+                                href="change_language/81"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/cn.png' %}"
+                                alt="Chinese"/>Chinese</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/86"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/th.png' %}" alt="Thai"/>Thai</a><a
+                                class="dropdown-item"
+                                href="change_language/91"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/bd.png' %}"
+                                alt="Bengali"/>Bengali</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/92"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/et.png' %}"
+                                alt="Amharic"/>Amharic</a><a class="dropdown-item"
+                                                             href="change_language/93"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/il.png' %}" alt="Hebrew"/>Hebrew</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/94"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/il.png' %}" alt="Hebrew"/>Hebrew</a><a
+                                class="dropdown-item"
+                                href="change_language/96"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/kr.png' %}" alt="Korean"/>Korean</a>
+                        <a
+                                class=" dropdown-item"
+                                href="change_language/98"><img
+                                src="{% static 'dashboard/assets/vertical/assets/images/flags/al.png' %}"
+                                alt="Albanian"/>Albanian</a>
+                    </div>
+                </li>
+
+                <li class=" nav-item dropdown notification-area arrow-position">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       onclick="resetNotify();">
+                        <span class="bell"></span>
+                        <img src="{% static 'dashboard/assets/template/images/notification-icon.png' %}"
+                             alt="NOTIFICATIONS PANEL"/>
+                        <span class=" notifications-count ajax-notifications_count">1</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right shadow user-setting">
+                        <i class="arrow"></i>
+                        <div class="heading-notification d-flex justify-content-between align-items-center">
+                            <h4>NOTIFICATIONS</h4>
+                            <strong class="ajax-top_notifications_count">1</strong>
+                        </div>
+                        <div id="allnotification">
+                            <a class="dropdown-item" href="javascript:void(0)"
+                               onclick="shownofication(6979,'vieworder/1003')">
+                                New Order Generated by client1 <em>client1 client1 created a new
+                                order at affiliate Program on 2022-03-16 03:10:40</em>
+                            </a>
+                            <input type="hidden" id="last_id_notifications" value="6979">
+                        </div>
+                        <div class="text-center">
+                            <a class="dropdown-item view-area"
+                               href="notification"> + View All </a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown user-right border-0">
+                    <a class="nav-link dropdown-toggle" href="#" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="profile-image"
+                             src="{% static 'dashboard/assets/images/users/YB1KfgDZbn3c59m6j0psSHoNTveOChwu.png' %}"
+                             alt="Admin Admin"/>
+                    </a>
+                    <div class=" dropdown-menu dropdown-menu-right shadow user-setting">
+                        <i class="arrow"></i>
+                        <a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a>
+{#                        <a class="dropdown-item" href="{% url '' %}">Change Password</a>#}
+{#                        <a class="dropdown-item" href="{% url '' %}">My Wallet</a>#}
+{#                        <a class="dropdown-item" href="{% url ''%}">Settings</a>#}
+{#                        <a class="dropdown-item" href="{% url ''%}">Logout</a>#}
+                </li>
+            </ul>
+            <ol class="breadcrumb hide-breadcrumb">
+                <li class="breadcrumb-item ">
+                    <a href="#">Admin Home</a>
+                </li>
+                <li class="breadcrumb-item ">
+                    <a href="#">Add Ons</a>
+                </li>
+            </ol>
+        </div>
+        <a href="#" class="menu-button"><span></span><span></span><span></span> </a>
+    </div>
+    <div class="header-left">
+        <div class="header-heading d-flex justify-content-between align-items-center">
+            <h1>Add Ons</h1>
+            <div>
+                <span> Welcome</span>
+                <strong>Admin Admin</strong>
+                <a href="javaScript:location.reload(true);" class="reload-btn"
+                   title="admin.refresh_page">
+                    <img src="{% static 'dashboard/assets/template/images/refresh-icon.png' %}"
+                         alt="admin.refresh_page">
+                </a>
+            </div>
+        </div>
+        <div class=" header-updated d-flex justify-content-between align-items-center flex-wrap">
+            <div class="updated-div">
+                <span class="server-last-update m-0">Last Updated: <em>04:57:42 AM</em></span>
+                <span class="dashboard-refresh">Session Timeout: <em>00:01:00</em></span>
+            </div>
+            <div class="setting-div">
+                                    <span>
+                                  <a href="javascript:void(0);">
+                    <i class="lni lni-checkmark"></i>
+                  </a>
+                              </span>
+                <span class="setting-bg">
+                <a href="javascript:void(0);" class="btn-setting" data-key='live_dashboard' data-type='admin'><i
+                        class="lni lni-cog"></i></a>
+              </span>
+                <span class="eye-bg">
+                <a href="https://demo.affiliatepro.org/" target="_blank"><i class="lni lni-eye"></i></a>
+              </span>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

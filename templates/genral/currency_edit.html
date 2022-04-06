@@ -1,0 +1,2454 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+
+
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+                {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card m-b-30">
+                                    <div class="card-header">
+                                        <h4 class="card-title pull-left">Currencies Edit</h4>
+                                        <div class="pull-right">
+                                            <a href="currency_edit/" class="btn btn-primary add-new" id="">Add New</a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form method="" id="currency_edit_form">
+                                            <input type="hidden" value="0" name="currency_id">
+                                            <table class="form-table table">
+                                                <tr>
+                                                    <td class="label">Currency Title</td>
+                                                    <td>
+                                                        <select class="form-control title-dropdown" name="title">
+											<option value="">Please Select Your Currency</option>
+																							<option  value="US Dollar" data-id="USD">US Dollar</option>
+																							<option  value="Canadian Dollar" data-id="CAD">Canadian Dollar</option>
+																							<option  value="Euro" data-id="EUR">Euro</option>
+																							<option  value="United Arab Emirates Dirham" data-id="AED">United Arab Emirates Dirham</option>
+																							<option  value="Afghan Afghani" data-id="AFN">Afghan Afghani</option>
+																							<option  value="Albanian Lek" data-id="ALL">Albanian Lek</option>
+																							<option  value="Armenian Dram" data-id="AMD">Armenian Dram</option>
+																							<option  value="Argentine Peso" data-id="ARS">Argentine Peso</option>
+																							<option  value="Australian Dollar" data-id="AUD">Australian Dollar</option>
+																							<option  value="Azerbaijani Manat" data-id="AZN">Azerbaijani Manat</option>
+																							<option  value="Bosnia-Herzegovina Convertible Mark" data-id="BAM">Bosnia-Herzegovina Convertible Mark</option>
+																							<option  value="Bangladeshi Taka" data-id="BDT">Bangladeshi Taka</option>
+																							<option  value="Bulgarian Lev" data-id="BGN">Bulgarian Lev</option>
+																							<option  value="Bahraini Dinar" data-id="BHD">Bahraini Dinar</option>
+																							<option  value="Burundian Franc" data-id="BIF">Burundian Franc</option>
+																							<option  value="Brunei Dollar" data-id="BND">Brunei Dollar</option>
+																							<option  value="Bolivian Boliviano" data-id="BOB">Bolivian Boliviano</option>
+																							<option  value="Brazilian Real" data-id="BRL">Brazilian Real</option>
+																							<option  value="Botswanan Pula" data-id="BWP">Botswanan Pula</option>
+																							<option  value="Belarusian Ruble" data-id="BYR">Belarusian Ruble</option>
+																							<option  value="Belize Dollar" data-id="BZD">Belize Dollar</option>
+																							<option  value="Congolese Franc" data-id="CDF">Congolese Franc</option>
+																							<option  value="Swiss Franc" data-id="CHF">Swiss Franc</option>
+																							<option  value="Chilean Peso" data-id="CLP">Chilean Peso</option>
+																							<option  value="Chinese Yuan" data-id="CNY">Chinese Yuan</option>
+																							<option  value="Colombian Peso" data-id="COP">Colombian Peso</option>
+																							<option  value="Costa Rican Colón" data-id="CRC">Costa Rican Colón</option>
+																							<option  value="Cape Verdean Escudo" data-id="CVE">Cape Verdean Escudo</option>
+																							<option  value="Czech Republic Koruna" data-id="CZK">Czech Republic Koruna</option>
+																							<option  value="Djiboutian Franc" data-id="DJF">Djiboutian Franc</option>
+																							<option  value="Danish Krone" data-id="DKK">Danish Krone</option>
+																							<option  value="Dominican Peso" data-id="DOP">Dominican Peso</option>
+																							<option  value="Algerian Dinar" data-id="DZD">Algerian Dinar</option>
+																							<option  value="Estonian Kroon" data-id="EEK">Estonian Kroon</option>
+																							<option  value="Egyptian Pound" data-id="EGP">Egyptian Pound</option>
+																							<option  value="Eritrean Nakfa" data-id="ERN">Eritrean Nakfa</option>
+																							<option  value="Ethiopian Birr" data-id="ETB">Ethiopian Birr</option>
+																							<option  value="British Pound Sterling" data-id="GBP">British Pound Sterling</option>
+																							<option  value="Georgian Lari" data-id="GEL">Georgian Lari</option>
+																							<option  value="Ghanaian Cedi" data-id="GHS">Ghanaian Cedi</option>
+																							<option  value="Guinean Franc" data-id="GNF">Guinean Franc</option>
+																							<option  value="Guatemalan Quetzal" data-id="GTQ">Guatemalan Quetzal</option>
+																							<option  value="Hong Kong Dollar" data-id="HKD">Hong Kong Dollar</option>
+																							<option  value="Honduran Lempira" data-id="HNL">Honduran Lempira</option>
+																							<option  value="Croatian Kuna" data-id="HRK">Croatian Kuna</option>
+																							<option  value="Hungarian Forint" data-id="HUF">Hungarian Forint</option>
+																							<option  value="Indonesian Rupiah" data-id="IDR">Indonesian Rupiah</option>
+																							<option  value="Israeli New Sheqel" data-id="ILS">Israeli New Sheqel</option>
+																							<option  value="Indian Rupee" data-id="INR">Indian Rupee</option>
+																							<option  value="Iraqi Dinar" data-id="IQD">Iraqi Dinar</option>
+																							<option  value="Iranian Rial" data-id="IRR">Iranian Rial</option>
+																							<option  value="Icelandic Króna" data-id="ISK">Icelandic Króna</option>
+																							<option  value="Jamaican Dollar" data-id="JMD">Jamaican Dollar</option>
+																							<option  value="Jordanian Dinar" data-id="JOD">Jordanian Dinar</option>
+																							<option  value="Japanese Yen" data-id="JPY">Japanese Yen</option>
+																							<option  value="Kenyan Shilling" data-id="KES">Kenyan Shilling</option>
+																							<option  value="Cambodian Riel" data-id="KHR">Cambodian Riel</option>
+																							<option  value="Comorian Franc" data-id="KMF">Comorian Franc</option>
+																							<option  value="South Korean Won" data-id="KRW">South Korean Won</option>
+																							<option  value="Kuwaiti Dinar" data-id="KWD">Kuwaiti Dinar</option>
+																							<option  value="Kazakhstani Tenge" data-id="KZT">Kazakhstani Tenge</option>
+																							<option  value="Lebanese Pound" data-id="LBP">Lebanese Pound</option>
+																							<option  value="Sri Lankan Rupee" data-id="LKR">Sri Lankan Rupee</option>
+																							<option  value="Lithuanian Litas" data-id="LTL">Lithuanian Litas</option>
+																							<option  value="Latvian Lats" data-id="LVL">Latvian Lats</option>
+																							<option  value="Libyan Dinar" data-id="LYD">Libyan Dinar</option>
+																							<option  value="Moroccan Dirham" data-id="MAD">Moroccan Dirham</option>
+																							<option  value="Moldovan Leu" data-id="MDL">Moldovan Leu</option>
+																							<option  value="Malagasy Ariary" data-id="MGA">Malagasy Ariary</option>
+																							<option  value="Macedonian Denar" data-id="MKD">Macedonian Denar</option>
+																							<option  value="Myanma Kyat" data-id="MMK">Myanma Kyat</option>
+																							<option  value="Macanese Pataca" data-id="MOP">Macanese Pataca</option>
+																							<option  value="Mauritian Rupee" data-id="MUR">Mauritian Rupee</option>
+																							<option  value="Mexican Peso" data-id="MXN">Mexican Peso</option>
+																							<option  value="Malaysian Ringgit" data-id="MYR">Malaysian Ringgit</option>
+																							<option  value="Mozambican Metical" data-id="MZN">Mozambican Metical</option>
+																							<option  value="Namibian Dollar" data-id="NAD">Namibian Dollar</option>
+																							<option  value="Nigerian Naira" data-id="NGN">Nigerian Naira</option>
+																							<option  value="Nicaraguan Córdoba" data-id="NIO">Nicaraguan Córdoba</option>
+																							<option  value="Norwegian Krone" data-id="NOK">Norwegian Krone</option>
+																							<option  value="Nepalese Rupee" data-id="NPR">Nepalese Rupee</option>
+																							<option  value="New Zealand Dollar" data-id="NZD">New Zealand Dollar</option>
+																							<option  value="Omani Rial" data-id="OMR">Omani Rial</option>
+																							<option  value="Panamanian Balboa" data-id="PAB">Panamanian Balboa</option>
+																							<option  value="Peruvian Nuevo Sol" data-id="PEN">Peruvian Nuevo Sol</option>
+																							<option  value="Philippine Peso" data-id="PHP">Philippine Peso</option>
+																							<option  value="Pakistani Rupee" data-id="PKR">Pakistani Rupee</option>
+																							<option  value="Polish Zloty" data-id="PLN">Polish Zloty</option>
+																							<option  value="Paraguayan Guarani" data-id="PYG">Paraguayan Guarani</option>
+																							<option  value="Qatari Rial" data-id="QAR">Qatari Rial</option>
+																							<option  value="Romanian Leu" data-id="RON">Romanian Leu</option>
+																							<option  value="Serbian Dinar" data-id="RSD">Serbian Dinar</option>
+																							<option  value="Russian Ruble" data-id="RUB">Russian Ruble</option>
+																							<option  value="Rwandan Franc" data-id="RWF">Rwandan Franc</option>
+																							<option  value="Saudi Riyal" data-id="SAR">Saudi Riyal</option>
+																							<option  value="Sudanese Pound" data-id="SDG">Sudanese Pound</option>
+																							<option  value="Swedish Krona" data-id="SEK">Swedish Krona</option>
+																							<option  value="Singapore Dollar" data-id="SGD">Singapore Dollar</option>
+																							<option  value="Somali Shilling" data-id="SOS">Somali Shilling</option>
+																							<option  value="Syrian Pound" data-id="SYP">Syrian Pound</option>
+																							<option  value="Thai Baht" data-id="THB">Thai Baht</option>
+																							<option  value="Tunisian Dinar" data-id="TND">Tunisian Dinar</option>
+																							<option  value="Tongan Paʻanga" data-id="TOP">Tongan Paʻanga</option>
+																							<option  value="Turkish Lira" data-id="TRY">Turkish Lira</option>
+																							<option  value="Trinidad and Tobago Dollar" data-id="TTD">Trinidad and Tobago Dollar</option>
+																							<option  value="New Taiwan Dollar" data-id="TWD">New Taiwan Dollar</option>
+																							<option  value="Tanzanian Shilling" data-id="TZS">Tanzanian Shilling</option>
+																							<option  value="Ukrainian Hryvnia" data-id="UAH">Ukrainian Hryvnia</option>
+																							<option  value="Ugandan Shilling" data-id="UGX">Ugandan Shilling</option>
+																							<option  value="Uruguayan Peso" data-id="UYU">Uruguayan Peso</option>
+																							<option  value="Uzbekistan Som" data-id="UZS">Uzbekistan Som</option>
+																							<option  value="Venezuelan Bolívar" data-id="VEF">Venezuelan Bolívar</option>
+																							<option  value="Vietnamese Dong" data-id="VND">Vietnamese Dong</option>
+																							<option  value="CFA Franc BEAC" data-id="XAF">CFA Franc BEAC</option>
+																							<option  value="CFA Franc BCEAO" data-id="XOF">CFA Franc BCEAO</option>
+																							<option  value="Yemeni Rial" data-id="YER">Yemeni Rial</option>
+																							<option  value="South African Rand" data-id="ZAR">South African Rand</option>
+																							<option  value="Zambian Kwacha" data-id="ZMK">Zambian Kwacha</option>
+																							<option  value="Bitcoin" data-id="BITCOIN">Bitcoin</option>
+																							<option  value="MDZA" data-id="MDZA">MDZA</option>
+																							<option  value="POINTS" data-id="POINTS">POINTS</option>
+																					</select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Code</td>
+                                                    <td><input class="form-control" value="" name="code"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Symbol Left</td>
+                                                    <td><input class="form-control" value="" name="symbol_left"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Symbol Right</td>
+                                                    <td><input class="form-control" value="" name="symbol_right"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Decimal Places</td>
+                                                    <td><input class="form-control" value="" name="decimal_place"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Value <span data-toggle="tooltip" title='Set to 1.00000 if this is your default currency.'></span> </td>
+                                                    <td><input class="form-control" value="" name="value"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Status</td>
+                                                    <td>
+                                                        <select class="form-control" name="status">
+											<option value="0">Disable</option>
+											<option value="1"  >Enable</option>
+										</select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="label">Set Default</td>
+                                                    <td><input type="checkbox" name="is_default" value="1"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" class="text-right">
+                                                        <button class="btn-submit btn btn-primary">Save </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            var currency_list = {
+                                "USD": {
+                                    "symbol": "$",
+                                    "name": "US Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "USD",
+                                    "name_plural": "US dollars"
+                                },
+                                "CAD": {
+                                    "symbol": "CA$",
+                                    "name": "Canadian Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "CAD",
+                                    "name_plural": "Canadian dollars"
+                                },
+                                "EUR": {
+                                    "symbol": "\u20ac",
+                                    "name": "Euro",
+                                    "symbol_native": "\u20ac",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "EUR",
+                                    "name_plural": "euros"
+                                },
+                                "AED": {
+                                    "symbol": "AED",
+                                    "name": "United Arab Emirates Dirham",
+                                    "symbol_native": "\u062f.\u0625.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "AED",
+                                    "name_plural": "UAE dirhams"
+                                },
+                                "AFN": {
+                                    "symbol": "Af",
+                                    "name": "Afghan Afghani",
+                                    "symbol_native": "\u060b",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "AFN",
+                                    "name_plural": "Afghan Afghanis"
+                                },
+                                "ALL": {
+                                    "symbol": "ALL",
+                                    "name": "Albanian Lek",
+                                    "symbol_native": "Lek",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "ALL",
+                                    "name_plural": "Albanian lek\u00eb"
+                                },
+                                "AMD": {
+                                    "symbol": "AMD",
+                                    "name": "Armenian Dram",
+                                    "symbol_native": "\u0564\u0580.",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "AMD",
+                                    "name_plural": "Armenian drams"
+                                },
+                                "ARS": {
+                                    "symbol": "AR$",
+                                    "name": "Argentine Peso",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "ARS",
+                                    "name_plural": "Argentine pesos"
+                                },
+                                "AUD": {
+                                    "symbol": "AU$",
+                                    "name": "Australian Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "AUD",
+                                    "name_plural": "Australian dollars"
+                                },
+                                "AZN": {
+                                    "symbol": "man.",
+                                    "name": "Azerbaijani Manat",
+                                    "symbol_native": "\u043c\u0430\u043d.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "AZN",
+                                    "name_plural": "Azerbaijani manats"
+                                },
+                                "BAM": {
+                                    "symbol": "KM",
+                                    "name": "Bosnia-Herzegovina Convertible Mark",
+                                    "symbol_native": "KM",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BAM",
+                                    "name_plural": "Bosnia-Herzegovina convertible marks"
+                                },
+                                "BDT": {
+                                    "symbol": "Tk",
+                                    "name": "Bangladeshi Taka",
+                                    "symbol_native": "\u09f3",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BDT",
+                                    "name_plural": "Bangladeshi takas"
+                                },
+                                "BGN": {
+                                    "symbol": "BGN",
+                                    "name": "Bulgarian Lev",
+                                    "symbol_native": "\u043b\u0432.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BGN",
+                                    "name_plural": "Bulgarian leva"
+                                },
+                                "BHD": {
+                                    "symbol": "BD",
+                                    "name": "Bahraini Dinar",
+                                    "symbol_native": "\u062f.\u0628.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "BHD",
+                                    "name_plural": "Bahraini dinars"
+                                },
+                                "BIF": {
+                                    "symbol": "FBu",
+                                    "name": "Burundian Franc",
+                                    "symbol_native": "FBu",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "BIF",
+                                    "name_plural": "Burundian francs"
+                                },
+                                "BND": {
+                                    "symbol": "BN$",
+                                    "name": "Brunei Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BND",
+                                    "name_plural": "Brunei dollars"
+                                },
+                                "BOB": {
+                                    "symbol": "Bs",
+                                    "name": "Bolivian Boliviano",
+                                    "symbol_native": "Bs",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BOB",
+                                    "name_plural": "Bolivian bolivianos"
+                                },
+                                "BRL": {
+                                    "symbol": "R$",
+                                    "name": "Brazilian Real",
+                                    "symbol_native": "R$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BRL",
+                                    "name_plural": "Brazilian reals"
+                                },
+                                "BWP": {
+                                    "symbol": "BWP",
+                                    "name": "Botswanan Pula",
+                                    "symbol_native": "P",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BWP",
+                                    "name_plural": "Botswanan pulas"
+                                },
+                                "BYR": {
+                                    "symbol": "BYR",
+                                    "name": "Belarusian Ruble",
+                                    "symbol_native": "BYR",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "BYR",
+                                    "name_plural": "Belarusian rubles"
+                                },
+                                "BZD": {
+                                    "symbol": "BZ$",
+                                    "name": "Belize Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "BZD",
+                                    "name_plural": "Belize dollars"
+                                },
+                                "CDF": {
+                                    "symbol": "CDF",
+                                    "name": "Congolese Franc",
+                                    "symbol_native": "FrCD",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "CDF",
+                                    "name_plural": "Congolese francs"
+                                },
+                                "CHF": {
+                                    "symbol": "CHF",
+                                    "name": "Swiss Franc",
+                                    "symbol_native": "CHF",
+                                    "decimal_digits": 2,
+                                    "rounding": 0.05000000000000000277555756156289135105907917022705078125,
+                                    "code": "CHF",
+                                    "name_plural": "Swiss francs"
+                                },
+                                "CLP": {
+                                    "symbol": "CL$",
+                                    "name": "Chilean Peso",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "CLP",
+                                    "name_plural": "Chilean pesos"
+                                },
+                                "CNY": {
+                                    "symbol": "CN\u00a5",
+                                    "name": "Chinese Yuan",
+                                    "symbol_native": "CN\u00a5",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "CNY",
+                                    "name_plural": "Chinese yuan"
+                                },
+                                "COP": {
+                                    "symbol": "CO$",
+                                    "name": "Colombian Peso",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "COP",
+                                    "name_plural": "Colombian pesos"
+                                },
+                                "CRC": {
+                                    "symbol": "\u20a1",
+                                    "name": "Costa Rican Col\u00f3n",
+                                    "symbol_native": "\u20a1",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "CRC",
+                                    "name_plural": "Costa Rican col\u00f3ns"
+                                },
+                                "CVE": {
+                                    "symbol": "CV$",
+                                    "name": "Cape Verdean Escudo",
+                                    "symbol_native": "CV$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "CVE",
+                                    "name_plural": "Cape Verdean escudos"
+                                },
+                                "CZK": {
+                                    "symbol": "K\u010d",
+                                    "name": "Czech Republic Koruna",
+                                    "symbol_native": "K\u010d",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "CZK",
+                                    "name_plural": "Czech Republic korunas"
+                                },
+                                "DJF": {
+                                    "symbol": "Fdj",
+                                    "name": "Djiboutian Franc",
+                                    "symbol_native": "Fdj",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "DJF",
+                                    "name_plural": "Djiboutian francs"
+                                },
+                                "DKK": {
+                                    "symbol": "Dkr",
+                                    "name": "Danish Krone",
+                                    "symbol_native": "kr",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "DKK",
+                                    "name_plural": "Danish kroner"
+                                },
+                                "DOP": {
+                                    "symbol": "RD$",
+                                    "name": "Dominican Peso",
+                                    "symbol_native": "RD$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "DOP",
+                                    "name_plural": "Dominican pesos"
+                                },
+                                "DZD": {
+                                    "symbol": "DA",
+                                    "name": "Algerian Dinar",
+                                    "symbol_native": "\u062f.\u062c.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "DZD",
+                                    "name_plural": "Algerian dinars"
+                                },
+                                "EEK": {
+                                    "symbol": "Ekr",
+                                    "name": "Estonian Kroon",
+                                    "symbol_native": "kr",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "EEK",
+                                    "name_plural": "Estonian kroons"
+                                },
+                                "EGP": {
+                                    "symbol": "EGP",
+                                    "name": "Egyptian Pound",
+                                    "symbol_native": "\u062c.\u0645.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "EGP",
+                                    "name_plural": "Egyptian pounds"
+                                },
+                                "ERN": {
+                                    "symbol": "Nfk",
+                                    "name": "Eritrean Nakfa",
+                                    "symbol_native": "Nfk",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "ERN",
+                                    "name_plural": "Eritrean nakfas"
+                                },
+                                "ETB": {
+                                    "symbol": "Br",
+                                    "name": "Ethiopian Birr",
+                                    "symbol_native": "Br",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "ETB",
+                                    "name_plural": "Ethiopian birrs"
+                                },
+                                "GBP": {
+                                    "symbol": "\u00a3",
+                                    "name": "British Pound Sterling",
+                                    "symbol_native": "\u00a3",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "GBP",
+                                    "name_plural": "British pounds sterling"
+                                },
+                                "GEL": {
+                                    "symbol": "GEL",
+                                    "name": "Georgian Lari",
+                                    "symbol_native": "GEL",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "GEL",
+                                    "name_plural": "Georgian laris"
+                                },
+                                "GHS": {
+                                    "symbol": "GH\u20b5",
+                                    "name": "Ghanaian Cedi",
+                                    "symbol_native": "GH\u20b5",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "GHS",
+                                    "name_plural": "Ghanaian cedis"
+                                },
+                                "GNF": {
+                                    "symbol": "FG",
+                                    "name": "Guinean Franc",
+                                    "symbol_native": "FG",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "GNF",
+                                    "name_plural": "Guinean francs"
+                                },
+                                "GTQ": {
+                                    "symbol": "GTQ",
+                                    "name": "Guatemalan Quetzal",
+                                    "symbol_native": "Q",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "GTQ",
+                                    "name_plural": "Guatemalan quetzals"
+                                },
+                                "HKD": {
+                                    "symbol": "HK$",
+                                    "name": "Hong Kong Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "HKD",
+                                    "name_plural": "Hong Kong dollars"
+                                },
+                                "HNL": {
+                                    "symbol": "HNL",
+                                    "name": "Honduran Lempira",
+                                    "symbol_native": "L",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "HNL",
+                                    "name_plural": "Honduran lempiras"
+                                },
+                                "HRK": {
+                                    "symbol": "kn",
+                                    "name": "Croatian Kuna",
+                                    "symbol_native": "kn",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "HRK",
+                                    "name_plural": "Croatian kunas"
+                                },
+                                "HUF": {
+                                    "symbol": "Ft",
+                                    "name": "Hungarian Forint",
+                                    "symbol_native": "Ft",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "HUF",
+                                    "name_plural": "Hungarian forints"
+                                },
+                                "IDR": {
+                                    "symbol": "Rp",
+                                    "name": "Indonesian Rupiah",
+                                    "symbol_native": "Rp",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "IDR",
+                                    "name_plural": "Indonesian rupiahs"
+                                },
+                                "ILS": {
+                                    "symbol": "\u20aa",
+                                    "name": "Israeli New Sheqel",
+                                    "symbol_native": "\u20aa",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "ILS",
+                                    "name_plural": "Israeli new sheqels"
+                                },
+                                "INR": {
+                                    "symbol": "Rs",
+                                    "name": "Indian Rupee",
+                                    "symbol_native": "\u099f\u0995\u09be",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "INR",
+                                    "name_plural": "Indian rupees"
+                                },
+                                "IQD": {
+                                    "symbol": "IQD",
+                                    "name": "Iraqi Dinar",
+                                    "symbol_native": "\u062f.\u0639.\u200f",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "IQD",
+                                    "name_plural": "Iraqi dinars"
+                                },
+                                "IRR": {
+                                    "symbol": "IRR",
+                                    "name": "Iranian Rial",
+                                    "symbol_native": "\ufdfc",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "IRR",
+                                    "name_plural": "Iranian rials"
+                                },
+                                "ISK": {
+                                    "symbol": "Ikr",
+                                    "name": "Icelandic Kr\u00f3na",
+                                    "symbol_native": "kr",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "ISK",
+                                    "name_plural": "Icelandic kr\u00f3nur"
+                                },
+                                "JMD": {
+                                    "symbol": "J$",
+                                    "name": "Jamaican Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "JMD",
+                                    "name_plural": "Jamaican dollars"
+                                },
+                                "JOD": {
+                                    "symbol": "JD",
+                                    "name": "Jordanian Dinar",
+                                    "symbol_native": "\u062f.\u0623.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "JOD",
+                                    "name_plural": "Jordanian dinars"
+                                },
+                                "JPY": {
+                                    "symbol": "\u00a5",
+                                    "name": "Japanese Yen",
+                                    "symbol_native": "\uffe5",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "JPY",
+                                    "name_plural": "Japanese yen"
+                                },
+                                "KES": {
+                                    "symbol": "Ksh",
+                                    "name": "Kenyan Shilling",
+                                    "symbol_native": "Ksh",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "KES",
+                                    "name_plural": "Kenyan shillings"
+                                },
+                                "KHR": {
+                                    "symbol": "KHR",
+                                    "name": "Cambodian Riel",
+                                    "symbol_native": "\u17db",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "KHR",
+                                    "name_plural": "Cambodian riels"
+                                },
+                                "KMF": {
+                                    "symbol": "CF",
+                                    "name": "Comorian Franc",
+                                    "symbol_native": "FC",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "KMF",
+                                    "name_plural": "Comorian francs"
+                                },
+                                "KRW": {
+                                    "symbol": "\u20a9",
+                                    "name": "South Korean Won",
+                                    "symbol_native": "\u20a9",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "KRW",
+                                    "name_plural": "South Korean won"
+                                },
+                                "KWD": {
+                                    "symbol": "KD",
+                                    "name": "Kuwaiti Dinar",
+                                    "symbol_native": "\u062f.\u0643.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "KWD",
+                                    "name_plural": "Kuwaiti dinars"
+                                },
+                                "KZT": {
+                                    "symbol": "KZT",
+                                    "name": "Kazakhstani Tenge",
+                                    "symbol_native": "\u0442\u04a3\u0433.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "KZT",
+                                    "name_plural": "Kazakhstani tenges"
+                                },
+                                "LBP": {
+                                    "symbol": "LB\u00a3",
+                                    "name": "Lebanese Pound",
+                                    "symbol_native": "\u0644.\u0644.\u200f",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "LBP",
+                                    "name_plural": "Lebanese pounds"
+                                },
+                                "LKR": {
+                                    "symbol": "SLRs",
+                                    "name": "Sri Lankan Rupee",
+                                    "symbol_native": "SL Re",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "LKR",
+                                    "name_plural": "Sri Lankan rupees"
+                                },
+                                "LTL": {
+                                    "symbol": "Lt",
+                                    "name": "Lithuanian Litas",
+                                    "symbol_native": "Lt",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "LTL",
+                                    "name_plural": "Lithuanian litai"
+                                },
+                                "LVL": {
+                                    "symbol": "Ls",
+                                    "name": "Latvian Lats",
+                                    "symbol_native": "Ls",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "LVL",
+                                    "name_plural": "Latvian lati"
+                                },
+                                "LYD": {
+                                    "symbol": "LD",
+                                    "name": "Libyan Dinar",
+                                    "symbol_native": "\u062f.\u0644.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "LYD",
+                                    "name_plural": "Libyan dinars"
+                                },
+                                "MAD": {
+                                    "symbol": "MAD",
+                                    "name": "Moroccan Dirham",
+                                    "symbol_native": "\u062f.\u0645.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MAD",
+                                    "name_plural": "Moroccan dirhams"
+                                },
+                                "MDL": {
+                                    "symbol": "MDL",
+                                    "name": "Moldovan Leu",
+                                    "symbol_native": "MDL",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MDL",
+                                    "name_plural": "Moldovan lei"
+                                },
+                                "MGA": {
+                                    "symbol": "MGA",
+                                    "name": "Malagasy Ariary",
+                                    "symbol_native": "MGA",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "MGA",
+                                    "name_plural": "Malagasy Ariaries"
+                                },
+                                "MKD": {
+                                    "symbol": "MKD",
+                                    "name": "Macedonian Denar",
+                                    "symbol_native": "MKD",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MKD",
+                                    "name_plural": "Macedonian denari"
+                                },
+                                "MMK": {
+                                    "symbol": "MMK",
+                                    "name": "Myanma Kyat",
+                                    "symbol_native": "K",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "MMK",
+                                    "name_plural": "Myanma kyats"
+                                },
+                                "MOP": {
+                                    "symbol": "MOP$",
+                                    "name": "Macanese Pataca",
+                                    "symbol_native": "MOP$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MOP",
+                                    "name_plural": "Macanese patacas"
+                                },
+                                "MUR": {
+                                    "symbol": "MURs",
+                                    "name": "Mauritian Rupee",
+                                    "symbol_native": "MURs",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "MUR",
+                                    "name_plural": "Mauritian rupees"
+                                },
+                                "MXN": {
+                                    "symbol": "MX$",
+                                    "name": "Mexican Peso",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MXN",
+                                    "name_plural": "Mexican pesos"
+                                },
+                                "MYR": {
+                                    "symbol": "RM",
+                                    "name": "Malaysian Ringgit",
+                                    "symbol_native": "RM",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MYR",
+                                    "name_plural": "Malaysian ringgits"
+                                },
+                                "MZN": {
+                                    "symbol": "MTn",
+                                    "name": "Mozambican Metical",
+                                    "symbol_native": "MTn",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "MZN",
+                                    "name_plural": "Mozambican meticals"
+                                },
+                                "NAD": {
+                                    "symbol": "N$",
+                                    "name": "Namibian Dollar",
+                                    "symbol_native": "N$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NAD",
+                                    "name_plural": "Namibian dollars"
+                                },
+                                "NGN": {
+                                    "symbol": "\u20a6",
+                                    "name": "Nigerian Naira",
+                                    "symbol_native": "\u20a6",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NGN",
+                                    "name_plural": "Nigerian nairas"
+                                },
+                                "NIO": {
+                                    "symbol": "C$",
+                                    "name": "Nicaraguan C\u00f3rdoba",
+                                    "symbol_native": "C$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NIO",
+                                    "name_plural": "Nicaraguan c\u00f3rdobas"
+                                },
+                                "NOK": {
+                                    "symbol": "Nkr",
+                                    "name": "Norwegian Krone",
+                                    "symbol_native": "kr",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NOK",
+                                    "name_plural": "Norwegian kroner"
+                                },
+                                "NPR": {
+                                    "symbol": "NPRs",
+                                    "name": "Nepalese Rupee",
+                                    "symbol_native": "\u0928\u0947\u0930\u0942",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NPR",
+                                    "name_plural": "Nepalese rupees"
+                                },
+                                "NZD": {
+                                    "symbol": "NZ$",
+                                    "name": "New Zealand Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "NZD",
+                                    "name_plural": "New Zealand dollars"
+                                },
+                                "OMR": {
+                                    "symbol": "OMR",
+                                    "name": "Omani Rial",
+                                    "symbol_native": "\u0631.\u0639.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "OMR",
+                                    "name_plural": "Omani rials"
+                                },
+                                "PAB": {
+                                    "symbol": "B\/.",
+                                    "name": "Panamanian Balboa",
+                                    "symbol_native": "B\/.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "PAB",
+                                    "name_plural": "Panamanian balboas"
+                                },
+                                "PEN": {
+                                    "symbol": "S\/.",
+                                    "name": "Peruvian Nuevo Sol",
+                                    "symbol_native": "S\/.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "PEN",
+                                    "name_plural": "Peruvian nuevos soles"
+                                },
+                                "PHP": {
+                                    "symbol": "\u20b1",
+                                    "name": "Philippine Peso",
+                                    "symbol_native": "\u20b1",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "PHP",
+                                    "name_plural": "Philippine pesos"
+                                },
+                                "PKR": {
+                                    "symbol": "PKRs",
+                                    "name": "Pakistani Rupee",
+                                    "symbol_native": "\u20a8",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "PKR",
+                                    "name_plural": "Pakistani rupees"
+                                },
+                                "PLN": {
+                                    "symbol": "z\u0142",
+                                    "name": "Polish Zloty",
+                                    "symbol_native": "z\u0142",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "PLN",
+                                    "name_plural": "Polish zlotys"
+                                },
+                                "PYG": {
+                                    "symbol": "\u20b2",
+                                    "name": "Paraguayan Guarani",
+                                    "symbol_native": "\u20b2",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "PYG",
+                                    "name_plural": "Paraguayan guaranis"
+                                },
+                                "QAR": {
+                                    "symbol": "QR",
+                                    "name": "Qatari Rial",
+                                    "symbol_native": "\u0631.\u0642.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "QAR",
+                                    "name_plural": "Qatari rials"
+                                },
+                                "RON": {
+                                    "symbol": "RON",
+                                    "name": "Romanian Leu",
+                                    "symbol_native": "RON",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "RON",
+                                    "name_plural": "Romanian lei"
+                                },
+                                "RSD": {
+                                    "symbol": "din.",
+                                    "name": "Serbian Dinar",
+                                    "symbol_native": "\u0434\u0438\u043d.",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "RSD",
+                                    "name_plural": "Serbian dinars"
+                                },
+                                "RUB": {
+                                    "symbol": "RUB",
+                                    "name": "Russian Ruble",
+                                    "symbol_native": "\u0440\u0443\u0431.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "RUB",
+                                    "name_plural": "Russian rubles"
+                                },
+                                "RWF": {
+                                    "symbol": "RWF",
+                                    "name": "Rwandan Franc",
+                                    "symbol_native": "FR",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "RWF",
+                                    "name_plural": "Rwandan francs"
+                                },
+                                "SAR": {
+                                    "symbol": "SR",
+                                    "name": "Saudi Riyal",
+                                    "symbol_native": "\u0631.\u0633.\u200f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "SAR",
+                                    "name_plural": "Saudi riyals"
+                                },
+                                "SDG": {
+                                    "symbol": "SDG",
+                                    "name": "Sudanese Pound",
+                                    "symbol_native": "SDG",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "SDG",
+                                    "name_plural": "Sudanese pounds"
+                                },
+                                "SEK": {
+                                    "symbol": "Skr",
+                                    "name": "Swedish Krona",
+                                    "symbol_native": "kr",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "SEK",
+                                    "name_plural": "Swedish kronor"
+                                },
+                                "SGD": {
+                                    "symbol": "S$",
+                                    "name": "Singapore Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "SGD",
+                                    "name_plural": "Singapore dollars"
+                                },
+                                "SOS": {
+                                    "symbol": "Ssh",
+                                    "name": "Somali Shilling",
+                                    "symbol_native": "Ssh",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "SOS",
+                                    "name_plural": "Somali shillings"
+                                },
+                                "SYP": {
+                                    "symbol": "SY\u00a3",
+                                    "name": "Syrian Pound",
+                                    "symbol_native": "\u0644.\u0633.\u200f",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "SYP",
+                                    "name_plural": "Syrian pounds"
+                                },
+                                "THB": {
+                                    "symbol": "\u0e3f",
+                                    "name": "Thai Baht",
+                                    "symbol_native": "\u0e3f",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "THB",
+                                    "name_plural": "Thai baht"
+                                },
+                                "TND": {
+                                    "symbol": "DT",
+                                    "name": "Tunisian Dinar",
+                                    "symbol_native": "\u062f.\u062a.\u200f",
+                                    "decimal_digits": 3,
+                                    "rounding": 0,
+                                    "code": "TND",
+                                    "name_plural": "Tunisian dinars"
+                                },
+                                "TOP": {
+                                    "symbol": "T$",
+                                    "name": "Tongan Pa\u02bbanga",
+                                    "symbol_native": "T$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "TOP",
+                                    "name_plural": "Tongan pa\u02bbanga"
+                                },
+                                "TRY": {
+                                    "symbol": "TL",
+                                    "name": "Turkish Lira",
+                                    "symbol_native": "TL",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "TRY",
+                                    "name_plural": "Turkish Lira"
+                                },
+                                "TTD": {
+                                    "symbol": "TT$",
+                                    "name": "Trinidad and Tobago Dollar",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "TTD",
+                                    "name_plural": "Trinidad and Tobago dollars"
+                                },
+                                "TWD": {
+                                    "symbol": "NT$",
+                                    "name": "New Taiwan Dollar",
+                                    "symbol_native": "NT$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "TWD",
+                                    "name_plural": "New Taiwan dollars"
+                                },
+                                "TZS": {
+                                    "symbol": "TSh",
+                                    "name": "Tanzanian Shilling",
+                                    "symbol_native": "TSh",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "TZS",
+                                    "name_plural": "Tanzanian shillings"
+                                },
+                                "UAH": {
+                                    "symbol": "\u20b4",
+                                    "name": "Ukrainian Hryvnia",
+                                    "symbol_native": "\u20b4",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "UAH",
+                                    "name_plural": "Ukrainian hryvnias"
+                                },
+                                "UGX": {
+                                    "symbol": "USh",
+                                    "name": "Ugandan Shilling",
+                                    "symbol_native": "USh",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "UGX",
+                                    "name_plural": "Ugandan shillings"
+                                },
+                                "UYU": {
+                                    "symbol": "$U",
+                                    "name": "Uruguayan Peso",
+                                    "symbol_native": "$",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "UYU",
+                                    "name_plural": "Uruguayan pesos"
+                                },
+                                "UZS": {
+                                    "symbol": "UZS",
+                                    "name": "Uzbekistan Som",
+                                    "symbol_native": "UZS",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "UZS",
+                                    "name_plural": "Uzbekistan som"
+                                },
+                                "VEF": {
+                                    "symbol": "Bs.F.",
+                                    "name": "Venezuelan Bol\u00edvar",
+                                    "symbol_native": "Bs.F.",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "VEF",
+                                    "name_plural": "Venezuelan bol\u00edvars"
+                                },
+                                "VND": {
+                                    "symbol": "\u20ab",
+                                    "name": "Vietnamese Dong",
+                                    "symbol_native": "\u20ab",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "VND",
+                                    "name_plural": "Vietnamese dong"
+                                },
+                                "XAF": {
+                                    "symbol": "FCFA",
+                                    "name": "CFA Franc BEAC",
+                                    "symbol_native": "FCFA",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "XAF",
+                                    "name_plural": "CFA francs BEAC"
+                                },
+                                "XOF": {
+                                    "symbol": "CFA",
+                                    "name": "CFA Franc BCEAO",
+                                    "symbol_native": "CFA",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "XOF",
+                                    "name_plural": "CFA francs BCEAO"
+                                },
+                                "YER": {
+                                    "symbol": "YR",
+                                    "name": "Yemeni Rial",
+                                    "symbol_native": "\u0631.\u064a.\u200f",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "YER",
+                                    "name_plural": "Yemeni rials"
+                                },
+                                "ZAR": {
+                                    "symbol": "R",
+                                    "name": "South African Rand",
+                                    "symbol_native": "R",
+                                    "decimal_digits": 2,
+                                    "rounding": 0,
+                                    "code": "ZAR",
+                                    "name_plural": "South African rand"
+                                },
+                                "ZMK": {
+                                    "symbol": "ZK",
+                                    "name": "Zambian Kwacha",
+                                    "symbol_native": "ZK",
+                                    "decimal_digits": 0,
+                                    "rounding": 0,
+                                    "code": "ZMK",
+                                    "name_plural": "Zambian kwachas"
+                                },
+                                "BITCOIN": {
+                                    "code": "BITCOIN",
+                                    "decimal_digits": 2,
+                                    "name": "Bitcoin",
+                                    "name_plural": "Bitcoin",
+                                    "rounding": 0,
+                                    "symbol": "\u20bf",
+                                    "symbol_native": "\u20bf"
+                                },
+                                "MDZA": {
+                                    "code": "MDZA",
+                                    "decimal_digits": 2,
+                                    "name": "MDZA",
+                                    "name_plural": "MDZA",
+                                    "rounding": 0,
+                                    "symbol": "MDZA",
+                                    "symbol_native": "MDZA"
+                                },
+                                "POINTS": {
+                                    "code": "POINTS",
+                                    "decimal_digits": 0,
+                                    "name": "POINTS",
+                                    "name_plural": "POINTS",
+                                    "rounding": 0,
+                                    "symbol": "",
+                                    "symbol_native": ""
+                                }
+                            };
+
+                            $('.title-dropdown').on('change', function() {
+                                var val = $(this).val();
+                                var id = $('.title-dropdown option:selected').attr("data-id");
+                                $('input[name=code]').val('');
+                                $('input[name=symbol_left]').val('');
+                                $('input[name=decimal_place]').val('');
+                                if (currency_list[id]) {
+                                    $('input[name=code]').val(currency_list[id]['code']);
+                                    $('input[name=symbol_left]').val(currency_list[id]['symbol']);
+                                    $('input[name=decimal_place]').val(currency_list[id]['decimal_digits']);
+                                }
+                            });
+
+                            $("#currency_edit_form").on('submit', function() {
+                                $this = $(this);
+                                $.ajax({
+                                    url: '',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: $this.serialize(),
+                                    beforeSend: function() {
+                                        $this.find('.btn-submit').btn("loading");
+                                    },
+                                    complete: function() {
+                                        $this.find('.btn-submit').btn("reset");
+                                    },
+                                    success: function(json) {
+
+                                        if (json['location']) {
+                                            window.location = json['location'];
+                                        }
+                                        $this.find(".has-error").removeClass("has-error");
+                                        $this.find("span.text-danger").remove();
+                                        if (json['errors']) {
+                                            $.each(json['errors'], function(i, j) {
+                                                $ele = $this.find('[name="' + i + '"]');
+                                                if ($ele) {
+                                                    $ele.parents(".form-group").addClass("has-error");
+                                                    $ele.after("<span class='text-danger'>" + j + "</span>");
+                                                }
+                                            })
+                                        }
+                                    },
+                                });
+                                return false;
+                            });
+
+                            $("input[name='is_default']").on('change', function() {
+                                if ($(this).is(':checked'))
+                                    $("input[name='value']").val(1);
+                                else
+                                    $("input[name='value']").val('');
+                            })
+                        </script>
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script>
+                $(".select2-input").select2();
+
+                $(document).delegate(".view-all", 'click', function() {
+                    var data = $(this).find("span").html();
+                    var html = '<table class="table table-hover">';
+
+                    data = JSON.parse(data);
+
+                    html += '<tr>';
+
+                    html += ' <th>' + 'admin.ip' + '</th>';
+
+                    html += ' <th width="30px">' + 'admin.country' + '</th>';
+
+                    html += '</tr>';
+
+                    $.each(data, function(i, j) {
+                        html += '<tr>';
+
+                        html += ' <td>' + j['ip'] + '</td>';
+
+                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';
+
+                        html += '</tr>';
+                    })
+
+                    html += '</table>';
+
+                    $("#ip-flag_model").modal("show");
+
+                    $("#ip-flag_model .modal-body").html(html);
+                })
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                if ($('#morris-area-chart').length > 0) {
+                    var areaData = [
+
+                        {
+                            y: '2011',
+                            a: 10,
+                            b: 15
+                        },
+
+                        {
+                            y: '2012',
+                            a: 30,
+                            b: 35
+                        },
+
+                        {
+                            y: '2013',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2014',
+                            a: 55,
+                            b: 45
+                        },
+
+                        {
+                            y: '2015',
+                            a: 30,
+                            b: 20
+                        },
+
+                        {
+                            y: '2016',
+                            a: 40,
+                            b: 35
+                        },
+
+                        {
+                            y: '2017',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2018',
+                            a: 25,
+                            b: 30
+                        }
+
+                    ];
+
+                    Morris.Area({
+
+                        element: 'morris-area-chart',
+
+                        pointSize: 3,
+
+                        lineWidth: 2,
+
+                        data: areaData,
+
+                        xkey: 'y',
+
+                        ykeys: ['a', 'b'],
+
+                        labels: ['Orders', 'Sales'],
+
+                        resize: true,
+
+                        hideHover: 'auto',
+
+                        gridLineColor: '#eef0f2',
+
+                        lineColors: ['#00c292', '#03a9f3'],
+
+                        lineWidth: 0,
+
+                        fillOpacity: 0.1,
+
+                        xLabelMargin: 10,
+
+                        yLabelMargin: 10,
+
+                        grid: false,
+
+                        axes: false,
+
+                        pointSize: 0
+
+                    });
+                }
+
+                $(document).on('ready', function() {
+
+                    if ($('#morris-donut-chart').length > 0) {
+                        var donutData = [];
+
+                        Morris.Donut({
+
+                            element: 'morris-donut-chart',
+
+                            data: donutData,
+
+                            resize: true,
+
+                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']
+
+                        });
+
+                    }
+
+                    if ($("#boxscroll").length > 0)
+                        $("#boxscroll").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+                    if ($("#boxscroll2").length > 0)
+                        $("#boxscroll2").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+
+                    if ($(".clickable-row").length > 0) {
+                        $(".clickable-row").on('click', function() {
+                            window.location = $(this).data("href");
+                        });
+                    }
+
+                    if ($("#Country").length > 0) {
+                        $('#Country').on('change', function() {
+                            country_id = $(this).val();
+
+                            $.ajax({
+
+                                type: "POST",
+
+                                url: "getstate",
+
+                                data: 'country_id=' + country_id,
+
+                                success: function(data) {
+
+                                    $("#StateProvince").html(data);
+
+                                }
+
+                            });
+
+                        });
+                    }
+
+                });
+
+
+                function shownofication(id, url) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "updatenotify",
+
+                        data: 'id=' + id,
+
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            window.location.href = data['location'];
+
+                        }
+
+                    });
+
+                }
+
+                $(document).on('ready', function() {
+                    $('.summernote-img').each(function() {
+                        sumNote($(this));
+                    });
+
+                });
+
+                function sumNote(element) {
+                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;
+
+                    $(element).summernote({
+
+                        disableDragAndDrop: true,
+
+                        height: height,
+
+
+                        toolbar: [
+
+                            ['style', ['style']],
+
+                            ['font', ['bold', 'underline', 'clear']],
+
+                            ['fontname', ['fontname']],
+
+                            ['color', ['color']],
+
+                            ['para', ['ul', 'ol', 'paragraph']],
+
+                            ['table', ['table']],
+
+                            ['insert', ['link', 'image', 'picture', 'video']],
+
+                            ['view', ['fullscreen', 'codeview', 'help']]
+
+                        ],
+
+                        buttons: {
+
+                            image: function() {
+
+                                var ui = $.summernote.ui;
+
+                                // create button
+
+                                var button = ui.button({
+
+                                    contents: '<i class="fa fa-image" />',
+
+                                    tooltip: false,
+
+                                    click: function() {
+
+                                        $('#modal-image').remove();
+
+
+
+                                        $.ajax({
+
+                                            url: 'https://demo.affiliatepro.org/filemanager',
+
+                                            dataType: 'html',
+
+                                            beforeSend: function() {
+
+                                            },
+                                            complete: function() {
+
+                                            },
+                                            success: function(html) {
+
+                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');
+
+                                                $('#modal-image').modal('show');
+
+                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {
+
+                                                    e.preventDefault();
+
+                                                    $(element).summernote('insertImage', $(this).attr('href'));
+
+                                                    $('#modal-image').modal('hide');
+
+                                                });
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+
+
+
+                                return button.render();
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+</div>
+{% endblock %}
+
+

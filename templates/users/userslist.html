@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+
+{% extends 'base.html'%}
+{% load static %}
+
+  {% block title %}
+      Affiliate Script - ADMIN PANEL
+  {% endblock %}
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  	{%block body_block%}
+
+<div class="main">
+    <div class="overly"></div>
+{#    nav#}
+    {% include 'navgation.html' %}
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+            {% include 'rightheader.html' %}
+
+                    <div class="server-errors">
+                    </div>
+                    <script>
+                        function sessionTimeout() {
+                            var dt = new Date();
+                            let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                            let h = Math.floor(distance / 3600);
+                            let m = Math.floor(distance % 3600 / 60);
+                            let s = Math.floor(distance % 3600 % 60);
+
+                            let string = "";
+
+                            string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                            string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                            string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                            $(".dashboard-refresh em").text(string);
+
+                            if (distance <= 0) {
+                                window.location.replace('logout');
+                                clearInterval(GlobaleCountDownDateInterval);
+                            }
+                        }
+
+                        var dt = new Date();
+                        var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                        sessionTimeout();
+                        var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                        $(document).ajaxComplete(function(event, request, settings) {
+                            let parts = settings.url.split("/");
+                            let last_part = parts[parts.length - 1];
+                            if (last_part != "ajax_dashboard") {
+                                var dt = new Date();
+                                var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                            }
+                        });
+                    </script>
+                    <div class="content-wrapper">
+                        <style type="text/css">
+                            .user-table .accordian-body .row div {
+                                white-space: normal !important;
+                            }
+                        </style>
+
+                        <div class="modal fade" id="importUsersModel" role="dialog">
+
+                            <div class="modal-dialog modal-sm">
+
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+
+                                        <h4 class="modal-title">Import Users</h4>
+
+                                        <button type="button" class="close btn-close" data-dismiss="modal">&times;</button>
+
+                                        <a href="" class="close hidden-close d-none">&times;</a>
+
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <form id="import_form">
+
+                                            <label class="file">
+
+						<input name="import_control" type="file" id="import_control" aria-label="File browser example">
+
+						<span class="file-custom"></span>
+
+					</label>
+
+                                        </form>
+
+
+
+                                        <div id="import-status"></div>
+
+                                        <div id="import-log"></div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal">Close</button>
+
+                                        <a href="" class="btn btn-default hidden-close d-none">Close</a>
+
+                                        <button type="button" class="btn btn-default btn_import_data" data-dismiss="modal">Upload</button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <div class="card">
+
+                                    <div class="card m-b-30">
+
+                                        <div class="card-body">
+
+
+                                            <div class="approvals-status-alert alert alert-danger" role="alert" style="display: none;"></div>
+
+                                            <form id="search-form">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Name</label>
+                                                            <input type="search" name="name" class="form-control">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Email</label>
+                                                            <input type="search" name="email" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Groups</label>
+                                                            <select class="form-control select2" name="groups[]" multiple="multiple">
+																					<option value="15">
+												101 Real Estate											</option>
+																					<option value="14">
+												hello kitty											</option>
+																					<option value="13">
+												Alkebu Society Club											</option>
+																					<option value="12">
+												Real Estate											</option>
+																					<option value="11">
+												Tbzgrp											</option>
+																					<option value="10">
+												Ddd											</option>
+																					<option value="9">
+												ttt											</option>
+																					<option value="8">
+												Deneme											</option>
+																			</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label d-block">&nbsp;</label>
+                                                            <div>
+                                                                <div class="btn-group mb-1 d-inline-block btn-group-md" role="group" aria-label="Export/Import Users">
+                                                                    <a class="btn btn-primary" href="addusers">Add Affiliate</a>
+                                                                    <button type="button" class="btn btn-dark export-excel"> <i class="fa fa-file-excel-o"></i> Export</button>
+                                                                    <button type="button" class="btn btn-info import-excel" data-toggle="modal" data-target="#importUsersModel"> <i class="fa fa-file-excel-o"></i> Import</button>
+                                                                </div>
+                                                                <div class="btn-group mb-1 d-inline-block btn-group-md delete-multiple-container">
+                                                                    <button class="btn btn-danger delete-multiple" type="button">Delete Selected<span class="selected-count"></span></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+
+
+                                            <div class="selection-message">
+                                                All <span class="selected-count"></span> users on this page are selected. <a href="javascript:void(0)" class="select-all-users">Select All <span class="total-user"></span> Users </a> <a href="javascript:void(0)"
+                                                    class="clear-selection">Clear selection</a>
+                                            </div>
+
+                                            <div class="dimmer">
+
+                                                <div class="loader"></div>
+
+                                                <div class="dimmer-content">
+
+                                                    <div class="table-rep-plugin">
+
+                                                        <div class="table-responsive b-0" data-pattern="priority-columns">
+                                                            <p class="p-2 mb-0 lead user-approvals-filer">
+                                                                <a class="badge badge-primary" data-apr="all" href="javascript:void(0);">show all users (168)</a>
+                                                                <a class="badge badge-default" data-apr="approved" href="javascript:void(0);">show approved users (154)</a>
+                                                                <a class="badge badge-default" data-apr="pending" href="javascript:void(0);">show pending approvals (11)</a>
+                                                                <a class="badge badge-default" data-apr="declined" href="javascript:void(0);"> show declined approvals (3)</a>
+
+                                                            </p>
+
+                                                            <table id="tech-companies-1" class="table table-hover user-table">
+                                                                <thead class="thead-light">
+                                                                    <tr>
+                                                                        <th><input type="checkbox" class="selectall-wallet-checkbox"></th>
+                                                                        <th>User Details</th>
+                                                                        <th>User level</th>
+                                                                        <th>Membership Details</th>
+                                                                        <th>Plan Status</th>
+                                                                        <th>Country</th>
+                                                                        <th>Groups</th>
+                                                                        <th>Vendor</th>
+                                                                        <th>Reffered By</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+
+                                                                <tbody></tbody>
+
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="100%" class="text-right">
+                                                                            <div class="pagination"></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+
+                                                            </table>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal fade" id="modal-delete">
+
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+
+                                    <div class="modal-body">
+
+                                        <div id="message"></div>
+
+                                        <hr>
+
+                                        <div>
+
+                                            <div class="checkbox">
+
+                                                <label>
+
+							<input type="checkbox" value="delete_transaction" id="delete_transaction">
+
+							Delete All Transaction Or Commission ?	
+
+						</label>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                                        <button type="button" class="btn btn-primary confirm-delete" data-id="0">Delete</button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="modal fade" id="modal-tree">
+
+                            <div class="modal-dialog modal-lg">
+
+                                <div class="modal-content">
+
+                                    <div class="modal-body"></div>
+
+                                    <div class="modal-footer">
+
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <script src="{% static 'dashboard/assets/plugins/tree/jquery-ui-1.10.4.custom.min.js' %}"></script>
+
+                        <script src="{% static 'dashboard/assets/plugins/tree/jquery.tabelizer.js' %}"></script>
+
+                        <link href="https://demo.affiliatepro.org/assets/plugins/tree/tabelizer.min.css?v=6.2" media="all" rel="stylesheet" type="text/css" />
+
+
+
+                        <script type="text/javascript" async="">
+                            $(document).on('click', '.btn-login-aff', function() {
+                                $.post('doLoginAff', {
+                                    id: $(this).data('id')
+                                }, function(result) {
+                                    if (result == 'success') {
+                                        window.open('https://demo.affiliatepro.org/usercontrol/dashboard', '_blank');
+                                    }
+                                })
+                            })
+
+
+                            $(document).on('click', '.user-approvals-filer a', function() {
+                                $('.user-approvals-filer a.badge-primary').addClass('badge-default').removeClass('badge-primary');
+                                $(this).removeClass('badge-default').addClass('badge-primary');
+                                getPage(1);
+                            });
+
+                            $(document).on('click', 'a[data-approval-change]', function() {
+                                if (xhr && xhr.readyState != 4) xhr.abort();
+                                data = {};
+                                let status = ($(this).data('approval-change') == 1) ? 'approve_users' : 'decline_users'
+                                data['action'] = "process_approval";
+                                data[status] = [$(this).data('user-id')];
+                                xhr = $.ajax({
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: data,
+                                    beforeSend: function() {
+                                        $(".dimmer").addClass("active");
+                                    },
+                                    complete: function() {
+                                        $(".dimmer").removeClass("active");
+                                    },
+                                    success: function(response) {
+                                        if (response.approvals_status.status) {
+                                            $('.approvals-status-alert').removeClass('alert-danger');
+                                            $('.approvals-status-alert').addClass('alert-success');
+                                            $('.approvals-status-alert').text(response.approvals_status.message);
+                                        } else {
+                                            $('.approvals-status-alert').addClass('alert-danger');
+                                            $('.approvals-status-alert').removeClass('alert-success');
+                                            $('.approvals-status-alert').text(response.approvals_status.message);
+                                        }
+                                        $('.approvals-status-alert').show();
+                                        setTimeout(function() {
+                                            $('.approvals-status-alert').hide();
+                                        }, 3000);
+                                        reloadApprovalFilter(response.approvals_count)
+                                        getPage(1, response.approvals_count);
+                                    }
+                                });
+                            });
+
+                            var selected = {};
+
+                            var all_ids = [];
+
+                            $('.clear-selection').on('click', function() {
+
+                                selected = {};
+
+                                $(".selection-message").addClass('d-none');
+
+                                $('.selectall-wallet-checkbox').prop("checked", 0);
+
+                                changeViews();
+
+                            });
+
+
+
+                            function changeViews() {
+
+                                $(".wallet-checkbox").prop("checked", false);
+
+
+
+                                if (Object.keys(selected).length == 0) {
+
+                                    $(".selection-message").addClass('d-none');
+
+                                } else {
+
+                                    $(".selection-message").removeClass('d-none');
+
+                                    $(".selected-count").text(Object.keys(selected).length);
+
+                                }
+
+
+
+                                $(".select-all-users").show();
+
+                                if (Object.keys(selected).length == all_ids.length) {
+
+                                    $(".select-all-users").hide();
+
+                                }
+
+
+
+                                $.each(selected, function(i, j) {
+
+                                    $('.wallet-checkbox[value="' + j + '"]').prop("checked", true);
+
+                                })
+
+
+
+                                if (Object.keys(selected).length == 0) {
+
+                                    $(".delete-multiple").hide()
+
+                                } else {
+
+                                    $(".delete-multiple").show();
+
+                                }
+
+                            }
+
+
+
+                            $('.selectall-wallet-checkbox').on('change', function() {
+
+                                $(".wallet-checkbox").prop("checked", $(this).prop("checked"));
+
+
+
+                                $('.wallet-checkbox').each(function() {
+
+                                    var val = $(this).val();
+
+                                    if ($(this).prop("checked")) {
+                                        selected[val] = val;
+                                    } else {
+                                        delete selected[val];
+                                    }
+
+
+
+                                })
+
+                                changeViews();
+
+                            })
+
+                            jQuery('.select2').select2({
+                                placeholder: 'filter by groups'
+                            });
+
+                            $(".user-table").delegate(".wallet-checkbox", "change", function() {
+
+                                var status = $(this).prop("checked");
+
+
+
+                                if (!status) delete selected[$(this).val()]
+
+                                else selected[$(this).val()] = $(this).val();
+
+
+
+                                changeViews();
+
+                            })
+
+
+
+                            $(".select-all-users").on('click', function() {
+
+                                $this = $(this);
+
+                                $.ajax({
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        action: 'get_all_ids'
+                                    },
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+                                    success: function(json) {
+                                        $.each(json['ids'], function(i, id) {
+                                            selected[id] = id;
+                                        })
+                                        $(".selected-count").text(Object.keys(selected).length);
+                                        all_ids = json['ids'];
+                                        changeViews();
+                                    },
+                                });
+
+                            })
+
+
+
+                            $(".user-table").delegate(".checkbox-label", "click", function(e) {
+
+                                e.stopPropagation();
+
+                            });
+
+
+
+                            $(document).delegate("[edit-plan-user]", "click", function(e) {
+
+                                e.stopPropagation();
+
+                                var user_id = $(this).attr('edit-plan-user');
+
+                                $("#membershipuser-image").remove();
+
+
+
+                                $this = $(this);
+
+                                $.ajax({
+
+                                    url: 'https://demo.affiliatepro.org/membership/user_plan_modal',
+
+                                    dataType: 'html',
+
+                                    data: {
+                                        user_id: user_id
+                                    },
+
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+
+                                    success: function(html) {
+
+                                        $('body').append('<div id="membershipuser-image" class="modal">' + html + '</div>');
+
+                                        $('#membershipuser-image').modal('show');
+
+                                    },
+
+                                })
+
+
+                            });
+
+
+
+                            $(".delete-multiple").on('click', function(e) {
+
+                                $this = $(this);
+
+
+
+                                var ids = Object.keys(selected).join(",");
+
+                                e.preventDefault();
+
+                                e.stopPropagation();
+
+
+
+                                if (!confirm('Are you sure ?')) return false;
+
+                                $.ajax({
+
+                                    url: 'deleteAllusersMultiple',
+
+                                    type: 'POST',
+
+                                    dataType: 'json',
+
+                                    data: {
+                                        ids: ids
+                                    },
+
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+
+                                    success: function(json) {
+
+                                        $("#modal-delete #message").html(json['message']);
+
+                                        $("#modal-delete .confirm-delete").attr("data-id", ids);
+
+                                        $("#modal-delete").modal("show");
+
+                                    },
+
+                                })
+
+                            })
+
+
+
+                            var xhr;
+
+                            function getPage(page, existingCounts = null) {
+
+                                $this = $(this);
+
+                                if (xhr && xhr.readyState != 4) xhr.abort();
+
+                                let reg_approval_filter = $('.user-approvals-filer a.badge-primary').data('apr');
+
+                                if ((reg_approval_filter == 'pending' || reg_approval_filter == 'approved' || reg_approval_filter == 'declined') && existingCounts != null && existingCounts[reg_approval_filter] == 0) {
+                                    reg_approval_filter = 'all';
+                                }
+
+
+                                let data = $("#search-form").serialize();
+
+                                xhr = $.ajax({
+
+                                    type: 'POST',
+
+                                    dataType: 'json',
+
+                                    data: data + "&apr=" + reg_approval_filter + "&page=" + page,
+
+                                    beforeSend: function() {
+
+                                        $(".dimmer").addClass("active");
+
+                                    },
+
+                                    complete: function() {
+
+                                        $(".dimmer").removeClass("active");
+
+                                    },
+
+                                    success: function(json) {
+
+                                        if (json['table']) {
+
+                                            $('.selectall-wallet-checkbox').prop("checked", false)
+
+                                            $(".user-table tbody").html(json['table']);
+
+                                            reloadApprovalFilter(json['approvals_count']);
+                                            changeViews();
+
+                                        }
+
+                                        if (json['pagination']) {
+
+                                            $(".user-table tfoot .pagination").html(json['pagination']);
+
+                                        }
+
+                                    },
+
+                                })
+
+                            }
+
+
+                            function reloadApprovalFilter(data) {
+                                if ($('.user-approvals-filer').length == 0) {
+                                    $('.dimmer .table-responsive').append('<p class="p-2 mb-0 lead user-approvals-filer"><p>')
+                                }
+
+                                if (data['total'] > 0) {
+                                    if ($('.user-approvals-filer a[data-apr="all"]').length <= 0) {
+                                        $('.user-approvals-filer').append('<a class="badge badge-default" data-apr="all" href="javascript:void(0);">' + 'show all users' + ' (' + data['total'] + ')</a>');
+                                    } else {
+                                        $('.user-approvals-filer a[data-apr="all"]').text('show all users' + ' (' + data['total'] + ')')
+                                    }
+                                } else {
+                                    $('.user-approvals-filer a[data-apr="all"]').remove();
+                                }
+                                if (data['approved'] > 0) {
+                                    if ($('.user-approvals-filer a[data-apr="approved"]').length <= 0) {
+                                        $('.user-approvals-filer').append('<a class="badge badge-default" data-apr="approved" href="javascript:void(0);">' + 'show approved users' + ' (' + data['total'] + ')</a>');
+                                    } else {
+                                        $('.user-approvals-filer a[data-apr="approved"]').text('show approved users' + ' (' + data['approved'] + ')')
+                                    }
+                                } else {
+                                    $('.user-approvals-filer a[data-apr="approved"]').remove();
+                                }
+                                if (data['pending'] > 0) {
+                                    if ($('.user-approvals-filer a[data-apr="pending"]').length <= 0) {
+                                        $('.user-approvals-filer').append('<a class="badge badge-default" data-apr="pending" href="javascript:void(0);">' + 'show pending users' + ' (' + data['total'] + ')</a>');
+                                    } else {
+                                        $('.user-approvals-filer a[data-apr="pending"]').text('show pending users' + ' (' + data['pending'] + ')')
+                                    }
+                                } else {
+                                    $('.user-approvals-filer a[data-apr="pending"]').remove();
+                                }
+                                if (data['declined'] > 0) {
+                                    if ($('.user-approvals-filer a[data-apr="declined"]').length <= 0) {
+                                        $('.user-approvals-filer').append('<a class="badge badge-default" data-apr="declined" href="javascript:void(0);">' + 'show declined users' + ' (' + data['total'] + ')</a>');
+                                    } else {
+                                        $('.user-approvals-filer a[data-apr="declined"]').text('show declined users' + ' (' + data['declined'] + ')')
+                                    }
+                                } else {
+                                    $('.user-approvals-filer a[data-apr="declined"]').remove();
+                                }
+
+                                if (data['pending'] == 0 && data['declined'] == 0) {
+                                    $('.user-approvals-filer a[data-apr="approved"]').remove();
+                                    $('.user-approvals-filer a[data-apr="pending"]').remove();
+                                    $('.user-approvals-filer a[data-apr="declined"]').remove();
+                                }
+
+                                if ($('.user-approvals-filer a.badge-primary').length == 0) {
+                                    $('.user-approvals-filer a[data-apr="all"]').addClass('badge-primary').removeClass('badge-default');
+                                }
+                            }
+
+                            $("#search-form input").on('keyup', function() {
+                                getPage(1);
+                            });
+
+                            $("#search-form select").on('change', function() {
+                                getPage(1);
+                            })
+
+                            $(".user-table tfoot .pagination").delegate("a", "click", function(e) {
+                                e.preventDefault();
+                                getPage($(this).attr("data-ci-pagination-page"));
+                            })
+
+                            getPage(1);
+
+                            $(".user-table").delegate(".btn-remove", 'click', function(e) {
+                                if (!confirm('Are you sure ?')) e.preventDefault();
+                                return true;
+                            });
+
+                            $(".user-table").delegate(".show-tree", 'click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                $this = $(this);
+                                $.ajax({
+                                    url: 'showTree',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: $this.attr("data-id")
+                                    },
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+                                    success: function(json) {
+                                        $("#modal-tree .modal-body").html(json['html']);
+                                        $("#modal-tree").modal("show");
+                                    },
+                                });
+                            });
+
+                            $(".user-table").delegate(".btn-delete2", 'click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                $this = $(this);
+                                if (!confirm('Are you sure ?')) return false;
+                                $.ajax({
+                                    url: 'deleteAllusers',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: $this.attr("data-id")
+                                    },
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+                                    success: function(json) {
+                                        $("#modal-delete #message").html(json['message']);
+                                        $("#modal-delete .confirm-delete").attr("data-id", $this.attr("data-id"));
+                                        $("#modal-delete").modal("show");
+                                    },
+                                });
+                            });
+
+
+                            $(document).delegate(".confirm-delete", 'click', function(e) {
+
+                                e.preventDefault();
+
+                                e.stopPropagation();
+
+
+
+                                $this = $(this);
+
+                                $.ajax({
+
+                                    url: 'deleteUsersConfirm',
+
+                                    type: 'POST',
+
+                                    dataType: 'json',
+
+                                    data: {
+
+                                        id: $this.attr("data-id"),
+
+                                        delete_transaction: $("#delete_transaction").prop("checked")
+
+                                    },
+
+                                    beforeSend: function() {
+                                        $this.btn("loading");
+                                    },
+
+                                    complete: function() {
+                                        $this.btn("reset");
+                                    },
+
+                                    success: function(json) {
+
+                                        window.location.reload();
+
+                                    },
+
+                                })
+
+                            })
+
+
+
+                            $(".export-excel").on('click', function() {
+
+                                $this = $(this);
+
+                                $.ajax({
+
+                                    url: 'get_user_data',
+
+                                    type: 'POST',
+
+                                    dataType: 'json',
+
+                                    data: {
+
+                                        action: 'export',
+
+                                    },
+
+                                    beforeSend: function() {
+
+                                        $this.btn("loading");
+
+                                    },
+
+                                    complete: function() {
+
+                                        $this.btn("reset");
+
+                                    },
+
+                                    success: function(json) {
+
+                                        if (json['download']) {
+
+                                            window.location.href = json['download'];
+
+                                        }
+
+                                    },
+
+                                })
+
+                            })
+
+
+
+                            $(".btn_import_data").on('click', function() {
+
+                                $this = $("#import_form");
+
+                                var formData = new FormData($this[0]);
+
+                                formData.append("action", 'import');
+
+
+
+                                formData = formDataFilter(formData);
+
+                                $(".btn_import_data").prop("disabled", true);
+
+
+
+                                $.ajax({
+
+                                    url: 'get_user_data',
+
+                                    type: 'POST',
+
+                                    dataType: 'json',
+
+                                    cache: false,
+
+                                    contentType: false,
+
+                                    processData: false,
+
+                                    data: formData,
+
+                                    xhr: function() {
+
+                                        var jqXHR = null;
+
+
+
+                                        if (window.ActiveXObject) {
+
+                                            jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
+
+                                        } else {
+
+                                            jqXHR = new window.XMLHttpRequest();
+
+                                        }
+
+
+
+                                        jqXHR.upload.addEventListener("progress", function(evt) {
+
+                                            if (evt.lengthComputable) {
+
+                                                var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+
+                                                $('#import-status').text('Uploading' + " - " + percentComplete + "%").show();
+
+                                            }
+
+                                        }, false);
+
+
+
+                                        jqXHR.addEventListener("progress", function(evt) {
+
+                                            if (evt.lengthComputable) {
+
+                                                var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+
+                                                $('#import-status').html('Import Users' + '...');
+
+                                            }
+
+                                        }, false);
+
+                                        return jqXHR;
+
+                                    },
+
+                                    error: function() {
+
+                                        $(".btn_import_data").prop("disabled", false);
+
+                                    },
+
+                                    success: function(result) {
+
+                                        $(".btn_import_data").prop("disabled", false);
+
+
+
+                                        if (result['location']) {
+                                            window.location = result['location'];
+                                        }
+
+
+
+                                        $(".hidden-close").removeClass("d-none");
+
+                                        $(".btn-close").remove();
+
+
+
+                                        $("#import-log").html('');
+
+                                        $("#import-status").html('');
+
+                                        if (result['errors']) {
+
+                                            $("#import-log").html(result['errors']);
+
+                                        }
+
+                                    },
+
+                                })
+
+                            });
+
+
+
+                            $('.accordian-body').on('show.bs.collapse', function() {
+
+                                $(this).closest("table")
+
+                                    .find(".collapse.in")
+
+                                    .not(this)
+
+                                    .collapse('toggle')
+
+                            })
+                        </script>
+
+
+                        <script type="text/javascript">
+                            function resetNotify() {
+                                $.ajax({
+                                    url: 'resetnotify',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    beforeSend: function() {},
+                                    success: function(response) {
+                                        if (response.status == 1)
+                                            $(".ajax-notifications_count").text(0);
+                                    },
+                                })
+                            }
+                        </script>
+
+
+                    </div>
+
+                    <div class="modal modal-style" id="setting-widzard"></div>
+                    <div class="modal modal-style" id="log-widzard"></div>
+
+                    <div class="modal" id="model-ajaxError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                                    <div class="-body"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+                    <script type="text/javascript">
+                        var serverErrorCode = {
+                            100: 'Continue',
+                            101: 'Switching Protocols',
+                            102: 'Processing',
+                            200: 'OK',
+                            201: 'Created',
+                            202: 'Accepted',
+                            203: 'Non-Authoritative Information',
+                            204: 'No Content',
+                            205: 'Reset Content',
+                            206: 'Partial Content',
+                            207: 'Multi-Status',
+                            208: 'Already Reported',
+                            226: 'IM Used',
+                            300: 'Multiple Choices',
+                            301: 'Moved Permanently',
+                            302: 'Found',
+                            303: 'See Other',
+                            304: 'Not Modified',
+                            305: 'Use Proxy',
+                            306: 'Switch Proxy',
+                            307: 'Temporary Redirect',
+                            308: 'Permanent Redirect',
+                            400: 'Bad Request',
+                            401: 'Unauthorized',
+                            402: 'Payment Required',
+                            403: 'Forbidden',
+                            404: 'Not Found',
+                            405: 'Method Not Allowed',
+                            406: 'Not Acceptable',
+                            407: 'Proxy Authentication Required',
+                            408: 'Request Timeout',
+                            409: 'Conflict',
+                            410: 'Gone',
+                            411: 'Length Required',
+                            412: 'Precondition Failed',
+                            413: 'Request Entity Too Large',
+                            414: 'Request-URI Too Long',
+                            415: 'Unsupported Media Type',
+                            416: 'Requested Range Not Satisfiable',
+                            417: 'Expectation Failed',
+                            418: 'I am a teapot',
+                            419: 'Authentication Timeout',
+                            420: 'Enhance Your Calm',
+                            420: 'Method Failure',
+                            422: 'Unprocessable Entity',
+                            423: 'Locked',
+                            424: 'Failed Dependency',
+                            424: 'Method Failure',
+                            425: 'Unordered Collection',
+                            426: 'Upgrade Required',
+                            428: 'Precondition Required',
+                            429: 'Too Many Requests',
+                            431: 'Request Header Fields Too Large',
+                            444: 'No Response',
+                            449: 'Retry With',
+                            450: 'Blocked by Windows Parental Controls',
+                            451: 'Redirect',
+                            451: 'Unavailable For Legal Reasons',
+                            494: 'Request Header Too Large',
+                            495: 'Cert Error',
+                            496: 'No Cert',
+                            497: 'HTTP to HTTPS',
+                            499: 'Client Closed Request',
+                            500: 'Internal Server Error',
+                            501: 'Not Implemented',
+                            502: 'Bad Gateway',
+                            503: 'Service Unavailable',
+                            504: 'Gateway Timeout',
+                            505: 'HTTP Version Not Supported',
+                            506: 'Variant Also Negotiates',
+                            507: 'Insufficient Storage',
+                            508: 'Loop Detected',
+                            509: 'Bandwidth Limit Exceeded',
+                            510: 'Not Extended',
+                            511: 'Network Authentication Required',
+                            598: 'Network read timeout error',
+                            599: 'Network connect timeout error',
+                        }
+
+                        toastr.options = {
+                            "closeButton": true,
+                            "debug": false,
+                            "newestOnTop": true,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "20000",
+                            "timeOut": "20000",
+                            "extendedTimeOut": "20000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+
+                        function show_tost(type, title, message) {
+                            toastr[type](message, title)
+                        }
+
+                        $(".btn-setting").on('click', function() {
+                            $this = $(this);
+                            $("#setting-widzard").modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+
+                            $("#setting-widzard").html('Loading');
+
+                            $.ajax({
+                                url: 'https://demo.affiliatepro.org/setting/getModal',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    'key': $this.attr('data-key'),
+                                    'type': $this.attr('data-type'),
+                                },
+                                // beforeSend:function(){ $this.btn("loading"); },
+                                // complete:function(){ $this.btn("reset"); },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#setting-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+
+                        $(document).delegate('.allow-number', 'keypress keyup blur', function(event) {
+                            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+                            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                                event.preventDefault();
+                            }
+                        });
+
+                        $(document).delegate("[data-log]", 'click', function() {
+                            $this = $(this);
+
+                            var data = {};
+                            var search = $this.attr('data-extra');
+                            if (search) {
+                                data = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"') + '"}')
+                            }
+
+                            data['type'] = $this.attr("data-log");
+                            $.ajax({
+                                url: 'logs',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                beforeSend: function() {
+                                    $this.btn("loading");
+                                },
+                                complete: function() {
+                                    $this.btn("reset");
+                                },
+                                success: function(json) {
+                                    if (json['html']) {
+                                        $("#log-widzard").modal({
+                                            backdrop: 'static',
+                                            keyboard: false
+                                        });
+                                        $("#log-widzard").html(json['html']);
+                                    }
+                                },
+                            })
+                        })
+
+                        $(".password-group .input-group-prepend button").on('click', function() {
+                            $input = $(this).parents(".password-group").find("input");
+                            $i = $(this).parents(".password-group").find("i");
+                            if ($i.hasClass("fa-eye")) {
+                                $i.addClass("fa-eye-slash");
+                                $i.removeClass("fa-eye");
+                                $input.attr('type', 'text');
+                            } else {
+                                $i.addClass("fa-eye");
+                                $i.removeClass("fa-eye-slash");
+                                $input.attr('type', 'password');
+                            }
+                        })
+
+                        $(document).ajaxComplete(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+                            var statusCode = xhr.status;
+
+
+                            if (statusCode != 200 && ajaxOptions.type == 'POST') {
+                                var title = '';
+                                var body = '';
+
+                                title = 'Internal Server Error';
+                                body += '<h3>Sorry, an error has occured.</h3>';
+
+                                if (serverErrorCode[statusCode]) {
+                                    body += "<p>Error Message : " + serverErrorCode[statusCode] + "</p>";
+                                    body += "<p>Error Code : " + statusCode + "</p>";
+
+                                    $("#model-ajaxError .modal-title").html(title);
+                                    $("#model-ajaxError .modal-body .-body").html(body);
+                                    $("#model-ajaxError").modal("show");
+                                } else {
+                                    body += '<p>Error Message : Uknown Error </p>';
+                                }
+
+                                $(".btn-loading").removeClass('btn-loading');
+                            }
+                        });
+                    </script>
+                </div>
+                <div class="dashboard-footer">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="footer-rights">
+                            <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                            <p>Affiliate Script Footer</p>
+                        </div>
+                        <a href="script_details">
+                            <div class="text-right script-right">
+                                <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                                <span>SCRIPT VERSION</span>
+                                <span>6.0.0.1</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal" id="payment-detail_modal">
+
+                <div class="modal-dialog modal-lg">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <h4 class="modal-title mt-0">Bank Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th class="txt-cntr">Bank Name</th>
+
+                                                <th class="txt-cntr">Account Number</th>
+
+                                                <th class="txt-cntr">Account Name</th>
+
+                                                <th class="txt-cntr">IFSC Code</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="bank-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <thead>
+
+                                            <tr>
+                                                <th class="txt-cntr"></th>
+
+                                                <th class="txt-cntr">Email</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody class="paypal-details"> </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+
+                            <h4 class="modal-title mt-0">User Details</h4>
+
+                            <div class="table-rep-plugin">
+
+                                <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                                    <table id="tech-companies-1" class="table  table-striped">
+
+                                        <tbody class="user-details"></tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script type="text/javascript">
+                $(document).delegate(".only-number-allow", "keypress", function(e) {
+                    if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                        return false;
+                });
+
+                $(document).on('ready', function() {
+                    if (getCookie('hide_welcome') != 'true')
+                        $("#welcome-modal").modal("show");
+                })
+
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+                    var expires = "expires=" + d.toUTCString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+                }
+
+                function readURLAndSetValue(input, name, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $("input[name='" + name + "']").val('image.jpg');
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function readURL(input, placeholder) {
+
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            $(placeholder).attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                function getCookie(cname) {
+
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+
+                        if (c.indexOf(name) == 0)
+                            return c.substring(name.length, c.length);
+                    }
+
+                    return "";
+                }
+
+                $('.hide-welcome').on('click', function() {
+
+                    setCookie("hide_welcome", "true", 365)
+
+                    $("#welcome-modal").modal("hide");
+
+                })
+            </script>
+
+
+            <div class="modal" id="model-shorturl"></div>
+
+            <script type="text/javascript">
+                $(".btn-delete").on('click', function() {
+                    return confirm('Are you sure ?');
+                })
+
+                $(document).delegate("[payment_detail]", 'click', function(e) {
+
+                    e.preventDefault();
+
+                    e.stopPropagation();
+
+                    $this = $(this);
+
+                    var user_id = $this.attr("payment_detail");
+
+                    $.ajax({
+
+                        url: 'getpaymentdetail/' + user_id,
+
+                        type: 'POST',
+
+                        dataType: 'json',
+
+                        beforeSend: function() {
+                            $this.btn("loading");
+                        },
+
+                        complete: function() {
+                            $this.btn("reset");
+                        },
+
+                        success: function(json) {
+
+                            $('#payment-detail_modal').modal("show");
+
+                            var html = '';
+
+                            $.each(json['paymentlist'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                                html += '<th>' + j['payment_account_number'] + '</th>';
+
+                                html += '<th>' + j['payment_account_name'] + '</th>';
+
+                                html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .bank-details').html(html);
+
+                            var html = '';
+
+                            $.each(json['paypalaccounts'], function(i, j) {
+
+                                html += '<tr>';
+
+                                html += '<th>' + (i + 1) + '</th>';
+
+                                html += '<th>' + j['paypal_email'] + '</th>';
+
+                                html += '</tr>';
+
+                            })
+
+                            $('#payment-detail_modal .paypal-details').html(html);
+
+                            var html = '';
+
+                            html += '<tr>';
+
+                            html += '<th>First Name</th>';
+
+                            html += '<td>' + json.user.firstname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Last Name</th>';
+
+                            html += '<td>' + json.user.lastname + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Username</th>';
+
+                            html += '<td>' + json.user.username + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Email</th>';
+
+                            html += '<td>' + json.user.email + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Phone</th>';
+
+                            html += '<td>' + json.user.phone + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Address</th>';
+
+                            html += '<td>' + json.user.address + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>State</th>';
+
+                            html += '<td>' + json.user.state + '</td>';
+
+                            html += '</tr>';
+
+                            html += '<tr>';
+
+                            html += '<th>Country</th>';
+
+                            html += '<td>' + json.user.country + '</td>';
+
+                            html += '</tr>';
+
+                            $('#payment-detail_modal .user-details').html(html);
+                        },
+                    })
+                })
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+            <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css" rel="stylesheet" />
+
+            <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css" rel="stylesheet" />
+
+            <script type="text/javascript">
+                let leftHeight = $(".left-menu").height();
+                let navbarHeight = $(".dashboard-navbar").height();
+                let errorHeight = $(".server-errors").height();
+                let footerHeight = $(".dashboard-footer").height();
+                let elTotalheight = navbarHeight + errorHeight + footerHeight;
+                let contentHeight = leftHeight - elTotalheight - 26;
+                $(".content-wrapper").css('min-height', contentHeight);
+
+                $(document).delegate(".copy-input input", 'click', function() {
+                    $(this).select();
+                })
+
+                $(document).delegate('[copyToClipboard]', "click", function() {
+                    $this = $(this);
+
+                    var $temp = $("<input>");
+
+                    $("body").append($temp);
+
+                    $temp.val($(this).attr('copyToClipboard')).select();
+
+                    document.execCommand("copy");
+
+                    $temp.remove();
+
+                    $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+                    setTimeout(function() {
+                        $this.tooltip('hide');
+                    }, 500);
+                });
+
+                $('[copyToClipboard]').tooltip({
+                    trigger: 'click',
+                    placement: 'bottom'
+
+                });
+
+                (function($) {
+                    $.fn.button = function(action) {
+                        var self = $(this);
+                        if (action == 'loading') {
+                            if ($(self).attr("disabled") == "disabled") {
+                                //e.preventDefault();
+                            }
+
+                            $(self).attr("disabled", "disabled");
+
+                            $(self).attr('data-btn-text', $(self).html());
+
+                            $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                        }
+
+                        if (action == 'reset') {
+                            $(self).html($(self).attr('data-btn-text'));
+                            $(self).removeAttr("disabled");
+                        }
+                    }
+
+                })(jQuery);
+            </script>
+
+            <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+            <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+            <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+            <div class="modal fade" id="ip-flag_model">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h4 class="modal-title">All IPs Details</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                        </div>
+
+                        <div class="modal-body"></div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <script>
+                $(".select2-input").select2();
+
+                $(document).delegate(".view-all", 'click', function() {
+                    var data = $(this).find("span").html();
+                    var html = '<table class="table table-hover">';
+
+                    data = JSON.parse(data);
+
+                    html += '<tr>';
+
+                    html += ' <th>' + 'admin.ip' + '</th>';
+
+                    html += ' <th width="30px">' + 'admin.country' + '</th>';
+
+                    html += '</tr>';
+
+                    $.each(data, function(i, j) {
+                        html += '<tr>';
+
+                        html += ' <td>' + j['ip'] + '</td>';
+
+                        html += ' <td><img style="width: 20px;" src="{% static 'dashboard/assets/vertical/assets/images/flags/' + j['country_code'].toLowerCase() + '.png' %}" ></td>';
+
+                        html += '</tr>';
+                    })
+
+                    html += '</table>';
+
+                    $("#ip-flag_model").modal("show");
+
+                    $("#ip-flag_model .modal-body").html(html);
+                })
+
+                $('[data-toggle="tooltip"]').tooltip();
+
+                if ($('#morris-area-chart').length > 0) {
+                    var areaData = [
+
+                        {
+                            y: '2011',
+                            a: 10,
+                            b: 15
+                        },
+
+                        {
+                            y: '2012',
+                            a: 30,
+                            b: 35
+                        },
+
+                        {
+                            y: '2013',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2014',
+                            a: 55,
+                            b: 45
+                        },
+
+                        {
+                            y: '2015',
+                            a: 30,
+                            b: 20
+                        },
+
+                        {
+                            y: '2016',
+                            a: 40,
+                            b: 35
+                        },
+
+                        {
+                            y: '2017',
+                            a: 10,
+                            b: 25
+                        },
+
+                        {
+                            y: '2018',
+                            a: 25,
+                            b: 30
+                        }
+
+                    ];
+
+                    Morris.Area({
+
+                        element: 'morris-area-chart',
+
+                        pointSize: 3,
+
+                        lineWidth: 2,
+
+                        data: areaData,
+
+                        xkey: 'y',
+
+                        ykeys: ['a', 'b'],
+
+                        labels: ['Orders', 'Sales'],
+
+                        resize: true,
+
+                        hideHover: 'auto',
+
+                        gridLineColor: '#eef0f2',
+
+                        lineColors: ['#00c292', '#03a9f3'],
+
+                        lineWidth: 0,
+
+                        fillOpacity: 0.1,
+
+                        xLabelMargin: 10,
+
+                        yLabelMargin: 10,
+
+                        grid: false,
+
+                        axes: false,
+
+                        pointSize: 0
+
+                    });
+                }
+
+                $(document).on('ready', function() {
+
+                    if ($('#morris-donut-chart').length > 0) {
+                        var donutData = [];
+
+                        Morris.Donut({
+
+                            element: 'morris-donut-chart',
+
+                            data: donutData,
+
+                            resize: true,
+
+                            colors: ['#40a4f1', '#5b6be8', '#c1c5e2', '#e785da', '#00bcd2']
+
+                        });
+
+                    }
+
+                    if ($("#boxscroll").length > 0)
+                        $("#boxscroll").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+                    if ($("#boxscroll2").length > 0)
+                        $("#boxscroll2").niceScroll({
+                            cursorborder: "",
+                            cursorcolor: "#cecece",
+                            boxzoom: true
+                        });
+
+
+                    if ($(".clickable-row").length > 0) {
+                        $(".clickable-row").on('click', function() {
+                            window.location = $(this).data("href");
+                        });
+                    }
+
+                    if ($("#Country").length > 0) {
+                        $('#Country').on('change', function() {
+                            country_id = $(this).val();
+
+                            $.ajax({
+
+                                type: "POST",
+
+                                url: "getstate",
+
+                                data: 'country_id=' + country_id,
+
+                                success: function(data) {
+
+                                    $("#StateProvince").html(data);
+
+                                }
+
+                            });
+
+                        });
+                    }
+
+                });
+
+
+                function shownofication(id, url) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        url: "updatenotify",
+
+                        data: 'id=' + id,
+
+                        dataType: 'json',
+
+                        success: function(data) {
+
+                            window.location.href = data['location'];
+
+                        }
+
+                    });
+
+                }
+
+                $(document).on('ready', function() {
+                    $('.summernote-img').each(function() {
+                        sumNote($(this));
+                    });
+
+                });
+
+                function sumNote(element) {
+                    var height = $(element).attr("data-height") ? $(element).attr("data-height") : 500;
+
+                    $(element).summernote({
+
+                        disableDragAndDrop: true,
+
+                        height: height,
+
+
+                        toolbar: [
+
+                            ['style', ['style']],
+
+                            ['font', ['bold', 'underline', 'clear']],
+
+                            ['fontname', ['fontname']],
+
+                            ['color', ['color']],
+
+                            ['para', ['ul', 'ol', 'paragraph']],
+
+                            ['table', ['table']],
+
+                            ['insert', ['link', 'image', 'picture', 'video']],
+
+                            ['view', ['fullscreen', 'codeview', 'help']]
+
+                        ],
+
+                        buttons: {
+
+                            image: function() {
+
+                                var ui = $.summernote.ui;
+
+                                // create button
+
+                                var button = ui.button({
+
+                                    contents: '<i class="fa fa-image" />',
+
+                                    tooltip: false,
+
+                                    click: function() {
+
+                                        $('#modal-image').remove();
+
+
+
+                                        $.ajax({
+
+                                            url: 'https://demo.affiliatepro.org/filemanager',
+
+                                            dataType: 'html',
+
+                                            beforeSend: function() {
+
+                                            },
+                                            complete: function() {
+
+                                            },
+                                            success: function(html) {
+
+                                                $('body').append('<div id="modal-image" class="modal fade">' + html + '</div>');
+
+                                                $('#modal-image').modal('show');
+
+                                                $('#modal-image').delegate('.image-box .thumbnail', 'click', function(e) {
+
+                                                    e.preventDefault();
+
+                                                    $(element).summernote('insertImage', $(this).attr('href'));
+
+                                                    $('#modal-image').modal('hide');
+
+                                                });
+
+                                            }
+
+                                        });
+
+                                    }
+
+                                });
+
+
+
+                                return button.render();
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            </script>
+</div>
+  {% endblock %}

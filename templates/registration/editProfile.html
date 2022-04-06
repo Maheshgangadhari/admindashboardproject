@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Affiliate Script - ADMIN PANEL
+{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' %}">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+{% block body_block %}
+
+    <div class="main">
+        <div class="overly"></div>
+        {#    nav#}
+        {% include 'navgation.html' %}
+        <div class="dashboard-wrap">
+            <div class="dashboard-main-right">
+               {% include 'rightheader.html' %}
+
+                <div class="server-errors">
+                </div>
+                <script>
+                    function sessionTimeout() {
+                        var dt = new Date();
+                        let distance = (GlobaleCountDownDate - dt.getTime()) / 1000;
+
+                        let h = Math.floor(distance / 3600);
+                        let m = Math.floor(distance % 3600 / 60);
+                        let s = Math.floor(distance % 3600 % 60);
+
+                        let string = "";
+
+                        string += (h > 0) ? ('0' + h).slice(-2) + ":" : "00:";
+
+                        string += (m > 0) ? ('0' + m).slice(-2) + ":" : "00:";
+
+                        string += (s > 0) ? ('0' + s).slice(-2) + "" : "00";
+
+                        $(".dashboard-refresh em").text(string);
+
+                        if (distance <= 0) {
+                            window.location.replace('logout');
+                            clearInterval(GlobaleCountDownDateInterval);
+                        }
+                    }
+
+                    var dt = new Date();
+                    var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+
+                    sessionTimeout();
+                    var GlobaleCountDownDateInterval = setInterval(sessionTimeout, 100);
+
+                    $(document).ajaxComplete(function (event, request, settings) {
+                        let parts = settings.url.split("/");
+                        let last_part = parts[parts.length - 1];
+                        if (last_part != "ajax_dashboard") {
+                            var dt = new Date();
+                            var GlobaleCountDownDate = dt.setTime(dt.getTime() + (1800 * 1000));
+                        }
+                    });
+                </script>
+                <div class="content-wrapper">
+                    <div class="alert alert-warning" id="message" style="display: none;">
+                    </div>
+
+
+{#                    <form method="post" class="uniForm">#}
+{#                        {{ form|crispy }}#}
+{#                    </form>#}
+                    <form class="form-horizontal uniForm" method="post" id="profile-frm" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card m-b-30">
+                                    <div class="card-body">
+
+                                        <div class="form-group">
+                                           {{ form|crispy }}
+                                        </div>
+
+                                    </div>
+                                    <button class="btn btn-block btn-default btn-success" id="update-profile"
+                                            type="submit"><i class="fa fa-save"></i> Update Profile
+                                    </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="modal modal-style" id="setting-widzard"></div>
+    <div class="modal modal-style" id="log-widzard"></div>
+
+    <div class="modal" id="model-ajaxError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="{% static 'dashboard/assets/images/ajax-warning.png' %}">
+                    <div class="-body"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'dashboard/assets/plugins/toastr/toastr.js' %}"></script>
+      </div>
+    <div class="dashboard-footer">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div class="footer-rights">
+                <img src="{% static 'dashboard/assets/template/images/footer-logo.png' %}" alt="Logo:">
+                <p>Affiliate Script Footer</p>
+            </div>
+            <a href="{script_details">
+                <div class="text-right script-right">
+                    <img src="{% static 'dashboard/assets/template/images/script-icon.png' %}" alt="">
+                    <span>SCRIPT VERSION</span>
+                    <span>6.0.0.1</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal" id="payment-detail_modal">
+
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title mt-0">User Payment Details</h4>
+
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <h4 class="modal-title mt-0">Bank Details</h4>
+
+                    <div class="table-rep-plugin">
+
+                        <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                            <table id="tech-companies-1" class="table  table-striped">
+
+                                <thead>
+
+                                <tr>
+
+                                    <th class="txt-cntr">Bank Name</th>
+
+                                    <th class="txt-cntr">Account Number</th>
+
+                                    <th class="txt-cntr">Account Name</th>
+
+                                    <th class="txt-cntr">IFSC Code</th>
+
+                                </tr>
+
+                                </thead>
+
+                                <tbody class="bank-details"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <h4 class="modal-title mt-0">Paypal Emails</h4>
+
+                    <div class="table-rep-plugin">
+
+                        <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                            <table id="tech-companies-1" class="table  table-striped">
+
+                                <thead>
+
+                                <tr>
+                                    <th class="txt-cntr"></th>
+
+                                    <th class="txt-cntr">Email</th>
+
+                                </tr>
+
+                                </thead>
+
+                                <tbody class="paypal-details"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                    <h4 class="modal-title mt-0">User Details</h4>
+
+                    <div class="table-rep-plugin">
+
+                        <div class="table-responsive b-0" data-pattern="priority-columns">
+
+                            <table id="tech-companies-1" class="table  table-striped">
+
+                                <tbody class="user-details"></tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).delegate(".only-number-allow", "keypress", function (e) {
+            if (e.which != 46 && e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57))
+                return false;
+        });
+
+        $(document).on('ready', function () {
+            if (getCookie('hide_welcome') != 'true')
+                $("#welcome-modal").modal("show");
+        })
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function readURLAndSetValue(input, name, placeholder) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $("input[name='" + name + "']").val('image.jpg');
+                    $(placeholder).attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function readURL(input, placeholder) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(placeholder).attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function getCookie(cname) {
+
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+
+                if (c.indexOf(name) == 0)
+                    return c.substring(name.length, c.length);
+            }
+
+            return "";
+        }
+
+        $('.hide-welcome').on('click', function () {
+
+            setCookie("hide_welcome", "true", 365)
+
+            $("#welcome-modal").modal("hide");
+
+        })
+    </script>
+
+
+    <div class="modal" id="model-shorturl"></div>
+
+    <script type="text/javascript">
+        $(".btn-delete").on('click', function () {
+            return confirm('Are you sure ?');
+        })
+
+        $(document).delegate("[payment_detail]", 'click', function (e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            $this = $(this);
+
+            var user_id = $this.attr("payment_detail");
+
+            $.ajax({
+
+                url: '{getpaymentdetail/' + user_id,
+
+                type: 'POST',
+
+                dataType: 'json',
+
+                beforeSend: function () {
+                    $this.btn("loading");
+                },
+
+                complete: function () {
+                    $this.btn("reset");
+                },
+
+                success: function (json) {
+
+                    $('#payment-detail_modal').modal("show");
+
+                    var html = '';
+
+                    $.each(json['paymentlist'], function (i, j) {
+
+                        html += '<tr>';
+
+                        html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                        html += '<th>' + j['payment_account_number'] + '</th>';
+
+                        html += '<th>' + j['payment_account_name'] + '</th>';
+
+                        html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                        html += '</tr>';
+
+                    })
+
+                    $('#payment-detail_modal .bank-details').html(html);
+
+                    var html = '';
+
+                    $.each(json['paypalaccounts'], function (i, j) {
+
+                        html += '<tr>';
+
+                        html += '<th>' + (i + 1) + '</th>';
+
+                        html += '<th>' + j['paypal_email'] + '</th>';
+
+                        html += '</tr>';
+
+                    })
+
+                    $('#payment-detail_modal .paypal-details').html(html);
+
+                    var html = '';
+
+                    html += '<tr>';
+
+                    html += '<th>First Name</th>';
+
+                    html += '<td>' + json.user.firstname + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Last Name</th>';
+
+                    html += '<td>' + json.user.lastname + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Username</th>';
+
+                    html += '<td>' + json.user.username + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Email</th>';
+
+                    html += '<td>' + json.user.email + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Phone</th>';
+
+                    html += '<td>' + json.user.phone + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Address</th>';
+
+                    html += '<td>' + json.user.address + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>State</th>';
+
+                    html += '<td>' + json.user.state + '</td>';
+
+                    html += '</tr>';
+
+                    html += '<tr>';
+
+                    html += '<th>Country</th>';
+
+                    html += '<td>' + json.user.country + '</td>';
+
+                    html += '</tr>';
+
+                    $('#payment-detail_modal .user-details').html(html);
+                },
+            })
+        })
+    </script>
+
+    <script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+    <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials.css' %}" type="text/css"
+          rel="stylesheet"/>
+
+    <link href="https://demo.affiliatepro.org/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}" type="text/css"
+          rel="stylesheet"/>
+
+    <script type="text/javascript">
+        let leftHeight = $(".left-menu").height();
+        let navbarHeight = $(".dashboard-navbar").height();
+        let errorHeight = $(".server-errors").height();
+        let footerHeight = $(".dashboard-footer").height();
+        let elTotalheight = navbarHeight + errorHeight + footerHeight;
+        let contentHeight = leftHeight - elTotalheight - 26;
+        $(".content-wrapper").css('min-height', contentHeight);
+
+        $(document).delegate(".copy-input input", 'click', function () {
+            $(this).select();
+        })
+
+        $(document).delegate('[copyToClipboard]', "click", function () {
+            $this = $(this);
+
+            var $temp = $("<input>");
+
+            $("body").append($temp);
+
+            $temp.val($(this).attr('copyToClipboard')).select();
+
+            document.execCommand("copy");
+
+            $temp.remove();
+
+            $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+            setTimeout(function () {
+                $this.tooltip('hide');
+            }, 500);
+        });
+
+        $('[copyToClipboard]').tooltip({
+            trigger: 'click',
+            placement: 'bottom'
+
+        });
+
+        (function ($) {
+            $.fn.button = function (action) {
+                var self = $(this);
+                if (action == 'loading') {
+                    if ($(self).attr("disabled") == "disabled") {
+                        //e.preventDefault();
+                    }
+
+                    $(self).attr("disabled", "disabled");
+
+                    $(self).attr('data-btn-text', $(self).html());
+
+                    $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+                }
+
+                if (action == 'reset') {
+                    $(self).html($(self).attr('data-btn-text'));
+                    $(self).removeAttr("disabled");
+                }
+            }
+
+        })(jQuery);
+    </script>
+
+    <script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+    <link href="https://demo.affiliatepro.org/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}" rel="stylesheet">
+
+    <script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+    <div class="modal fade" id="ip-flag_model">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title">All IPs Details</h4>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                </div>
+
+                <div class="modal-body"></div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    </div>
+{% endblock %}
+
+

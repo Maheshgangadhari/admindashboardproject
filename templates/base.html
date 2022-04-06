@@ -1,0 +1,448 @@
+<!-- templates/base.html -->
+{% load static %}
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta content="" name="description"/>
+
+    <meta content="" name="author"/>
+
+    <meta content="" name="keywords"/>
+
+    <link rel="stylesheet"
+          href="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/magnific-popup.css' %}">
+
+    <link href="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/magnific-popup.css' %}"
+          rel="stylesheet"
+          type="text/css">
+
+    <link rel='stylesheet' href="{% static 'dashboard/assets/js/jquery-confirm.min.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/assets/css/jquery-ui.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/assets/vertical/assets/plugins/chartist/css/chartist.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/assets/vertical/assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/assets/vertical/assets/css/icons.css' %}">
+
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'dashboard/assets/vertical/assets/css/style.css ?>' %}">
+
+    <link rel="stylesheet" href="{% static 'dashboard/assets/template/css/admin.style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'dashboard/assets/template/css/admin.responsive.css' %}">
+
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="{% static 'dashboard/assets/vertical/assets/plugins/RWD-Table-Patterns/dist/css/rwd-table.min.css' %}">
+
+
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="{% static 'dashboard/assets/css/jquery.uploadPreviewer.css' %}">
+
+
+    <script src="{% static 'dashboard/assets/js/jquery.min.js' %}"></script>
+    {#    <script type="text/javascript">#}
+    {#        window.affiliatePro = {#}
+    {#            base_url: "https://demo.affiliatepro.org/"#}
+    {#        }#}
+    {#    </script>#}
+
+    <link href="{% static 'dashboard/assets/plugins/datetimepicker/jquery.datetimepicker.min.css' %}"
+          rel="stylesheet"/>
+
+    <script src="{% static 'dashboard/assets/plugins/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+
+    <link rel="stylesheet" href="{% static 'dashboard/assets/plugins/datatable/select2.css' %}"/>
+
+    <script src="{% static 'dashboard/assets/plugins/datatable/select2.min.js' %}"></script>
+
+    <script src="{% static 'dashboard/assets/js/jscolor.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'dashboard/assets/sweetalert/sweetalert.min.js' %}"></script>
+
+    <script type="text/javascript"
+            src="{% static 'dashboard/assets/plugins/color-picker/spectrum.js' %}"></script>
+
+    <link rel='stylesheet' href="{% static 'dashboard/assets/plugins/color-picker/spectrum.css' %}"/>
+
+    <link rel='stylesheet' href="{% static 'dashboard/assets/css/admin-common.css' %}"/>
+
+    <script type="text/javascript">
+        (function ($) {
+            $.fn.btn = function (action) {
+                var self = $(this);
+                var tagName = self.prop("tagName");
+
+                if (tagName == 'A') {
+                    if (action == 'loading') {
+                        $(self).addClass("disabled");
+                        $(self).attr('data-text', $(self).text());
+                        $(self).text('admin.loading' + "..");
+                    }
+
+                    if (action == 'reset') $(self).text($(self).attr('data-text'));
+                    $(self).removeClass("disabled");
+
+                } else {
+                    if (action == 'loading') $(self).addClass("btn-loading");
+
+                    if (action == 'reset') $(self).removeClass("btn-loading");
+                }
+            }
+        })(jQuery);
+
+        $(document).delegate('a.disabled', "click", function (e) {
+            e.preventDefault();
+        });
+
+        var formDataFilter = function (formData) {
+            if (!(window.FormData && formData instanceof window.FormData)) return formData
+
+            if (!formData.keys) return formData
+
+            var newFormData = new window.FormData()
+
+            Array.from(formData.entries()).forEach(function (entry) {
+                var value = entry[1]
+                if (value instanceof window.File && value.name === '' && value.size === 0)
+                    newFormData.append(entry[0], new window.Blob([]), '')
+                else
+                    newFormData.append(entry[0], value)
+
+            })
+
+            return newFormData
+        }
+
+        function apply_color(ele) {
+            $(ele).spectrum({
+                preferredFormat: "rgb",
+                showInput: true,
+                className: "full-spectrum",
+                showInitial: true,
+                showPalette: true,
+                showSelectionPalette: true,
+                maxSelectionSize: 10,
+                localStorageKey: "bolly_fashion",
+                allowEmpty: true,
+                palette: [
+                    ["transparent"],
+
+                    ["rgb(255, 255, 255)", "rgb(230, 184, 175)", "rgb(244, 204, 204)", "rgb(252, 229, 205)", "rgb(255, 242, 204)", "rgb(217, 234, 211)",
+
+                        "rgb(208, 224, 227)", "rgb(201, 218, 248)", "rgb(207, 226, 243)", "rgb(217, 210, 233)", "rgb(234, 209, 220)",
+
+                        "rgb(221, 126, 107)", "rgb(234, 153, 153)", "rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(182, 215, 168)",
+
+                        "rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)", "rgb(180, 167, 214)", "rgb(213, 166, 189)",
+
+                        "rgb(204, 65, 37)", "rgb(224, 102, 102)", "rgb(246, 178, 107)", "rgb(255, 217, 102)", "rgb(147, 196, 125)",
+
+                        "rgb(118, 165, 175)", "rgb(109, 158, 235)", "rgb(111, 168, 220)", "rgb(142, 124, 195)", "rgb(194, 123, 160)",
+
+                        "rgb(166, 28, 0)", "rgb(204, 0, 0)", "rgb(230, 145, 56)", "rgb(241, 194, 50)", "rgb(106, 168, 79)",
+
+                        "rgb(69, 129, 142)", "rgb(60, 120, 216)", "rgb(61, 133, 198)", "rgb(103, 78, 167)", "rgb(166, 77, 121)",
+
+                        "rgb(91, 15, 0)", "rgb(102, 0, 0)", "rgb(120, 63, 4)", "rgb(127, 96, 0)", "rgb(39, 78, 19)",
+
+                        "rgb(12, 52, 61)", "rgb(28, 69, 135)", "rgb(7, 55, 99)", "rgb(32, 18, 77)", "rgb(76, 17, 48)"
+                    ]
+                ]
+            });
+        }
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115358958-3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-115358958-3');
+    </script>
+
+
+    <!-- place here your RTL css code -->
+</head>
+	<body>
+
+		{%block body_block%}
+	     {%endblock%}
+
+<script type="text/javascript">
+    $(".btn-delete").on('click', function () {
+        return confirm('Are you sure ?');
+    })
+
+    $(document).delegate("[payment_detail]", 'click', function (e) {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+        $this = $(this);
+
+        var user_id = $this.attr("payment_detail");
+
+        $.ajax({
+
+            url: "{% static 'dashboard/admincontrol/getpaymentdetail/' %}" + user_id,
+
+            type: 'POST',
+
+            dataType: 'json',
+
+            beforeSend: function () {
+                $this.btn("loading");
+            },
+
+            complete: function () {
+                $this.btn("reset");
+            },
+
+            success: function (json) {
+
+                $('#payment-detail_modal').modal("show");
+
+                var html = '';
+
+                $.each(json['paymentlist'], function (i, j) {
+
+                    html += '<tr>';
+
+                    html += '<th>' + j['payment_bank_name'] + '</th>';
+
+                    html += '<th>' + j['payment_account_number'] + '</th>';
+
+                    html += '<th>' + j['payment_account_name'] + '</th>';
+
+                    html += '<th>' + j['payment_ifsc_code'] + '</th>';
+
+                    html += '</tr>';
+
+                })
+
+                $('#payment-detail_modal .bank-details').html(html);
+
+                var html = '';
+
+                $.each(json['paypalaccounts'], function (i, j) {
+
+                    html += '<tr>';
+
+                    html += '<th>' + (i + 1) + '</th>';
+
+                    html += '<th>' + j['paypal_email'] + '</th>';
+
+                    html += '</tr>';
+
+                })
+
+                $('#payment-detail_modal .paypal-details').html(html);
+
+                var html = '';
+
+                html += '<tr>';
+
+                html += '<th>First Name</th>';
+
+                html += '<td>' + json.user.firstname + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Last Name</th>';
+
+                html += '<td>' + json.user.lastname + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Username</th>';
+
+                html += '<td>' + json.user.username + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Email</th>';
+
+                html += '<td>' + json.user.email + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Phone</th>';
+
+                html += '<td>' + json.user.phone + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Address</th>';
+
+                html += '<td>' + json.user.address + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>State</th>';
+
+                html += '<td>' + json.user.state + '</td>';
+
+                html += '</tr>';
+
+                html += '<tr>';
+
+                html += '<th>Country</th>';
+
+                html += '<td>' + json.user.country + '</td>';
+
+                html += '</tr>';
+
+                $('#payment-detail_modal .user-details').html(html);
+            },
+        })
+    })
+</script>
+
+<script src="{% static 'dashboard/assets/js/jquery-ui.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jquery-confirm.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/popper.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/modernizr.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/detect.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/fastclick.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jquery.slimscroll.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jquery.blockUI.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/waves.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jquery.nicescroll.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jquery.scrollTo.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/vertical/assets/plugins/skycons/skycons.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/vertical/assets/plugins/raphael/raphael-min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/vertical/assets/plugins/morris/morris.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/vertical/assets/plugins/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/lightbox.js' %}"></script>
+
+<script src="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.min.js' %}"></script>
+
+<link type="text/css" rel="stylesheet" href="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials.css' %}"/>
+
+<link type="text/css" rel="stylesheet"
+      href="{% static 'dashboard/assets/js/jssocials-1.4.0/jssocials-theme-flat.css' %}"/>
+
+<script type="text/javascript">
+    let leftHeight = $(".left-menu").height();
+    let navbarHeight = $(".dashboard-navbar").height();
+    let errorHeight = $(".server-errors").height();
+    let footerHeight = $(".dashboard-footer").height();
+    let elTotalheight = navbarHeight + errorHeight + footerHeight;
+    let contentHeight = leftHeight - elTotalheight - 26;
+    $(".content-wrapper").css('min-height', contentHeight);
+
+    $(document).delegate(".copy-input input", 'click', function () {
+        $(this).select();
+    })
+
+    $(document).delegate('[copyToClipboard]', "click", function () {
+        $this = $(this);
+
+        var $temp = $("<input>");
+
+        $("body").append($temp);
+
+        $temp.val($(this).attr('copyToClipboard')).select();
+
+        document.execCommand("copy");
+
+        $temp.remove();
+
+        $this.tooltip('hide').attr('data-original-title', 'Copied!').tooltip('show');
+
+        setTimeout(function () {
+            $this.tooltip('hide');
+        }, 500);
+    });
+
+    $('[copyToClipboard]').tooltip({
+        trigger: 'click',
+        placement: 'bottom'
+
+    });
+
+    (function ($) {
+        $.fn.button = function (action) {
+            var self = $(this);
+            if (action == 'loading') {
+                if ($(self).attr("disabled") == "disabled") {
+                    //e.preventDefault();
+                }
+
+                $(self).attr("disabled", "disabled");
+
+                $(self).attr('data-btn-text', $(self).html());
+
+                $(self).html('<i class="fa fa-spinner fa-spin"></i>' + $(self).text());
+            }
+
+            if (action == 'reset') {
+                $(self).html($(self).attr('data-btn-text'));
+                $(self).removeAttr("disabled");
+            }
+        }
+
+    })(jQuery);
+</script>
+
+<script src="{% static 'dashboard/assets/js/app.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.css' %}">
+
+<script src="{% static 'dashboard/assets/js/summernote-0.8.12-dist/summernote-bs4.js' %}"></script>
+
+</body>
+</html> 
